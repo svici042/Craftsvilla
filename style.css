@@ -137,8 +137,35 @@ main {
 
 .hero-buttons {
   display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 18px;
-  margin: 32px 0;
+  margin: 32px 0 10px;
+}
+
+.page-hero > div:first-child {
+  min-width: 0;
+}
+
+.page-hero p {
+  margin-bottom: 24px;
+}
+
+.page-hero .hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.page-hero .hero-buttons a {
+  display: inline-flex;
+}
+
+.page-hero .hero-card {
+  min-width: 0;
 }
 
 .hero-visual {
@@ -237,8 +264,16 @@ main {
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 40px;
-  align-items: center;
+  align-items: start;
   margin-top: 28px;
+}
+
+.page-hero h2 {
+  margin-bottom: 18px;
+}
+
+.page-hero p {
+  margin-bottom: 26px;
 }
 
 .page-hero .hero-card {
@@ -329,6 +364,17 @@ select {
   background: var(--soft);
   color: var(--ink);
   font: inherit;
+}
+
+.booking-message {
+  margin: 0;
+  font-size: 14px;
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.booking-message.error {
+  color: #b44343;
 }
 
 .feedback-card p {

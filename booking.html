@@ -69,11 +69,21 @@
               </div>
             </div>
 
-            <form id="bookingForm" class="booking-form">
+            <form
+              id="bookingForm"
+              class="booking-form"
+              action="#"
+              method="post"
+            >
               <h3>Book your session</h3>
               <label>
                 Full name
-                <input type="text" name="name" placeholder="Your name" />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                />
               </label>
               <label>
                 Email address
@@ -81,20 +91,21 @@
                   type="email"
                   name="email"
                   placeholder="you@example.com"
+                  required
                 />
               </label>
               <label>
                 Workshop type
-                <select name="workshop">
-                  <option>Choose a workshop</option>
-                  <option>Watercolor painting</option>
-                  <option>Mosaic art</option>
-                  <option>Canvas craft</option>
+                <select name="workshop" required>
+                  <option value="">Choose a workshop</option>
+                  <option value="watercolor">Watercolor painting</option>
+                  <option value="mosaic">Mosaic art</option>
+                  <option value="canvas">Canvas craft</option>
                 </select>
               </label>
               <label>
                 Preferred date
-                <input type="date" name="date" />
+                <input type="date" name="date" required />
               </label>
               <label>
                 Message
@@ -105,10 +116,42 @@
                 ></textarea>
               </label>
               <button class="btn primary" type="submit">Confirm booking</button>
+              <p
+                id="bookingMessage"
+                class="booking-message"
+                aria-live="polite"
+              ></p>
             </form>
           </div>
         </section>
       </main>
+
+      <script>
+        const bookingForm = document.querySelector("#bookingForm");
+        const bookingMessage = document.querySelector("#bookingMessage");
+
+        bookingForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(bookingForm);
+          const name = formData.get("name").trim();
+          const email = formData.get("email").trim();
+          const workshop = formData.get("workshop");
+          const date = formData.get("date");
+
+          if (!name || !email || !workshop || workshop === "" || !date) {
+            bookingMessage.textContent =
+              "Please complete all required booking fields.";
+            bookingMessage.classList.add("error");
+            return;
+          }
+
+          bookingMessage.textContent =
+            "Thank you, " + name + "! Your booking request has been received.";
+          bookingMessage.classList.remove("error");
+          bookingForm.reset();
+        });
+      </script>
 
       <footer id="contact" class="footer">
         <div>
