@@ -66,6 +66,50 @@ nav a {
   color: var(--ink);
   text-decoration: none;
   font-weight: 600;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus-visible {
+  color: #d97b3c;
+  text-shadow:
+    0 0 18px rgba(217, 123, 60, 0.65),
+    0 0 32px rgba(255, 165, 50, 0.35);
+  transform: translateY(-1px);
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 14px;
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 18px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  background: rgba(217, 123, 60, 0.12);
+  color: #d97b3c;
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px rgba(217, 123, 60, 0.45);
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  background: rgba(166, 95, 61, 0.08);
+  color: var(--clay);
+  transform: translateY(-1px);
 }
 
 .nav-toggle {
