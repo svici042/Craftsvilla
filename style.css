@@ -211,13 +211,25 @@ main {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
-  min-height: 220px;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 6px 0 rgba(31, 26, 23, 0.03);
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-card p {
+  margin: 0;
+  padding: 18px;
   color: var(--ink);
   font-weight: 700;
-  padding: 24px;
   text-align: center;
 }
 
