@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRAFTSVILLA — Feedback</title>
+    <title data-i18n-title="pageTitleFeedback">CRAFTSVILLA — Feedback</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
   </head>
@@ -12,24 +12,33 @@
       <header class="navbar">
         <h1 class="logo">CRAFTSVILLA</h1>
         <nav>
-          <a href="index.html">Home</a>
-          <a href="index.html#categories">Products</a>
-          <a href="index.html#workshops">Workshops</a>
-          <a href="gallery.html">Gallery</a>
-          <a href="booking.html">Booking</a>
-          <a href="feedback.html">Feedback</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="index.html#categories" data-i18n="navProducts">Products</a>
+          <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
+          <a href="gallery.html" data-i18n="navGallery">Gallery</a>
+          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+          <a href="index.html#contact" data-i18n="navContact">Contact</a>
         </nav>
         <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-        <button class="btn primary">Shop now</button>
+        <button
+          class="lang-toggle"
+          id="langToggle"
+          aria-label="Toggle language"
+        >
+          NO
+        </button>
+        <button class="btn primary" data-i18n="shopNow">Shop now</button>
       </header>
 
       <main>
         <section class="page-hero">
           <div>
-            <p class="eyebrow">FEEDBACK</p>
-            <h2>Share your experience with Craftsvilla.</h2>
-            <p>
+            <p class="eyebrow" data-i18n="feedbackEyebrow">FEEDBACK</p>
+            <h2 data-i18n="feedbackHeading">
+              Share your experience with Craftsvilla.
+            </h2>
+            <p data-i18n="feedbackText">
               Tell us what you loved, how we can improve, and what craft
               experiences you'd like to see next.
             </p>
@@ -37,6 +46,7 @@
           <div class="hero-card feedback-hero-card">
             <img
               src="images/Master`s hands 1m.png"
+              data-i18n-alt="feedbackImageAlt"
               alt="Feedback conversation"
             />
           </div>
@@ -45,14 +55,14 @@
         <section class="section">
           <div class="feedback-grid">
             <article class="feedback-card">
-              <p>
+              <p data-i18n="feedbackReview1">
                 "The workshop was inspiring and the host guided us through every
                 step. I left with a beautiful piece and a new craft skill."
               </p>
               <strong>— Sofie, Oslo</strong>
             </article>
             <article class="feedback-card">
-              <p>
+              <p data-i18n="feedbackReview2">
                 "Lovely atmosphere, excellent materials, and an easy booking
                 process. The booking page made it straightforward to reserve my
                 spot."
@@ -60,7 +70,7 @@
               <strong>— Emil, Bergen</strong>
             </article>
             <article class="feedback-card">
-              <p>
+              <p data-i18n="feedbackReview3">
                 "I enjoyed the gallery and the variety of crafts. The booking
                 and feedback flow is clean and helpful."
               </p>
@@ -69,24 +79,41 @@
           </div>
 
           <form class="feedback-form">
-            <h3>Send your feedback</h3>
+            <h3 data-i18n="feedbackFormHeading">Send your feedback</h3>
             <label>
-              Your name
-              <input type="text" name="name" placeholder="Name" />
+              <span data-i18n="feedbackLabelName">Your name</span>
+              <input
+                type="text"
+                name="name"
+                data-i18n-placeholder="feedbackPlaceholderName"
+                placeholder="Name"
+              />
             </label>
             <label>
-              Email
-              <input type="email" name="email" placeholder="Email address" />
+              <span data-i18n="feedbackLabelEmail">Email</span>
+              <input
+                type="email"
+                name="email"
+                data-i18n-placeholder="feedbackPlaceholderEmail"
+                placeholder="Email address"
+              />
             </label>
             <label>
-              Message
+              <span data-i18n="feedbackLabelMessage">Message</span>
               <textarea
                 name="message"
                 rows="6"
+                data-i18n-placeholder="feedbackPlaceholderMessage"
                 placeholder="Write your feedback here..."
               ></textarea>
             </label>
-            <button class="btn primary" type="submit">Submit feedback</button>
+            <button
+              class="btn primary"
+              type="submit"
+              data-i18n="feedbackSubmitButton"
+            >
+              Submit feedback
+            </button>
           </form>
         </section>
       </main>
@@ -94,9 +121,11 @@
       <footer id="contact" class="footer">
         <div>
           <h2>CRAFTSVILLA</h2>
-          <p>Handmade marketplace for craft, workshops and creative makers.</p>
+          <p data-i18n="footerText">
+            Handmade marketplace for craft, workshops and creative makers.
+          </p>
         </div>
-        <p>
+        <p data-i18n="footerLinks">
           Home · Products · Workshops · Gallery · Booking · Feedback · Contact
         </p>
       </footer>

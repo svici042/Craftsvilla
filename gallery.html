@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRAFTSVILLA — Gallery</title>
+    <title data-i18n-title="pageTitleGallery">CRAFTSVILLA — Gallery</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
   </head>
@@ -12,65 +12,96 @@
       <header class="navbar">
         <h1 class="logo">CRAFTSVILLA</h1>
         <nav>
-          <a href="index.html">Home</a>
-          <a href="index.html#categories">Products</a>
-          <a href="index.html#workshops">Workshops</a>
-          <a href="gallery.html">Gallery</a>
-          <a href="booking.html">Booking</a>
-          <a href="feedback.html">Feedback</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="index.html#categories" data-i18n="navProducts">Products</a>
+          <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
+          <a href="gallery.html" data-i18n="navGallery">Gallery</a>
+          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+          <a href="index.html#contact" data-i18n="navContact">Contact</a>
         </nav>
         <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-        <button class="btn primary">Shop now</button>
+        <button
+          class="lang-toggle"
+          id="langToggle"
+          aria-label="Toggle language"
+        >
+          NO
+        </button>
+        <button class="btn primary" data-i18n="shopNow">Shop now</button>
       </header>
 
       <main>
         <section class="page-hero">
           <div>
-            <p class="eyebrow">GALLERY</p>
-            <h2>Explore handmade creations and workshop highlights.</h2>
-            <p>
+            <p class="eyebrow" data-i18n="galleryEyebrow">GALLERY</p>
+            <h2 data-i18n="galleryHeading">
+              Explore handmade creations and workshop highlights.
+            </h2>
+            <p data-i18n="galleryText">
               A visual collection of the craft pieces, art projects, and studio
               moments that bring Craftsvilla to life.
             </p>
           </div>
           <div class="hero-card gallery-hero-card">
-            <img src="images/Nefertiti 1m.png" alt="Gallery highlight" />
+            <img
+              src="images/Nefertiti 1m.png"
+              data-i18n-alt="galleryHeroImageAlt"
+              alt="Gallery highlight"
+            />
           </div>
         </section>
 
         <section class="section">
-          <h2>Featured gallery</h2>
+          <h2 data-i18n="gallerySectionHeading">Featured gallery</h2>
           <div class="gallery-grid">
             <div class="gallery-card">
-              <img src="images/Master 1m.png" alt="Pottery craft" />
-              <p>Pottery and ceramics</p>
+              <img
+                src="images/Master 1m.png"
+                data-i18n-alt="galleryCardPotteryAlt"
+                alt="Pottery craft"
+              />
+              <p data-i18n="galleryCardPottery">Pottery and ceramics</p>
             </div>
             <div class="gallery-card">
-              <img src="images/Laurel wreth.png" alt="Art wreath" />
-              <p>Decorative wreath</p>
+              <img
+                src="images/Laurel wreth.png"
+                data-i18n-alt="galleryCardWreathAlt"
+                alt="Art wreath"
+              />
+              <p data-i18n="galleryCardWreath">Decorative wreath</p>
             </div>
             <div class="gallery-card">
               <img
                 src="images/Akvarellmaling 1.jpg"
+                data-i18n-alt="galleryCardWatercolorAlt"
                 alt="Watercolor painting"
               />
-              <p>Watercolor set</p>
+              <p data-i18n="galleryCardWatercolor">Watercolor set</p>
             </div>
             <div class="gallery-card">
-              <img src="images/Lerretsmaling.jpg" alt="Canvas painting" />
-              <p>Canvas art</p>
+              <img
+                src="images/Lerretsmaling.jpg"
+                data-i18n-alt="galleryCardCanvasAlt"
+                alt="Canvas painting"
+              />
+              <p data-i18n="galleryCardCanvas">Canvas art</p>
             </div>
             <div class="gallery-card">
               <img
                 src="images/Margarita evening.png"
+                data-i18n-alt="galleryCardJewelryAlt"
                 alt="Jewelry collection"
               />
-              <p>Jewelry pieces</p>
+              <p data-i18n="galleryCardJewelry">Jewelry pieces</p>
             </div>
             <div class="gallery-card">
-              <img src="images/Master in workshop.png" alt="Woodwork studio" />
-              <p>Woodwork studio</p>
+              <img
+                src="images/Master in workshop.png"
+                data-i18n-alt="galleryCardWoodworkAlt"
+                alt="Woodwork studio"
+              />
+              <p data-i18n="galleryCardWoodwork">Woodwork studio</p>
             </div>
           </div>
         </section>
@@ -79,9 +110,11 @@
       <footer id="contact" class="footer">
         <div>
           <h2>CRAFTSVILLA</h2>
-          <p>Handmade marketplace for craft, workshops and creative makers.</p>
+          <p data-i18n="footerText">
+            Handmade marketplace for craft, workshops and creative makers.
+          </p>
         </div>
-        <p>
+        <p data-i18n="footerLinks">
           Home · Products · Workshops · Gallery · Booking · Feedback · Contact
         </p>
       </footer>

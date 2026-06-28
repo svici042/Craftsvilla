@@ -172,33 +172,66 @@ workshopBtn.addEventListener("click", function () {
 
 filterCeramicsBtn.addEventListener("click", function () {
   setActiveFilter("ceramics");
-  dynamicText.textContent = "Products are now filtered by ceramics.";
+  if (typeof translateMessage === "function") {
+    dynamicText.textContent = translateMessage("dynamicFilterCeramics");
+  } else {
+    dynamicText.textContent = "Products are now filtered by ceramics.";
+  }
 });
 
 addCartBtn.addEventListener("click", function () {
   cartCount++;
 
-  if (cartCount === 1) {
-    dynamicText.textContent = `You have ${cartCount} item in the cart.`;
+  if (typeof translateMessage === "function") {
+    if (cartCount === 1) {
+      dynamicText.textContent = translateMessage("dynamicCartSingle", {
+        count: cartCount,
+      });
+    } else {
+      dynamicText.textContent = translateMessage("dynamicCartMultiple", {
+        count: cartCount,
+      });
+    }
   } else {
-    dynamicText.textContent = `You have ${cartCount} items in the cart.`;
+    if (cartCount === 1) {
+      dynamicText.textContent = `You have ${cartCount} item in the cart.`;
+    } else {
+      dynamicText.textContent = `You have ${cartCount} items in the cart.`;
+    }
   }
 });
 
 validateBtn.addEventListener("click", function () {
-  const userName = prompt("Enter your name:");
+  const userName =
+    typeof translateMessage === "function"
+      ? prompt(translateMessage("promptEnterName"))
+      : prompt("Enter your name:");
 
   if (userName && userName.trim().length >= 2) {
-    dynamicText.textContent = `Thank you, ${userName}. Your form input is valid.`;
+    dynamicText.textContent =
+      typeof translateMessage === "function"
+        ? translateMessage("dynamicValidationSuccess", {
+            name: userName.trim(),
+          })
+        : `Thank you, ${userName}. Your form input is valid.`;
   } else {
     dynamicText.textContent =
-      "Validation failed. Name must contain at least 2 characters.";
+      typeof translateMessage === "function"
+        ? translateMessage("dynamicValidationFail")
+        : "Validation failed. Name must contain at least 2 characters.";
   }
 });
 
 updateDomBtn.addEventListener("click", function () {
   const randomProduct = products[Math.floor(Math.random() * products.length)];
-  dynamicText.textContent = `DOM updated: featured product is ${randomProduct.name}, price ${randomProduct.price} ${randomProduct.currency || "NOK"}.`;
+  dynamicText.textContent =
+    typeof translateMessage === "function"
+      ? translateMessage("dynamicDomUpdated", {
+          productName: randomProduct.name,
+          price: randomProduct.price,
+          currency: randomProduct.currency || "NOK",
+        })
+      : `DOM updated: featured product is ${randomProduct.name}, price ${randomProduct.price} ${randomProduct.currency || "NOK"}.`;
 });
 
 renderCategories();

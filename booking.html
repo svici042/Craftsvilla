@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CRAFTSVILLA — Booking</title>
+    <title data-i18n-title="pageTitleBooking">CRAFTSVILLA — Booking</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
   </head>
@@ -12,61 +12,82 @@
       <header class="navbar">
         <h1 class="logo">CRAFTSVILLA</h1>
         <nav>
-          <a href="index.html">Home</a>
-          <a href="index.html#categories">Products</a>
-          <a href="index.html#workshops">Workshops</a>
-          <a href="gallery.html">Gallery</a>
-          <a href="booking.html">Booking</a>
-          <a href="feedback.html">Feedback</a>
-          <a href="index.html#contact">Contact</a>
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="index.html#categories" data-i18n="navProducts">Products</a>
+          <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
+          <a href="gallery.html" data-i18n="navGallery">Gallery</a>
+          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+          <a href="index.html#contact" data-i18n="navContact">Contact</a>
         </nav>
         <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-        <button class="btn primary">Shop now</button>
+        <button
+          class="lang-toggle"
+          id="langToggle"
+          aria-label="Toggle language"
+        >
+          NO
+        </button>
+        <button class="btn primary" data-i18n="shopNow">Shop now</button>
       </header>
 
       <main>
         <section class="page-hero">
           <div>
-            <p class="eyebrow">BOOK A WORKSHOP</p>
-            <h2>Reserve your spot in a hands-on craft session.</h2>
-            <p>
+            <p class="eyebrow" data-i18n="bookingEyebrow">BOOK A WORKSHOP</p>
+            <h2 data-i18n="bookingHeading">
+              Reserve your spot in a hands-on craft session.
+            </h2>
+            <p data-i18n="bookingText">
               Choose your favorite workshop, select a date and time, and book a
               creative moment with expert makers.
             </p>
-            <a class="btn primary" href="#bookingForm">Book now</a>
+            <a class="btn primary" href="#bookingForm" data-i18n="bookingCta"
+              >Book now</a
+            >
           </div>
           <div class="hero-card">
-            <img src="images/hero-girl.png" alt="Workshop booking" />
+            <img
+              src="images/hero-girl.png"
+              data-i18n-alt="bookingImageAlt"
+              alt="Workshop booking"
+            />
           </div>
         </section>
 
         <section class="section">
-          <h2>Booking details</h2>
+          <h2 data-i18n="bookingDetailsHeading">Booking details</h2>
           <div class="booking-grid">
             <div class="booking-info">
-              <h3>Craft workshop experiences</h3>
-              <p>
+              <h3 data-i18n="bookingExperienceHeading">
+                Craft workshop experiences
+              </h3>
+              <p data-i18n="bookingExperienceText">
                 Every booking includes a curated kit, step-by-step guidance, and
                 a friendly studio atmosphere. Pick the session that fits your
                 skill level and creative goal.
               </p>
               <ul>
-                <li>Small groups with expert makers</li>
-                <li>All materials are included</li>
-                <li>Flexible weekend and evening slots</li>
+                <li data-i18n="bookingList1">
+                  Small groups with expert makers
+                </li>
+                <li data-i18n="bookingList2">All materials are included</li>
+                <li data-i18n="bookingList3">
+                  Flexible weekend and evening slots
+                </li>
               </ul>
               <div class="booking-highlights">
                 <div>
                   <strong>3</strong>
-                  <span>Workshop types</span>
+                  <span data-i18n="bookingHighlight1">Workshop types</span>
                 </div>
                 <div>
                   <strong>15+</strong>
-                  <span>Available dates</span>
+                  <span data-i18n="bookingHighlight2">Available dates</span>
                 </div>
                 <div>
                   <strong>100%</strong>
-                  <span>Local craft focus</span>
+                  <span data-i18n="bookingHighlight3">Local craft focus</span>
                 </div>
               </div>
             </div>
@@ -77,47 +98,67 @@
               action="#"
               method="post"
             >
-              <h3>Book your session</h3>
+              <h3 data-i18n="bookingFormHeading">Book your session</h3>
               <label>
-                Full name
+                <span data-i18n="bookingLabelName">Full name</span>
                 <input
                   type="text"
                   name="name"
+                  data-i18n-placeholder="bookingPlaceholderName"
                   placeholder="Your name"
                   required
                 />
               </label>
               <label>
-                Email address
+                <span data-i18n="bookingLabelEmail">Email address</span>
                 <input
                   type="email"
                   name="email"
+                  data-i18n-placeholder="bookingPlaceholderEmail"
                   placeholder="you@example.com"
                   required
                 />
               </label>
               <label>
-                Workshop type
+                <span data-i18n="bookingLabelWorkshop">Workshop type</span>
                 <select name="workshop" required>
-                  <option value="">Choose a workshop</option>
-                  <option value="watercolor">Watercolor painting</option>
-                  <option value="mosaic">Mosaic art</option>
-                  <option value="canvas">Canvas craft</option>
+                  <option value="" data-i18n="bookingOptionChoose">
+                    Choose a workshop
+                  </option>
+                  <option
+                    value="watercolor"
+                    data-i18n="bookingOptionWatercolor"
+                  >
+                    Watercolor painting
+                  </option>
+                  <option value="mosaic" data-i18n="bookingOptionMosaic">
+                    Mosaic art
+                  </option>
+                  <option value="canvas" data-i18n="bookingOptionCanvas">
+                    Canvas craft
+                  </option>
                 </select>
               </label>
               <label>
-                Preferred date
+                <span data-i18n="bookingLabelDate">Preferred date</span>
                 <input type="date" name="date" required />
               </label>
               <label>
-                Message
+                <span data-i18n="bookingLabelMessage">Message</span>
                 <textarea
                   name="message"
                   rows="5"
+                  data-i18n-placeholder="bookingPlaceholderMessage"
                   placeholder="Any special requests?"
                 ></textarea>
               </label>
-              <button class="btn primary" type="submit">Confirm booking</button>
+              <button
+                class="btn primary"
+                type="submit"
+                data-i18n="bookingConfirmButton"
+              >
+                Confirm booking
+              </button>
               <p
                 id="bookingMessage"
                 class="booking-message"
@@ -158,9 +199,11 @@
       <footer id="contact" class="footer">
         <div>
           <h2>CRAFTSVILLA</h2>
-          <p>Handmade marketplace for craft, workshops and creative makers.</p>
+          <p data-i18n="footerText">
+            Handmade marketplace for craft, workshops and creative makers.
+          </p>
         </div>
-        <p>
+        <p data-i18n="footerLinks">
           Home · Products · Workshops · Gallery · Booking · Feedback · Contact
         </p>
       </footer>
