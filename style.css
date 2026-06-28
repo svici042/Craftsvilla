@@ -233,6 +233,122 @@ main {
   text-align: center;
 }
 
+.page-hero {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 40px;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.page-hero .hero-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-hero .hero-card img {
+  width: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.booking-grid,
+.feedback-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 32px;
+  align-items: start;
+}
+
+.booking-info ul {
+  margin: 20px 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.booking-info li {
+  margin-bottom: 10px;
+}
+
+.booking-highlights,
+.feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.booking-highlights div,
+.feedback-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.booking-highlights strong {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.booking-form,
+.feedback-form {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.booking-form h3,
+.feedback-form h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+label {
+  display: grid;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--soft);
+  color: var(--ink);
+  font: inherit;
+}
+
+.feedback-card p {
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.feedback-card strong {
+  color: var(--ink);
+}
+
+@media (max-width: 980px) {
+  .page-hero,
+  .booking-grid,
+  .feedback-grid,
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .category-card,
 .product-card {
   background: var(--paper);
