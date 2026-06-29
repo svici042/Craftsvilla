@@ -184,13 +184,19 @@
 
           if (!name || !email || !workshop || workshop === "" || !date) {
             bookingMessage.textContent =
-              "Please complete all required booking fields.";
+              typeof translateMessage === "function"
+                ? translateMessage("bookingValidationMissing")
+                : "Please complete all required booking fields.";
             bookingMessage.classList.add("error");
             return;
           }
 
           bookingMessage.textContent =
-            "Thank you, " + name + "! Your booking request has been received.";
+            typeof translateMessage === "function"
+              ? translateMessage("bookingValidationSuccess", { name: name })
+              : "Thank you, " +
+                name +
+                "! Your booking request has been received.";
           bookingMessage.classList.remove("error");
           bookingForm.reset();
         });

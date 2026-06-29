@@ -131,6 +131,8 @@ const translations = {
     feedbackPlaceholderMessage: "Write your feedback here...",
     feedbackSubmitButton: "Submit feedback",
     feedbackImageAlt: "Feedback conversation",
+    feedbackValidationMissing: "Please enter your name and feedback message.",
+    feedbackValidationSuccess: "Thank you, {name}. Your feedback has been sent.",
   },
   no: {
     navHome: "Hjem",
@@ -256,6 +258,10 @@ const translations = {
     feedbackPlaceholderMessage: "Skriv tilbakemeldingen din her...",
     feedbackSubmitButton: "Send tilbakemelding",
     feedbackImageAlt: "Tilbakemeldingssamtale",
+    feedbackValidationMissing:
+      "Vennligst skriv inn navn og tilbakemelding.",
+    feedbackValidationSuccess:
+      "Takk, {name}. Tilbakemeldingen din er sendt.",
   },
 };
 

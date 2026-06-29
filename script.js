@@ -73,7 +73,17 @@ const addCartBtn = document.querySelector("#addCartBtn");
 const validateBtn = document.querySelector("#validateBtn");
 const updateDomBtn = document.querySelector("#updateDomBtn");
 
+function onClick(element, handler) {
+  if (element) {
+    element.addEventListener("click", handler);
+  }
+}
+
 function renderCategories() {
+  if (!categoryGrid) {
+    return;
+  }
+
   categoryGrid.innerHTML = "";
 
   for (const category of categories) {
@@ -96,6 +106,10 @@ function renderCategories() {
 }
 
 function renderProducts(category) {
+  if (!productGrid) {
+    return;
+  }
+
   productGrid.innerHTML = "";
 
   const filteredProducts = products.filter(function (product) {
@@ -134,8 +148,10 @@ function renderProducts(category) {
 
     const viewButton = card.querySelector(".view-btn");
 
-    viewButton.addEventListener("click", function () {
-      dynamicText.textContent = `${product.name} costs ${product.price} ${product.currency || "NOK"}. Category: ${product.category}.`;
+    onClick(viewButton, function () {
+      if (dynamicText) {
+        dynamicText.textContent = `${product.name} costs ${product.price} ${product.currency || "NOK"}. Category: ${product.category}.`;
+      }
     });
 
     productGrid.appendChild(card);
@@ -162,16 +178,26 @@ filterButtons.forEach(function (button) {
   });
 });
 
-exploreBtn.addEventListener("click", function () {
-  document.querySelector("#categories").scrollIntoView({ behavior: "smooth" });
+onClick(exploreBtn, function () {
+  const categoriesSection = document.querySelector("#categories");
+  if (categoriesSection) {
+    categoriesSection.scrollIntoView({ behavior: "smooth" });
+  }
 });
 
-workshopBtn.addEventListener("click", function () {
-  document.querySelector("#workshops").scrollIntoView({ behavior: "smooth" });
+onClick(workshopBtn, function () {
+  const workshopsSection = document.querySelector("#workshops");
+  if (workshopsSection) {
+    workshopsSection.scrollIntoView({ behavior: "smooth" });
+  }
 });
 
-filterCeramicsBtn.addEventListener("click", function () {
+onClick(filterCeramicsBtn, function () {
   setActiveFilter("ceramics");
+  if (!dynamicText) {
+    return;
+  }
+
   if (typeof translateMessage === "function") {
     dynamicText.textContent = translateMessage("dynamicFilterCeramics");
   } else {
@@ -179,8 +205,12 @@ filterCeramicsBtn.addEventListener("click", function () {
   }
 });
 
-addCartBtn.addEventListener("click", function () {
+onClick(addCartBtn, function () {
   cartCount++;
+
+  if (!dynamicText) {
+    return;
+  }
 
   if (typeof translateMessage === "function") {
     if (cartCount === 1) {
@@ -201,11 +231,15 @@ addCartBtn.addEventListener("click", function () {
   }
 });
 
-validateBtn.addEventListener("click", function () {
+onClick(validateBtn, function () {
   const userName =
     typeof translateMessage === "function"
       ? prompt(translateMessage("promptEnterName"))
       : prompt("Enter your name:");
+
+  if (!dynamicText) {
+    return;
+  }
 
   if (userName && userName.trim().length >= 2) {
     dynamicText.textContent =
@@ -222,7 +256,11 @@ validateBtn.addEventListener("click", function () {
   }
 });
 
-updateDomBtn.addEventListener("click", function () {
+onClick(updateDomBtn, function () {
+  if (!dynamicText) {
+    return;
+  }
+
   const randomProduct = products[Math.floor(Math.random() * products.length)];
   dynamicText.textContent =
     typeof translateMessage === "function"
