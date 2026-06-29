@@ -79,27 +79,62 @@ function onClick(element, handler) {
   }
 }
 
+function clearElement(element) {
+  element.replaceChildren();
+}
+
+function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
+  const mediaFrame = document.createElement("div");
+  mediaFrame.className = extraClass
+    ? `media-frame ${extraClass}`
+    : "media-frame";
+
+  const image = document.createElement("img");
+  image.src = imageSrc;
+  image.alt = imageAlt;
+
+  mediaFrame.appendChild(image);
+  return mediaFrame;
+}
+
+function appendDescription(descriptionElement, descriptionText) {
+  const parts = descriptionText.split(/<br\s*\/?>/gi);
+
+  parts.forEach((part, index) => {
+    if (index > 0) {
+      descriptionElement.appendChild(document.createElement("br"));
+    }
+
+    descriptionElement.appendChild(document.createTextNode(part));
+  });
+}
+
 function renderCategories() {
   if (!categoryGrid) {
     return;
   }
 
-  categoryGrid.innerHTML = "";
+  clearElement(categoryGrid);
 
   for (const category of categories) {
     const card = document.createElement("article");
     card.className = "category-card";
 
-    card.innerHTML = `
-      <div class="media-frame">
-        <img src="${category.image}" alt="${category.name}" />
-      </div>
-      <div class="card-body">
-        <span class="cat-dot" style="background:${category.color}"></span>
-        <h3>${category.name}</h3>
-        <p>${category.text}</p>
-      </div>
-    `;
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+
+    const categoryDot = document.createElement("span");
+    categoryDot.className = "cat-dot";
+    categoryDot.style.backgroundColor = category.color;
+
+    const heading = document.createElement("h3");
+    heading.textContent = category.name;
+
+    const text = document.createElement("p");
+    text.textContent = category.text;
+
+    cardBody.append(categoryDot, heading, text);
+    card.append(createMediaFrame(category.image, category.name), cardBody);
 
     categoryGrid.appendChild(card);
   }
@@ -110,7 +145,7 @@ function renderProducts(category) {
     return;
   }
 
-  productGrid.innerHTML = "";
+  clearElement(productGrid);
 
   const filteredProducts = products.filter(function (product) {
     if (category === "all") {
@@ -121,7 +156,9 @@ function renderProducts(category) {
   });
 
   if (filteredProducts.length === 0) {
-    productGrid.innerHTML = "<p>No products found.</p>";
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No products found.";
+    productGrid.appendChild(emptyMessage);
     return;
   }
 
@@ -129,24 +166,24 @@ function renderProducts(category) {
     const card = document.createElement("article");
     card.className = "product-card";
 
-    const makerHTML = product.maker
-      ? `<p class="product-maker">${product.maker}</p>`
-      : "";
+    const heading = document.createElement("h3");
+    heading.textContent = product.name;
 
-    card.innerHTML = `
-      <div class="media-frame product-image">
-        <img src="${product.image}" alt="${product.name}" />
-      </div>
-      <h3>${product.name}</h3>
-      ${makerHTML}
-      <p class="product-desc">${product.description}</p>
-      <div class="card-bottom">
-        <span class="price">${product.price} ${product.currency || "NOK"}</span>
-        <button class="view-btn">View</button>
-      </div>
-    `;
+    const description = document.createElement("p");
+    description.className = "product-desc";
+    appendDescription(description, product.description);
 
-    const viewButton = card.querySelector(".view-btn");
+    const cardBottom = document.createElement("div");
+    cardBottom.className = "card-bottom";
+
+    const price = document.createElement("span");
+    price.className = "price";
+    price.textContent = `${product.price} ${product.currency || "NOK"}`;
+
+    const viewButton = document.createElement("button");
+    viewButton.className = "view-btn";
+    viewButton.type = "button";
+    viewButton.textContent = "View";
 
     onClick(viewButton, function () {
       if (dynamicText) {
@@ -154,6 +191,18 @@ function renderProducts(category) {
       }
     });
 
+    cardBottom.append(price, viewButton);
+    card.append(createMediaFrame(product.image, product.name, "product-image"));
+    card.appendChild(heading);
+
+    if (product.maker) {
+      const maker = document.createElement("p");
+      maker.className = "product-maker";
+      maker.textContent = product.maker;
+      card.appendChild(maker);
+    }
+
+    card.append(description, cardBottom);
     productGrid.appendChild(card);
   }
 }
