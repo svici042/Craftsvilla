@@ -1,9 +1,12 @@
+/* Base reset and shared theme colors. */
 * {
+  /* Removes the browser's default spacing from all elements. */
   margin: 0;
   padding: 0;
 }
 
 :root {
+  /* CSS variables make it easy to reuse the same colors everywhere. */
   --ink: #1f1a17;
   --clay: #a65f3d;
   --sage: #6e7f62;
@@ -16,10 +19,12 @@
 }
 
 * {
+  /* Includes padding and border inside the element's total width/height. */
   box-sizing: border-box;
 }
 
 html {
+  /* Makes anchor links like #contact scroll smoothly instead of jumping. */
   scroll-behavior: smooth;
 }
 
@@ -31,7 +36,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Main page shell. */
 .site {
+  /* Keeps the layout centered and prevents it from touching screen edges. */
   width: min(1280px, calc(100% - 80px));
   margin: 40px auto;
   padding: 28px;
@@ -39,7 +46,9 @@ body {
   border-radius: 20px;
 }
 
+/* Header navigation and mobile menu. */
 .navbar {
+  /* Flexbox places the logo, links, language button, and CTA in one row. */
   width: 100%;
   height: 72px;
   padding: 0 20px;
@@ -58,11 +67,13 @@ body {
 }
 
 nav {
+  /* Creates horizontal spacing between navigation links. */
   display: flex;
   gap: 32px;
 }
 
 nav a {
+  /* Removes the default underline and makes links look like navigation items. */
   color: var(--ink);
   text-decoration: none;
   font-weight: 600;
@@ -82,6 +93,7 @@ nav a:focus-visible {
 }
 
 .nav-toggle {
+  /* Hidden on desktop; shown in the mobile media query below. */
   display: none;
   background: transparent;
   border: 1px solid var(--line);
@@ -105,7 +117,56 @@ nav a:focus-visible {
   box-shadow: 0 0 18px rgba(217, 123, 60, 0.45);
 }
 
+.lang-toggle {
+  /* Compact language switcher with a modern glass-like surface. */
+  min-width: 54px;
+  min-height: 42px;
+  padding: 10px 16px;
+  border: 1px solid rgba(80, 190, 255, 0.35);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.96), rgba(219, 245, 255, 0.8)),
+    var(--paper);
+  color: #15526f;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 20px rgba(31, 26, 23, 0.08);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  /* Blue neon glow appears when the user hovers or tabs to the button. */
+  background:
+    linear-gradient(135deg, rgba(238, 252, 255, 1), rgba(141, 225, 255, 0.92)),
+    var(--paper);
+  border-color: #5ed8ff;
+  color: #07384f;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(94, 216, 255, 0.2),
+    0 0 18px rgba(77, 205, 255, 0.72),
+    0 0 36px rgba(37, 172, 255, 0.45),
+    0 12px 26px rgba(31, 26, 23, 0.12);
+  outline: none;
+}
+
+.lang-toggle:active {
+  transform: translateY(0);
+}
+
 .navbar {
+  /* position: relative lets the mobile dropdown position itself from navbar. */
   width: 100%;
   height: 72px;
   padding: 0 20px;
@@ -119,6 +180,7 @@ nav a:focus-visible {
 }
 
 @media (max-width: 980px) {
+  /* Rules inside this block apply on tablets and smaller screens. */
   .navbar {
     flex-wrap: wrap;
     align-items: flex-start;
@@ -132,6 +194,7 @@ nav a:focus-visible {
   }
 
   nav {
+    /* The menu is hidden until nav.js adds the .open class. */
     display: none;
     flex-direction: column;
     width: 100%;
@@ -149,6 +212,7 @@ nav a:focus-visible {
   }
 
   nav.open {
+    /* This class is toggled when the hamburger button is clicked. */
     display: flex;
   }
 
@@ -163,9 +227,17 @@ nav a:focus-visible {
     width: 100%;
     justify-content: center;
   }
+
+  .lang-toggle {
+    min-width: 50px;
+    min-height: 40px;
+    padding: 9px 14px;
+  }
 }
 
+/* Reusable button styles. */
 .btn {
+  /* Used by both button elements and link elements styled as buttons. */
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 14px 24px;
@@ -176,6 +248,7 @@ nav a:focus-visible {
 
 .btn:hover,
 .filter-btn:hover {
+  /* Small lift effect when the user hovers over clickable controls. */
   transform: translateY(-2px);
 }
 
@@ -195,7 +268,9 @@ main {
   margin: 28px 0 0;
 }
 
+/* Home page hero section. */
 .hero {
+  /* Two-column grid: text on the left, image on the right. */
   min-height: 560px;
   padding: 48px;
   background: var(--paper);
@@ -212,6 +287,7 @@ main {
 }
 
 .eyebrow {
+  /* Small uppercase label above a main heading. */
   color: var(--clay);
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -233,6 +309,7 @@ main {
 }
 
 .hero-buttons {
+  /* flex-wrap lets buttons move to a new line when there is not enough space. */
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -240,6 +317,7 @@ main {
   margin: 32px 0 10px;
 }
 
+/* Shared page hero layout for gallery, booking, and feedback pages. */
 .page-hero > div:first-child {
   min-width: 0;
 }
@@ -266,6 +344,7 @@ main {
 }
 
 .hero-visual {
+  /* Framed image area used on the homepage hero. */
   height: 420px;
   background: linear-gradient(180deg, #fff1e6 0%, #fff6ec 100%);
   border: 1px solid var(--line);
@@ -278,6 +357,7 @@ main {
 }
 
 .hero-visual img {
+  /* object-fit keeps the image filling the frame without stretching. */
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -287,7 +367,9 @@ main {
   filter: contrast(0.9) saturate(1.2);
 }
 
+/* Home page statistics row. */
 .stats {
+  /* Displays the three homepage numbers in a row. */
   display: flex;
   gap: 36px;
   margin-top: 40px;
@@ -307,7 +389,9 @@ main {
   font-weight: 600;
 }
 
+/* Shared content sections and card grids. */
 .section {
+  /* Adds vertical breathing room between major page sections. */
   margin-top: 86px;
 }
 
@@ -320,18 +404,22 @@ main {
 }
 
 .category-grid {
+  /* Four equal columns on desktop; changed in media queries for mobile. */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
 }
 
+/* Gallery cards. */
 .gallery-grid {
+  /* minmax(0, 1fr) helps columns shrink correctly without overflow. */
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
 
 .gallery-card {
+  /* overflow hidden clips images to the rounded card corners. */
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -343,6 +431,7 @@ main {
 }
 
 .gallery-card img {
+  /* Fixed image height keeps all gallery cards visually aligned. */
   width: 100%;
   height: 240px;
   object-fit: cover;
@@ -357,7 +446,9 @@ main {
   text-align: center;
 }
 
+/* Secondary page hero image cards. */
 .page-hero {
+  /* Reused by gallery, booking, and feedback pages. */
   display: grid;
   grid-template-columns: 1fr 400px;
   gap: 40px;
@@ -374,6 +465,7 @@ main {
 }
 
 .page-hero .hero-card {
+  /* Creates the framed image card on secondary pages. */
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -389,8 +481,10 @@ main {
   object-fit: cover;
 }
 
+/* Booking and feedback page layouts. */
 .booking-grid,
 .feedback-grid {
+  /* Main content plus form/testimonial column layout. */
   display: grid;
   grid-template-columns: 1fr 420px;
   gap: 32px;
@@ -409,6 +503,7 @@ main {
 
 .booking-highlights,
 .feedback-grid {
+  /* Small repeated blocks inside booking/feedback sections. */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -428,8 +523,10 @@ main {
   margin-bottom: 8px;
 }
 
+/* Form controls and validation messages. */
 .booking-form,
 .feedback-form {
+  /* Forms use CSS grid so every field stacks with the same gap. */
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 24px;
@@ -445,6 +542,7 @@ main {
 }
 
 label {
+  /* Makes label text sit above its input. */
   display: grid;
   gap: 10px;
   color: var(--ink);
@@ -454,6 +552,7 @@ label {
 input,
 textarea,
 select {
+  /* Inherit the page font so native form controls match the design. */
   width: 100%;
   padding: 14px 16px;
   border: 1px solid var(--line);
@@ -464,6 +563,7 @@ select {
 }
 
 .booking-message {
+  /* Used for both booking and feedback success/error messages. */
   margin: 0;
   font-size: 14px;
   color: var(--sage);
@@ -483,7 +583,9 @@ select {
   color: var(--ink);
 }
 
+/* Tablet layout adjustments. */
 @media (max-width: 980px) {
+  /* The layout becomes narrower and most grids collapse to fewer columns. */
   .site {
     width: min(100%, calc(100% - 32px));
     margin: 20px auto;
@@ -512,6 +614,7 @@ select {
 
   .hero,
   .page-hero {
+    /* Hero sections switch from two columns to one column. */
     grid-template-columns: 1fr;
     gap: 32px;
     padding: 28px 20px;
@@ -563,11 +666,13 @@ select {
   }
 
   .category-grid {
+    /* Category cards become two columns on tablet screens. */
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .gallery-grid,
   .product-grid {
+    /* Gallery and product cards stack in one column for easier reading. */
     grid-template-columns: 1fr;
   }
 
@@ -592,7 +697,9 @@ select {
   }
 }
 
+/* Small mobile layout adjustments. */
 @media (max-width: 620px) {
+  /* Extra-tight spacing for phones. */
   .site {
     padding: 14px;
     margin: 14px auto;
@@ -620,6 +727,7 @@ select {
 
   .hero-buttons,
   .page-hero .hero-buttons {
+    /* Full-width stacked buttons are easier to tap on mobile. */
     width: 100%;
     gap: 10px;
     flex-direction: column;
@@ -646,8 +754,10 @@ select {
   }
 }
 
+/* Product and category cards generated by script.js. */
 .category-card,
 .product-card {
+  /* Shared card styling for dynamically rendered content. */
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -659,6 +769,7 @@ select {
 }
 
 .media-frame {
+  /* aspect-ratio keeps image boxes the same shape before images load. */
   width: 100%;
   aspect-ratio: 4 / 3;
   border-radius: 12px;
@@ -691,6 +802,7 @@ select {
 }
 
 .cat-dot {
+  /* Small colored marker shown beside each category name. */
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -701,6 +813,7 @@ select {
 }
 
 .product-card h3 {
+  /* Product titles are intentionally compact inside product cards. */
   margin: 8px 0 6px;
 }
 
@@ -729,7 +842,9 @@ select {
   color: var(--muted);
 }
 
+/* Product filters and product grid. */
 .controls {
+  /* Holds the All/Ceramics/Textiles/Woodwork filter buttons. */
   display: flex;
   gap: 12px;
   margin-bottom: 26px;
@@ -745,12 +860,14 @@ select {
 }
 
 .filter-btn.active {
+  /* Shows which filter is currently selected by JavaScript. */
   background: var(--clay);
   color: var(--paper);
   border-color: var(--clay);
 }
 
 .product-grid {
+  /* Product cards use three columns on desktop. */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 36px;
@@ -767,6 +884,7 @@ select {
 }
 
 .card-bottom {
+  /* Places price on the left and View button on the right. */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -802,7 +920,9 @@ select {
   font-weight: 800;
 }
 
+/* Interactive JavaScript demo section. */
 .interactive-section {
+  /* Dark panel that highlights the JavaScript interaction buttons. */
   margin-top: 40px;
   padding: 28px;
   background: #2d211c; /* deep brown */
@@ -820,12 +940,15 @@ select {
 }
 
 .actions {
+  /* Two-by-two button layout inside the interactive section. */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
+/* Shared footer. */
 .footer {
+  /* Footer content is spaced across the row on desktop. */
   margin-top: 70px;
   padding: 32px;
   background: var(--paper);
@@ -846,10 +969,13 @@ select {
 }
 
 .hidden {
+  /* Utility class for hiding elements if needed later. */
   display: none;
 }
 
+/* Extra compact layout fallback. */
 @media (max-width: 900px) {
+  /* Additional fallback rules for medium-small screens. */
   .navbar,
   .hero,
   .interactive-section,

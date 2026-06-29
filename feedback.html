@@ -10,6 +10,7 @@
   </head>
   <body>
     <div class="site">
+      <!-- Shared header with navigation and language switcher. -->
       <header class="navbar">
         <h1 class="logo">CRAFTSVILLA</h1>
         <nav>
@@ -33,6 +34,7 @@
       </header>
 
       <main>
+        <!-- Feedback page intro section. -->
         <section class="page-hero">
           <div>
             <p class="eyebrow" data-i18n="feedbackEyebrow">FEEDBACK</p>
@@ -53,6 +55,7 @@
           </div>
         </section>
 
+        <!-- Reviews and feedback form handled by feedback.js. -->
         <section class="section">
           <div class="feedback-grid">
             <article class="feedback-card">
@@ -86,6 +89,7 @@
               <input
                 type="text"
                 name="name"
+                autocomplete="name"
                 data-i18n-placeholder="feedbackPlaceholderName"
                 placeholder="Name"
               />
@@ -95,6 +99,7 @@
               <input
                 type="email"
                 name="email"
+                autocomplete="email"
                 data-i18n-placeholder="feedbackPlaceholderEmail"
                 placeholder="Email address"
               />
@@ -103,6 +108,7 @@
               <span data-i18n="feedbackLabelMessage">Message</span>
               <textarea
                 name="message"
+                autocomplete="off"
                 rows="6"
                 data-i18n-placeholder="feedbackPlaceholderMessage"
                 placeholder="Write your feedback here..."
@@ -124,6 +130,7 @@
         </section>
       </main>
 
+      <!-- Shared footer/contact area. -->
       <footer id="contact" class="footer">
         <div>
           <h2>CRAFTSVILLA</h2>

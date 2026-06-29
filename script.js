@@ -1,3 +1,4 @@
+// Category data used to build the homepage category cards.
 const categories = [
   {
     name: "Ceramics",
@@ -25,6 +26,7 @@ const categories = [
   },
 ];
 
+// Product data used by the filters and product card renderer.
 const products = [
   {
     name: "Mosaikk Kunst",
@@ -58,9 +60,11 @@ const products = [
   },
 ];
 
+// Simple state values for cart count and active product filter.
 let cartCount = 0;
 let activeCategory = "all";
 
+// Home page elements used by the interactive JavaScript features.
 const categoryGrid = document.querySelector("#categoryGrid");
 const productGrid = document.querySelector("#productGrid");
 const filterButtons = document.querySelectorAll(".filter-btn");
@@ -73,6 +77,7 @@ const addCartBtn = document.querySelector("#addCartBtn");
 const validateBtn = document.querySelector("#validateBtn");
 const updateDomBtn = document.querySelector("#updateDomBtn");
 
+// Adds a click listener only when the element exists on the current page.
 function onClick(element, handler) {
   if (element) {
     element.addEventListener("click", handler);
@@ -83,6 +88,7 @@ function clearElement(element) {
   element.replaceChildren();
 }
 
+// Builds image wrappers with DOM APIs instead of innerHTML for safer rendering.
 function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
   const mediaFrame = document.createElement("div");
   mediaFrame.className = extraClass
@@ -97,6 +103,7 @@ function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
   return mediaFrame;
 }
 
+// Allows line breaks in product descriptions without parsing arbitrary HTML.
 function appendDescription(descriptionElement, descriptionText) {
   const parts = descriptionText.split(/<br\s*\/?>/gi);
 
@@ -109,6 +116,7 @@ function appendDescription(descriptionElement, descriptionText) {
   });
 }
 
+// Renders the craft category cards on the home page.
 function renderCategories() {
   if (!categoryGrid) {
     return;
@@ -140,6 +148,7 @@ function renderCategories() {
   }
 }
 
+// Renders product cards and filters them by the selected category.
 function renderProducts(category) {
   if (!productGrid) {
     return;
@@ -207,6 +216,7 @@ function renderProducts(category) {
   }
 }
 
+// Updates the active filter button and refreshes the product list.
 function setActiveFilter(category) {
   activeCategory = category;
 
@@ -227,6 +237,7 @@ filterButtons.forEach(function (button) {
   });
 });
 
+// Scrolls to the product categories section from the hero button.
 onClick(exploreBtn, function () {
   const categoriesSection = document.querySelector("#categories");
   if (categoriesSection) {
@@ -234,6 +245,7 @@ onClick(exploreBtn, function () {
   }
 });
 
+// Scrolls to the interactive workshop section from the hero button.
 onClick(workshopBtn, function () {
   const workshopsSection = document.querySelector("#workshops");
   if (workshopsSection) {
@@ -241,6 +253,7 @@ onClick(workshopBtn, function () {
   }
 });
 
+// Filters directly to ceramics and updates the status text.
 onClick(filterCeramicsBtn, function () {
   setActiveFilter("ceramics");
   if (!dynamicText) {
@@ -254,6 +267,7 @@ onClick(filterCeramicsBtn, function () {
   }
 });
 
+// Increments a local cart counter and displays the translated result.
 onClick(addCartBtn, function () {
   cartCount++;
 
@@ -280,6 +294,7 @@ onClick(addCartBtn, function () {
   }
 });
 
+// Demonstrates simple user input validation with a prompt.
 onClick(validateBtn, function () {
   const userName =
     typeof translateMessage === "function"
@@ -305,6 +320,7 @@ onClick(validateBtn, function () {
   }
 });
 
+// Picks a random product and writes its details into the page.
 onClick(updateDomBtn, function () {
   if (!dynamicText) {
     return;
@@ -321,5 +337,6 @@ onClick(updateDomBtn, function () {
       : `DOM updated: featured product is ${randomProduct.name}, price ${randomProduct.price} ${randomProduct.currency || "NOK"}.`;
 });
 
+// Initial render when the home page loads.
 renderCategories();
 renderProducts(activeCategory);

@@ -2,12 +2,14 @@ const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector("nav");
 const langToggle = document.querySelector("#langToggle");
 
+// Opens and closes the mobile navigation menu.
 if (navToggle && navMenu) {
   navToggle.addEventListener("click", () => {
     navMenu.classList.toggle("open");
   });
 }
 
+// Text used by the language switcher for every page.
 const translations = {
   en: {
     navHome: "Home",
@@ -269,6 +271,7 @@ function getSiteLang() {
   return localStorage.getItem("siteLang") || "en";
 }
 
+// Replaces placeholders like {name} or {count} in translated messages.
 function translateMessage(key, values = {}) {
   const lang = getSiteLang();
   const template =
@@ -283,6 +286,7 @@ function translateMessage(key, values = {}) {
 window.getSiteLang = getSiteLang;
 window.translateMessage = translateMessage;
 
+// Updates visible text, placeholders, alt text, and the browser tab title.
 function translatePage(lang) {
   const elements = document.querySelectorAll("[data-i18n]");
   elements.forEach((element) => {

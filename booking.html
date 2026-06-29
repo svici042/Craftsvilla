@@ -10,6 +10,7 @@
   </head>
   <body>
     <div class="site">
+      <!-- Shared header with navigation and language switcher. -->
       <header class="navbar">
         <h1 class="logo">CRAFTSVILLA</h1>
         <nav>
@@ -33,6 +34,7 @@
       </header>
 
       <main>
+        <!-- Booking page intro section with a link to the form. -->
         <section class="page-hero">
           <div>
             <p class="eyebrow" data-i18n="bookingEyebrow">BOOK A WORKSHOP</p>
@@ -56,6 +58,7 @@
           </div>
         </section>
 
+        <!-- Booking details and form handled by booking.js. -->
         <section class="section">
           <h2 data-i18n="bookingDetailsHeading">Booking details</h2>
           <div class="booking-grid">
@@ -105,6 +108,7 @@
                 <input
                   type="text"
                   name="name"
+                  autocomplete="name"
                   data-i18n-placeholder="bookingPlaceholderName"
                   placeholder="Your name"
                   required
@@ -115,6 +119,7 @@
                 <input
                   type="email"
                   name="email"
+                  autocomplete="email"
                   data-i18n-placeholder="bookingPlaceholderEmail"
                   placeholder="you@example.com"
                   required
@@ -122,7 +127,7 @@
               </label>
               <label>
                 <span data-i18n="bookingLabelWorkshop">Workshop type</span>
-                <select name="workshop" required>
+                <select name="workshop" autocomplete="off" required>
                   <option value="" data-i18n="bookingOptionChoose">
                     Choose a workshop
                   </option>
@@ -142,12 +147,13 @@
               </label>
               <label>
                 <span data-i18n="bookingLabelDate">Preferred date</span>
-                <input type="date" name="date" required />
+                <input type="date" name="date" autocomplete="off" required />
               </label>
               <label>
                 <span data-i18n="bookingLabelMessage">Message</span>
                 <textarea
                   name="message"
+                  autocomplete="off"
                   rows="5"
                   data-i18n-placeholder="bookingPlaceholderMessage"
                   placeholder="Any special requests?"
@@ -170,6 +176,7 @@
         </section>
       </main>
 
+      <!-- Shared footer/contact area. -->
       <footer id="contact" class="footer">
         <div>
           <h2>CRAFTSVILLA</h2>
