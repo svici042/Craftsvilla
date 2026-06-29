@@ -3,7 +3,7 @@ const categories = [
   {
     name: "Ceramics",
     text: "Clay forms, vases and warm table objects.",
-    image: "images/Master 1m.png",
+    image: "images/Master in workshop.png",
     color: "#d89b7a",
   },
   {
@@ -15,7 +15,7 @@ const categories = [
   {
     name: "Woodwork",
     text: "Oak trays, small furniture and useful objects.",
-    image: "images/Master in workshop.png",
+    image: "images/Master 1m.png",
     color: "#d8c27a",
   },
   {
