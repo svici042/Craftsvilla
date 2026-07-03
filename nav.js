@@ -1,11 +1,20 @@
 const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector("nav");
 const langToggle = document.querySelector("#langToggle");
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 // Opens and closes the mobile navigation menu.
 if (navToggle && navMenu) {
   navToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("open");
+    const isOpen = navMenu.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  navMenu.addEventListener("click", (event) => {
+    if (event.target.matches("a")) {
+      navMenu.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }
   });
 }
 
@@ -33,6 +42,10 @@ const translations = {
     heroGallery: "Gallery",
     heroBooking: "Booking",
     heroFeedback: "Feedback",
+    parallaxEyebrow: "MAKER STORIES",
+    parallaxHeading: "Slow craft, warm materials, and local creativity.",
+    parallaxText:
+      "Explore a calm handmade world where products, workshops, and gallery moments share the same craft spirit.",
     statsMakers: "Makers",
     statsProducts: "Products",
     statsWorkshops: "Workshops",
@@ -159,6 +172,11 @@ const translations = {
     heroGallery: "Galleri",
     heroBooking: "Booking",
     heroFeedback: "Tilbakemelding",
+    parallaxEyebrow: "SKAPERHISTORIER",
+    parallaxHeading:
+      "Langsomt håndverk, varme materialer og lokal kreativitet.",
+    parallaxText:
+      "Utforsk en rolig håndlaget verden der produkter, workshops og galleriøyeblikk deler samme håndverksånd.",
     statsMakers: "Skapere",
     statsProducts: "Produkter",
     statsWorkshops: "Workshops",
@@ -322,6 +340,57 @@ function translatePage(lang) {
   document.documentElement.lang = lang;
 }
 
+function setActiveNavLink() {
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+  const currentHash = window.location.hash;
+
+  document.querySelectorAll("nav a").forEach((link) => {
+    const linkUrl = new URL(link.getAttribute("href"), window.location.href);
+    const linkPage = linkUrl.pathname.split("/").pop() || "index.html";
+    const linkHash = linkUrl.hash;
+    const isSamePage = linkPage === currentPage;
+    const isActive =
+      isSamePage &&
+      (linkHash === currentHash ||
+        (!currentHash && (!linkHash || linkHash === "#home")));
+
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+function initReveal() {
+  const revealElements = document.querySelectorAll(".reveal:not(.is-visible)");
+
+  if (!revealElements.length) {
+    return;
+  }
+
+  if (reducedMotionQuery.matches || !("IntersectionObserver" in window)) {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, revealObserver) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.16 },
+  );
+
+  revealElements.forEach((element) => observer.observe(element));
+}
+
+window.initReveal = initReveal;
+
 if (langToggle) {
   const storedLang = localStorage.getItem("siteLang") || "en";
   langToggle.textContent = storedLang === "en" ? "NO" : "EN";
@@ -335,3 +404,7 @@ if (langToggle) {
     translatePage(nextLang);
   });
 }
+
+setActiveNavLink();
+initReveal();
+window.addEventListener("hashchange", setActiveNavLink);

@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Book a Craftsvilla hands-on craft workshop with local makers and creative materials."
+    />
     <title data-i18n-title="pageTitleBooking">CRAFTSVILLA — Booking</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
@@ -12,25 +16,40 @@
     <div class="site">
       <!-- Shared header with navigation and language switcher. -->
       <header class="navbar">
-        <h1 class="logo">CRAFTSVILLA</h1>
-        <nav>
+        <a class="logo" href="index.html" aria-label="Craftsvilla home"
+          >CRAFTSVILLA</a
+        >
+        <nav id="primaryNav" aria-label="Primary navigation">
           <a href="index.html" data-i18n="navHome">Home</a>
           <a href="index.html#categories" data-i18n="navProducts">Products</a>
           <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
           <a href="gallery.html" data-i18n="navGallery">Gallery</a>
-          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="booking.html" data-i18n="navBooking" aria-current="page"
+            >Booking</a
+          >
           <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
           <a href="index.html#contact" data-i18n="navContact">Contact</a>
         </nav>
-        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-controls="primaryNav"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
         <button
           class="lang-toggle"
           id="langToggle"
+          type="button"
           aria-label="Toggle language"
         >
           NO
         </button>
-        <button class="btn primary" data-i18n="shopNow">Shop now</button>
+        <a class="btn primary" href="index.html#categories" data-i18n="shopNow">
+          Shop now
+        </a>
       </header>
 
       <main>
@@ -38,9 +57,9 @@
         <section class="page-hero">
           <div>
             <p class="eyebrow" data-i18n="bookingEyebrow">BOOK A WORKSHOP</p>
-            <h2 data-i18n="bookingHeading">
+            <h1 data-i18n="bookingHeading">
               Reserve your spot in a hands-on craft session.
-            </h2>
+            </h1>
             <p data-i18n="bookingText">
               Choose your favorite workshop, select a date and time, and book a
               creative moment with expert makers.
@@ -54,6 +73,7 @@
               src="images/hero-girl.png"
               data-i18n-alt="bookingImageAlt"
               alt="Workshop booking"
+              decoding="async"
             />
           </div>
         </section>
@@ -101,6 +121,7 @@
               class="booking-form"
               action="#"
               method="post"
+              novalidate
             >
               <h3 data-i18n="bookingFormHeading">Book your session</h3>
               <label>
@@ -109,6 +130,7 @@
                   type="text"
                   name="name"
                   autocomplete="name"
+                  aria-describedby="bookingMessage"
                   data-i18n-placeholder="bookingPlaceholderName"
                   placeholder="Your name"
                   required
@@ -120,6 +142,7 @@
                   type="email"
                   name="email"
                   autocomplete="email"
+                  aria-describedby="bookingMessage"
                   data-i18n-placeholder="bookingPlaceholderEmail"
                   placeholder="you@example.com"
                   required
@@ -127,7 +150,12 @@
               </label>
               <label>
                 <span data-i18n="bookingLabelWorkshop">Workshop type</span>
-                <select name="workshop" autocomplete="off" required>
+                <select
+                  name="workshop"
+                  autocomplete="off"
+                  aria-describedby="bookingMessage"
+                  required
+                >
                   <option value="" data-i18n="bookingOptionChoose">
                     Choose a workshop
                   </option>
@@ -147,7 +175,13 @@
               </label>
               <label>
                 <span data-i18n="bookingLabelDate">Preferred date</span>
-                <input type="date" name="date" autocomplete="off" required />
+                <input
+                  type="date"
+                  name="date"
+                  autocomplete="off"
+                  aria-describedby="bookingMessage"
+                  required
+                />
               </label>
               <label>
                 <span data-i18n="bookingLabelMessage">Message</span>
@@ -179,7 +213,7 @@
       <!-- Shared footer/contact area. -->
       <footer id="contact" class="footer">
         <div>
-          <h2>CRAFTSVILLA</h2>
+          <p class="footer-logo">CRAFTSVILLA</p>
           <p data-i18n="footerText">
             Handmade marketplace for craft, workshops and creative makers.
           </p>

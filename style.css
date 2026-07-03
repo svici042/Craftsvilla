@@ -16,6 +16,13 @@
   --soft: #faf4ea;
   --line: #d8c5ad;
   --muted: #6f6258;
+  --sky: #5ed8ff;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 10px 30px rgba(31, 26, 23, 0.08);
+  --transition-fast: 0.2s ease;
+  --transition-slow: 0.45s ease;
 }
 
 * {
@@ -33,7 +40,25 @@ body {
   font-family: Arial, sans-serif;
   background: #0f1720; /* dark page background to match prototype frame */
   color: var(--ink);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(94, 216, 255, 0.75);
+  outline-offset: 4px;
 }
 
 /* Main page shell. */
@@ -58,12 +83,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
   color: var(--clay);
   font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
   margin: 0;
+  text-decoration: none;
 }
 
 nav {
@@ -78,13 +109,14 @@ nav a {
   text-decoration: none;
   font-weight: 600;
   transition:
-    color 0.2s ease,
-    text-shadow 0.2s ease,
-    transform 0.2s ease;
+    color var(--transition-fast),
+    text-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 nav a:hover,
-nav a:focus-visible {
+nav a:focus-visible,
+nav a[aria-current="page"] {
   color: #d97b3c;
   text-shadow:
     0 0 18px rgba(217, 123, 60, 0.65),
@@ -103,10 +135,10 @@ nav a:focus-visible {
   color: var(--ink);
   font-size: 18px;
   transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    background var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .nav-toggle:hover,
@@ -165,20 +197,6 @@ nav a:focus-visible {
   transform: translateY(0);
 }
 
-.navbar {
-  /* position: relative lets the mobile dropdown position itself from navbar. */
-  width: 100%;
-  height: 72px;
-  padding: 0 20px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
-
 @media (max-width: 980px) {
   /* Rules inside this block apply on tablets and smaller screens. */
   .navbar {
@@ -208,7 +226,7 @@ nav a:focus-visible {
     padding: 18px 16px 24px;
     border: 1px solid var(--line);
     border-radius: 0 0 18px 18px;
-    box-shadow: 0 10px 30px rgba(31, 26, 23, 0.08);
+    box-shadow: var(--shadow-soft);
   }
 
   nav.open {
@@ -238,18 +256,33 @@ nav a:focus-visible {
 /* Reusable button styles. */
 .btn {
   /* Used by both button elements and link elements styled as buttons. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 14px 24px;
   cursor: pointer;
   font-weight: 700;
-  transition: 0.2s ease;
+  text-decoration: none;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .btn:hover,
 .filter-btn:hover {
   /* Small lift effect when the user hovers over clickable controls. */
   transform: translateY(-2px);
+}
+
+.btn:active,
+.filter-btn:active,
+.view-btn:active {
+  transform: translateY(0);
 }
 
 .primary {
@@ -295,8 +328,8 @@ main {
   text-transform: uppercase;
 }
 
-.hero h2 {
-  font-size: 44px;
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
   line-height: 1.05;
   margin: 12px 0 14px;
   color: var(--ink);
@@ -365,6 +398,11 @@ main {
   border-radius: 12px;
   display: block;
   filter: contrast(0.9) saturate(1.2);
+  transition: transform var(--transition-slow);
+}
+
+.hero-visual:hover img {
+  transform: scale(1.03);
 }
 
 /* Home page statistics row. */
@@ -422,12 +460,23 @@ main {
   /* overflow hidden clips images to the rounded card corners. */
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 14px;
   box-shadow: 0 6px 0 rgba(31, 26, 23, 0.03);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.gallery-card:hover,
+.category-card:hover,
+.product-card:hover,
+.feedback-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
 }
 
 .gallery-card img {
@@ -436,6 +485,11 @@ main {
   height: 240px;
   object-fit: cover;
   display: block;
+  transition: transform var(--transition-slow);
+}
+
+.gallery-card:hover img {
+  transform: scale(1.04);
 }
 
 .gallery-card p {
@@ -456,7 +510,9 @@ main {
   margin-top: 28px;
 }
 
-.page-hero h2 {
+.page-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
   margin-bottom: 18px;
 }
 
@@ -468,7 +524,7 @@ main {
   /* Creates the framed image card on secondary pages. */
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 18px;
   display: flex;
   align-items: center;
@@ -479,6 +535,61 @@ main {
   width: 100%;
   border-radius: 18px;
   object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.page-hero .hero-card:hover img {
+  transform: scale(1.03);
+}
+
+/* Lightweight parallax story panel on the home page. */
+.parallax-section {
+  min-height: 420px;
+  margin-top: 56px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  align-items: end;
+  isolation: isolate;
+}
+
+.parallax-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(31, 26, 23, 0.72), rgba(31, 26, 23, 0.25)),
+    linear-gradient(0deg, rgba(31, 26, 23, 0.55), transparent 55%);
+}
+
+.parallax-image {
+  position: absolute;
+  inset: -8% 0;
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+  transform: translateY(var(--parallax-y, 0));
+  will-change: transform;
+}
+
+.parallax-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  padding: clamp(28px, 5vw, 56px);
+  color: var(--paper);
+}
+
+.parallax-content h2 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.08;
+  margin: 10px 0 14px;
+}
+
+.parallax-content p {
+  color: rgba(255, 253, 248, 0.9);
 }
 
 /* Booking and feedback page layouts. */
@@ -513,7 +624,7 @@ main {
 .feedback-card {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   padding: 22px;
 }
 
@@ -529,7 +640,7 @@ main {
   /* Forms use CSS grid so every field stacks with the same gap. */
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 28px;
   display: grid;
   gap: 18px;
@@ -560,6 +671,14 @@ select {
   background: var(--soft);
   color: var(--ink);
   font: inherit;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #b44343;
+  background: #fff5f3;
+  box-shadow: 0 0 0 3px rgba(180, 67, 67, 0.12);
 }
 
 .booking-message {
@@ -634,8 +753,8 @@ select {
     max-height: 320px;
   }
 
-  .hero h2,
-  .page-hero h2 {
+  .hero h1,
+  .page-hero h1 {
     font-size: 32px;
   }
 
@@ -695,6 +814,10 @@ select {
   .gallery-card img {
     height: 200px;
   }
+
+  .parallax-section {
+    min-height: 340px;
+  }
 }
 
 /* Small mobile layout adjustments. */
@@ -720,8 +843,8 @@ select {
     gap: 24px;
   }
 
-  .hero h2,
-  .page-hero h2 {
+  .hero h1,
+  .page-hero h1 {
     font-size: 28px;
   }
 
@@ -760,12 +883,15 @@ select {
   /* Shared card styling for dynamically rendered content. */
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   padding: 18px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-shadow: 0 6px 0 rgba(31, 26, 23, 0.03);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .media-frame {
@@ -815,13 +941,10 @@ select {
 .product-card h3 {
   /* Product titles are intentionally compact inside product cards. */
   margin: 8px 0 6px;
-}
-
-.product-card h3 {
-  margin: 8px 0 6px;
   font-size: 16px;
   font-weight: 800;
 }
+
 .product-card p {
   color: var(--muted);
   margin: 0 0 12px;
@@ -832,8 +955,7 @@ select {
   background: var(--sand);
 }
 
-.category-card h3,
-.product-card h3 {
+.category-card h3 {
   margin: 0 0 10px;
 }
 
@@ -877,12 +999,6 @@ select {
   margin-bottom: 20px;
 }
 
-.price {
-  color: var(--clay);
-  font-size: 22px;
-  font-weight: 800;
-}
-
 .card-bottom {
   /* Places price on the left and View button on the right. */
   display: flex;
@@ -899,6 +1015,17 @@ select {
   cursor: pointer;
   font-weight: 700;
   font-size: 13px;
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.view-btn:hover,
+.view-btn:focus-visible {
+  background: #5a3a31;
+  box-shadow: 0 8px 18px rgba(59, 44, 39, 0.18);
+  transform: translateY(-2px);
 }
 
 .product-maker {
@@ -964,6 +1091,13 @@ select {
   margin: 0;
 }
 
+.footer-logo {
+  color: var(--clay);
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0 0 8px;
+}
+
 .footer p {
   color: var(--muted);
 }
@@ -971,6 +1105,19 @@ select {
 .hidden {
   /* Utility class for hiding elements if needed later. */
   display: none;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Extra compact layout fallback. */
@@ -1000,5 +1147,22 @@ select {
   .category-grid,
   .product-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .reveal,
+  .parallax-image {
+    opacity: 1;
+    transform: none !important;
   }
 }

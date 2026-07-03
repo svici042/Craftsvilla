@@ -76,6 +76,15 @@ const filterCeramicsBtn = document.querySelector("#filterCeramicsBtn");
 const addCartBtn = document.querySelector("#addCartBtn");
 const validateBtn = document.querySelector("#validateBtn");
 const updateDomBtn = document.querySelector("#updateDomBtn");
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+);
+
+function refreshReveal() {
+  if (typeof window.initReveal === "function") {
+    window.initReveal();
+  }
+}
 
 // Adds a click listener only when the element exists on the current page.
 function onClick(element, handler) {
@@ -98,6 +107,8 @@ function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
   const image = document.createElement("img");
   image.src = imageSrc;
   image.alt = imageAlt;
+  image.loading = "lazy";
+  image.decoding = "async";
 
   mediaFrame.appendChild(image);
   return mediaFrame;
@@ -126,7 +137,7 @@ function renderCategories() {
 
   for (const category of categories) {
     const card = document.createElement("article");
-    card.className = "category-card";
+    card.className = "category-card reveal";
 
     const cardBody = document.createElement("div");
     cardBody.className = "card-body";
@@ -173,7 +184,7 @@ function renderProducts(category) {
 
   for (const product of filteredProducts) {
     const card = document.createElement("article");
-    card.className = "product-card";
+    card.className = "product-card reveal";
 
     const heading = document.createElement("h3");
     heading.textContent = product.name;
@@ -221,14 +232,13 @@ function setActiveFilter(category) {
   activeCategory = category;
 
   filterButtons.forEach(function (button) {
-    if (button.dataset.category === category) {
-      button.classList.add("active");
-    } else {
-      button.classList.remove("active");
-    }
+    const isActive = button.dataset.category === category;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
   });
 
   renderProducts(category);
+  refreshReveal();
 }
 
 filterButtons.forEach(function (button) {
@@ -337,6 +347,49 @@ onClick(updateDomBtn, function () {
       : `DOM updated: featured product is ${randomProduct.name}, price ${randomProduct.price} ${randomProduct.currency || "NOK"}.`;
 });
 
+function initParallax() {
+  const parallaxSections = document.querySelectorAll(".parallax-section");
+
+  if (!parallaxSections.length || prefersReducedMotion.matches) {
+    return;
+  }
+
+  let ticking = false;
+
+  function updateParallax() {
+    parallaxSections.forEach((section) => {
+      const image = section.querySelector(".parallax-image");
+      if (!image) {
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+      const speed = Number(section.dataset.parallaxSpeed || 0.16);
+      const progress =
+        (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
+      const offset = Math.max(-36, Math.min(36, progress * speed * -120));
+
+      image.style.setProperty("--parallax-y", `${offset}px`);
+    });
+
+    ticking = false;
+  }
+
+  function requestParallaxUpdate() {
+    if (!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  updateParallax();
+  window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
+  window.addEventListener("resize", requestParallaxUpdate);
+}
+
 // Initial render when the home page loads.
 renderCategories();
-renderProducts(activeCategory);
+setActiveFilter(activeCategory);
+refreshReveal();
+initParallax();
