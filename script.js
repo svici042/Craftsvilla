@@ -1,101 +1,7 @@
-// Category data used to build the homepage category cards.
-const categories = [
-  {
-    name: "Ceramics",
-    nameKey: "categoryCeramicsName",
-    text: "Clay forms, vases and warm table objects.",
-    textKey: "categoryCeramicsText",
-    category: "ceramics",
-    image: "images/Master in workshop.png",
-    optimizedImage: "images/optimized/master-workshop-720.webp",
-    width: 1536,
-    height: 1024,
-    color: "#d89b7a",
-  },
-  {
-    name: "Textiles",
-    nameKey: "categoryTextilesName",
-    text: "Woven bags, soft goods and handmade fabrics.",
-    textKey: "categoryTextilesText",
-    category: "textiles",
-    image: "images/Master`s hands 1m.png",
-    optimizedImage: "images/optimized/master-hands-720.webp",
-    width: 1204,
-    height: 804,
-    color: "#7aa68a",
-  },
-  {
-    name: "Woodwork",
-    nameKey: "categoryWoodworkName",
-    text: "Oak trays, small furniture and useful objects.",
-    textKey: "categoryWoodworkText",
-    category: "woodwork",
-    image: "images/Master 1m.png",
-    optimizedImage: "images/optimized/master-720.webp",
-    width: 1212,
-    height: 808,
-    color: "#d8c27a",
-  },
-  {
-    name: "Jewelry",
-    nameKey: "categoryJewelryName",
-    text: "Minimal rings, earrings and wearable craft.",
-    textKey: "categoryJewelryText",
-    category: "jewelry",
-    image: "images/Margarita 1m.png",
-    optimizedImage: "images/optimized/margarita-720.webp",
-    width: 1212,
-    height: 808,
-    color: "#7ea68a",
-  },
-];
+const { products, categories, cart, formatMoney } = window.Craftsvilla;
 
-// Product data used by the filters and product card renderer.
-const products = [
-  {
-    name: "Mosaikk Kunst",
-    category: "ceramics",
-    price: 400,
-    image: "images/Mosaikk kunst.jpg",
-    optimizedImage: "images/optimized/mosaikk-720.webp",
-    width: 5200,
-    height: 3466,
-    currency: "kr",
-    description:
-      "Sett inkluderer: Ramme, A4 størrelse treplate, små fargede steiner, gummi.",
-    descriptionKey: "productMosaicDescription",
-  },
-  {
-    name: "Akvarellmaling",
-    category: "textiles",
-    price: 200,
-    image: "images/Akvarellmaling 1.jpg",
-    optimizedImage: "images/optimized/akvarell-720.webp",
-    width: 3381,
-    height: 2481,
-    currency: "kr",
-    description:
-      "Sett inkluderer: Ramme, akvarellpapir med designmal, akvarellfarger, pensler.",
-    descriptionKey: "productWatercolorDescription",
-  },
-  {
-    name: "Lerretsmaling",
-    category: "woodwork",
-    price: 300,
-    image: "images/Lerretsmaling.jpg",
-    optimizedImage: "images/optimized/lerretsmaling-720.webp",
-    width: 4460,
-    height: 3256,
-    currency: "NOK",
-    description:
-      "Sett inkluderer: Ramme, akrylpapir med designmal, akrylfarger, pensler.",
-    descriptionKey: "productCanvasDescription",
-  },
-];
-
-let cartCount = 0;
 let activeCategory = "all";
-let lastAddedProduct = "";
+let lastAddedProductId = "";
 
 const categoryGrid = document.querySelector("#categoryGrid");
 const productGrid = document.querySelector("#productGrid");
@@ -142,7 +48,7 @@ function createMediaFrame(item, extraClass = "") {
 
   const image = document.createElement("img");
   image.src = item.image;
-  image.alt = item.name;
+  image.alt = getText(item.titleKey, item.id);
   image.width = item.width;
   image.height = item.height;
   image.loading = "lazy";
@@ -169,13 +75,18 @@ function renderCategories() {
   clearElement(categoryGrid);
 
   for (const category of categories) {
+    const categoryProduct = products.find(
+      (product) => product.category === category.id,
+    );
+    if (!categoryProduct) continue;
+
     const card = document.createElement("article");
     card.className = "category-card reveal";
 
     const link = document.createElement("a");
     link.className = "category-link";
     link.href = "#products";
-    link.dataset.filter = category.category;
+    link.dataset.filter = category.id;
 
     const cardBody = document.createElement("div");
     cardBody.className = "card-body";
@@ -185,11 +96,11 @@ function renderCategories() {
     categoryDot.style.backgroundColor = category.color;
 
     const heading = document.createElement("h3");
-    heading.textContent = getText(category.nameKey, category.name);
+    heading.textContent = getText(category.nameKey, category.id);
     heading.dataset.i18n = category.nameKey;
 
     const text = document.createElement("p");
-    text.textContent = getText(category.textKey, category.text);
+    text.textContent = getText(category.textKey, "");
     text.dataset.i18n = category.textKey;
 
     const action = document.createElement("span");
@@ -198,7 +109,7 @@ function renderCategories() {
     action.dataset.i18n = "categoryAction";
 
     cardBody.append(categoryDot, heading, text, action);
-    link.append(createMediaFrame(category), cardBody);
+    link.append(createMediaFrame(categoryProduct), cardBody);
     card.appendChild(link);
 
     categoryGrid.appendChild(card);
@@ -218,13 +129,14 @@ function renderProducts() {
     card.dataset.category = product.category;
 
     const heading = document.createElement("h3");
-    heading.textContent = product.name;
+    heading.textContent = getText(product.titleKey, product.id);
+    heading.dataset.i18n = product.titleKey;
 
     const description = document.createElement("p");
     description.className = "product-desc";
     description.textContent = getText(
       product.descriptionKey,
-      product.description,
+      "",
     );
     description.dataset.i18n = product.descriptionKey;
 
@@ -233,18 +145,18 @@ function renderProducts() {
 
     const price = document.createElement("span");
     price.className = "price";
-    price.textContent = `${product.price} ${product.currency || "NOK"}`;
+    price.textContent = formatMoney(product.price);
 
     const cartButton = document.createElement("button");
     cartButton.className = "product-action add-cart-btn";
     cartButton.type = "button";
     cartButton.textContent = getText("addToCart", "Add to cart");
     cartButton.dataset.i18n = "addToCart";
-    cartButton.dataset.productName = product.name;
+    cartButton.dataset.productId = product.id;
     cartButton.setAttribute(
       "aria-label",
-      getText("addProductToCart", `Add ${product.name} to cart`, {
-        productName: product.name,
+      getText("addProductToCart", "Add product to cart", {
+        productName: getText(product.titleKey, product.id),
       }),
     );
 
@@ -256,15 +168,6 @@ function renderProducts() {
     productGrid.appendChild(card);
   }
 
-  const emptyMessage = document.createElement("p");
-  emptyMessage.className = "empty-state";
-    emptyMessage.textContent = getText(
-      "filterEmpty",
-      "No products are available in this category yet.",
-    );
-  emptyMessage.dataset.i18n = "filterEmpty";
-  emptyMessage.hidden = true;
-  productGrid.appendChild(emptyMessage);
 }
 
 function setActiveFilter(category) {
@@ -276,15 +179,10 @@ function setActiveFilter(category) {
     button.setAttribute("aria-pressed", String(isActive));
   });
 
-  let visibleProducts = 0;
   productGrid?.querySelectorAll(".product-card").forEach((card) => {
     const isVisible = category === "all" || card.dataset.category === category;
     card.hidden = !isVisible;
-    if (isVisible) visibleProducts++;
   });
-
-  const emptyState = productGrid?.querySelector(".empty-state");
-  if (emptyState) emptyState.hidden = visibleProducts !== 0;
 }
 
 function scrollToProducts() {
@@ -294,26 +192,36 @@ function scrollToProducts() {
   });
 }
 
-function updateCartStatus(productName = "") {
+function updateCartStatus(productId = "") {
   if (!cartStatus) return;
 
-  if (productName) lastAddedProduct = productName;
+  if (productId) lastAddedProductId = productId;
+
+  const cartCount = cart.count();
+  const lastProduct = window.Craftsvilla.productMap.get(lastAddedProductId);
+  const productName = lastProduct
+    ? getText(lastProduct.titleKey, lastProduct.id)
+    : "";
 
   const messageKey =
     cartCount === 0
       ? "cartEmpty"
-      : cartCount === 1
-        ? "cartSingle"
-        : "cartMultiple";
+      : lastAddedProductId
+        ? cartCount === 1
+          ? "cartSingle"
+          : "cartMultiple"
+        : cartCount === 1
+          ? "cartCountSingle"
+          : "cartCountMultiple";
   const message =
     typeof translateMessage === "function"
       ? translateMessage(messageKey, {
           count: cartCount,
-          productName: lastAddedProduct,
+          productName,
         })
       : cartCount === 0
         ? "Cart is empty"
-        : `${lastAddedProduct} added. ${cartCount} item${cartCount === 1 ? "" : "s"} in cart.`;
+        : `${productName} added. ${cartCount} item${cartCount === 1 ? "" : "s"} in cart.`;
   cartStatus.lastElementChild.textContent = message;
   cartStatus.classList.add("is-updated");
   window.setTimeout(() => cartStatus.classList.remove("is-updated"), 350);
@@ -336,8 +244,9 @@ categoryGrid?.addEventListener("click", (event) => {
 productGrid?.addEventListener("click", (event) => {
   const button = event.target.closest(".add-cart-btn");
   if (!button) return;
-  cartCount++;
-  updateCartStatus(button.dataset.productName);
+  const product = window.Craftsvilla.productMap.get(button.dataset.productId);
+  if (!product || !cart.add(product.id)) return;
+  updateCartStatus(product.id);
 });
 
 // Scrolls to the product categories section from the hero button.
@@ -358,10 +267,12 @@ onClick(workshopBtn, function () {
 document.addEventListener("site-language-change", () => {
   updateCartStatus();
   productGrid?.querySelectorAll(".add-cart-btn").forEach((button) => {
+    const product = window.Craftsvilla.productMap.get(button.dataset.productId);
+    if (!product) return;
     button.setAttribute(
       "aria-label",
-      getText("addProductToCart", `Add ${button.dataset.productName} to cart`, {
-        productName: button.dataset.productName,
+      getText("addProductToCart", "Add product to cart", {
+        productName: getText(product.titleKey, product.id),
       }),
     );
   });
@@ -373,7 +284,7 @@ function initParallax() {
     (section) => ({
       section,
       image: section.querySelector(".parallax-image"),
-      speed: Number(section.dataset.parallaxSpeed || 0.16),
+      range: Number(section.dataset.parallaxRange || 90),
       isVisible: false,
     }),
   ).filter((item) => item.image);
@@ -392,14 +303,22 @@ function initParallax() {
       return;
     }
 
-    parallaxItems.forEach(({ section, image, speed, isVisible }) => {
+    parallaxItems.forEach(({ section, image, range, isVisible }) => {
       if (!isVisible) return;
 
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
-      const progress =
-        (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
-      const offset = Math.max(-44, Math.min(44, progress * speed * -140));
+      const sectionCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportHeight / 2;
+      const maximumDistance = (viewportHeight + rect.height) / 2;
+      const progress = Math.max(
+        -1,
+        Math.min(1, (sectionCenter - viewportCenter) / maximumDistance),
+      );
+      const responsiveRange = window.innerWidth <= 1100
+        ? Math.min(range, 70)
+        : range;
+      const offset = progress * responsiveRange * -0.5;
 
       image.style.setProperty("--parallax-y", `${offset}px`);
     });
@@ -441,6 +360,7 @@ function initParallax() {
     });
     requestParallaxUpdate();
   });
+  window.addEventListener("orientationchange", requestParallaxUpdate);
   document.addEventListener("visibilitychange", requestParallaxUpdate);
 }
 
@@ -448,5 +368,6 @@ function initParallax() {
 renderCategories();
 renderProducts();
 setActiveFilter(activeCategory);
+updateCartStatus();
 refreshReveal();
 initParallax();

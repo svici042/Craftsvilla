@@ -1,5 +1,6 @@
 function getFormValue(form, fieldName) {
   const field = form.elements.namedItem(fieldName);
+  if (field?.type === "checkbox") return field.checked ? field.value : "";
   return typeof field?.value === "string" ? field.value.trim() : "";
 }
 

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Review your locally stored Craftsvilla demonstration cart." />
+    <title data-i18n-title="pageTitleCart">CRAFTSVILLA — Cart</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="product-data.js" defer></script>
+    <script src="nav.js" defer></script>
+    <script src="cart.js" defer></script>
+  </head>
+  <body>
+    <div class="site">
+      <header class="navbar">
+        <a class="logo" href="index.html" aria-label="Craftsvilla home">CRAFTSVILLA</a>
+        <nav id="primaryNav" aria-label="Primary navigation">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="index.html#products" data-i18n="navProducts">Products</a>
+          <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
+          <a href="gallery.html" data-i18n="navGallery">Gallery</a>
+          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+          <a href="index.html#contact" data-i18n="navContact">Contact</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primaryNav" aria-expanded="false">☰</button>
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Toggle language">NO</button>
+        <a class="cart-link" href="cart.html" aria-current="page" data-i18n-aria-label="cartLinkLabel"><span data-i18n="navCart">Cart</span><span class="cart-badge" data-cart-count>0</span></a>
+        <a class="btn primary" href="index.html#products" data-i18n="shopNow">Shop now</a>
+      </header>
+
+      <main>
+        <section class="page-intro">
+          <p class="eyebrow" data-i18n="navCart">CART</p>
+          <h1 data-i18n="cartPageHeading">Your cart</h1>
+          <p data-i18n="cartPageIntro">Review quantities before continuing to the simulated checkout.</p>
+        </section>
+
+        <section class="cart-layout" aria-live="polite">
+          <div id="cartItems" class="cart-items"></div>
+          <aside id="cartSummary" class="order-summary-card">
+            <h2 data-i18n="orderSummary">Order summary</h2>
+            <div class="summary-row"><span data-i18n="subtotal">Subtotal</span><strong id="cartSubtotal">0 NOK</strong></div>
+            <p class="summary-note" data-i18n="deliveryEstimate">Delivery calculated at checkout</p>
+            <div class="summary-row total-row"><span data-i18n="total">Total</span><strong id="cartTotal">0 NOK</strong></div>
+            <a id="checkoutLink" class="btn primary" href="checkout.html" data-i18n="proceedCheckout">Proceed to checkout</a>
+          </aside>
+        </section>
+
+        <section id="emptyCart" class="empty-cart" hidden>
+          <h2 data-i18n="cartEmptyHeading">Your cart is empty</h2>
+          <p data-i18n="cartEmptyText">Explore the collection and add a handmade item.</p>
+          <a class="btn primary" href="index.html#products" data-i18n="continueShopping">Continue shopping</a>
+        </section>
+      </main>
+
+      <footer id="contact" class="footer">
+        <div><p class="footer-logo">CRAFTSVILLA</p><p data-i18n="footerText">Handmade marketplace for craft, workshops and creative makers.</p></div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html" data-i18n="navHome">Home</a><a href="index.html#products" data-i18n="navProducts">Products</a><a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a><a href="gallery.html" data-i18n="navGallery">Gallery</a><a href="booking.html" data-i18n="navBooking">Booking</a><a href="feedback.html" data-i18n="navFeedback">Feedback</a><a href="cart.html" data-i18n="navCart" aria-current="page">Cart</a><a href="index.html#contact" data-i18n="navContact">Contact</a>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

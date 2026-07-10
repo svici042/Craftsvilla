@@ -77,7 +77,7 @@ if (galleryItems.length) {
     const sourceImage = card.querySelector("img");
     const cardCaption = card.querySelector("p")?.textContent.trim() || sourceImage.alt;
 
-    image.src = sourceImage.getAttribute("src");
+    image.src = sourceImage.dataset.fullImage || sourceImage.currentSrc || sourceImage.getAttribute("src");
     image.alt = sourceImage.alt;
     caption.textContent = cardCaption;
   }

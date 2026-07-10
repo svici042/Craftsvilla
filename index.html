@@ -9,6 +9,7 @@
     />
     <title data-i18n-title="pageTitleHome">CRAFTSVILLA</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="product-data.js" defer></script>
     <script src="nav.js" defer></script>
     <script src="script.js" defer></script>
     <script src="lightbox.js" defer></script>
@@ -46,6 +47,10 @@
         >
           NO
         </button>
+        <a class="cart-link" href="cart.html" data-i18n-aria-label="cartLinkLabel">
+          <span data-i18n="navCart">Cart</span>
+          <span class="cart-badge" data-cart-count>0</span>
+        </a>
         <a class="btn primary" href="#products" data-i18n="shopNow">
           Shop now
         </a>
@@ -136,7 +141,7 @@
           </div>
         </section>
 
-        <section id="workshops" class="parallax-section reveal" data-parallax-speed="0.28">
+        <section id="workshops" class="parallax-section reveal" data-parallax-range="100">
           <picture class="parallax-picture">
             <source
               type="image/webp"
@@ -192,26 +197,26 @@
             <button
               class="filter-btn"
               type="button"
-              data-filter="ceramics"
-              data-i18n="filterCeramics"
+              data-filter="mosaic"
+              data-i18n="filterMosaic"
             >
-              Ceramics
+              Mosaic
             </button>
             <button
               class="filter-btn"
               type="button"
-              data-filter="textiles"
-              data-i18n="filterTextiles"
+              data-filter="watercolor"
+              data-i18n="filterWatercolor"
             >
-              Textiles
+              Watercolor
             </button>
             <button
               class="filter-btn"
               type="button"
-              data-filter="woodwork"
-              data-i18n="filterWoodwork"
+              data-filter="painting"
+              data-i18n="filterPainting"
             >
-              Woodwork
+              Painting
             </button>
             <button class="filter-btn" type="button" data-filter="jewelry" data-i18n="filterJewelry">Jewelry</button>
           </div>
@@ -225,21 +230,21 @@
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/nefertiti-640.webp" />
-                <img src="images/Nefertiti 1m.png" alt="Handmade craft portrait" width="1212" height="808" loading="lazy" decoding="async" />
+                <img src="images/Nefertiti 1m.png" data-full-image="images/optimized/nefertiti-1200.webp" alt="Handmade craft portrait" width="1212" height="808" loading="lazy" decoding="async" />
               </picture>
               <p data-i18n="homeGalleryPortrait">Handmade portrait</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/ceramics-textiles-720.webp" />
-                <img src="images/Ceramicks &amp; textiles.png" alt="Ceramics and textiles" width="1536" height="1024" loading="lazy" decoding="async" />
+                <img src="images/Ceramicks &amp; textiles.png" data-full-image="images/optimized/ceramics-textiles-1400.webp" alt="Ceramics and textiles" width="1536" height="1024" loading="lazy" decoding="async" />
               </picture>
               <p data-i18n="homeGalleryCeramics">Ceramics & textiles</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/laurel-wreath-720.webp" />
-                <img src="images/Laurel wreth.png" alt="Laurel wreath craft" width="1536" height="1024" loading="lazy" decoding="async" />
+                <img src="images/Laurel wreth.png" data-full-image="images/optimized/laurel-wreath-1400.webp" alt="Laurel wreath craft" width="1536" height="1024" loading="lazy" decoding="async" />
               </picture>
               <p data-i18n="homeGalleryWreath">Laurel wreath</p>
             </div>
@@ -261,6 +266,7 @@
             <a href="gallery.html" data-i18n="navGallery">Gallery</a>
             <a href="booking.html" data-i18n="navBooking">Booking</a>
             <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+            <a href="cart.html" data-i18n="navCart">Cart</a>
             <a href="#contact" data-i18n="navContact">Contact</a>
           </nav>
         </footer>
