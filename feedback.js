@@ -1,33 +1,30 @@
-const feedbackForm = document.querySelector(".feedback-form");
+const feedbackForm = document.querySelector("#feedbackForm");
 const feedbackMessage = document.querySelector("#feedbackMessage");
-
-function setFieldInvalid(form, fieldName, isInvalid) {
-  const field = form.elements.namedItem(fieldName);
-
-  if (field) {
-    field.setAttribute("aria-invalid", String(isInvalid));
-  }
-}
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Handles feedback locally so the page does not reload on submit.
-if (feedbackForm && feedbackMessage) {
-  feedbackForm.addEventListener("submit", function (event) {
+if (feedbackForm && feedbackMessage && window.formValidation) {
+  const { getValue, initializeErrorClearing, validateFields } =
+    window.formValidation;
+  initializeErrorClearing(feedbackForm);
+
+  feedbackForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    feedbackMessage.textContent = "";
+    feedbackMessage.classList.remove("error", "success");
 
-    const formData = new FormData(feedbackForm);
-    const name = formData.get("name").trim();
-    const message = formData.get("message").trim();
-    const missingFields = {
-      name: !name,
-      message: !message,
-    };
-
-    Object.entries(missingFields).forEach(([fieldName, isInvalid]) => {
-      setFieldInvalid(feedbackForm, fieldName, isInvalid);
+    const isValid = validateFields(feedbackForm, {
+      name: (value) =>
+        value.length >= 2 ? "" : "Please enter at least 2 characters.",
+      email: (value) =>
+        !value || emailPattern.test(value)
+          ? ""
+          : "Please enter a valid email address.",
+      message: (value) =>
+        value.length >= 10 ? "" : "Please enter at least 10 characters.",
     });
 
-    // Name and message are required before showing a success state.
-    if (Object.values(missingFields).some(Boolean)) {
+    if (!isValid) {
       feedbackMessage.textContent =
         typeof translateMessage === "function"
           ? translateMessage("feedbackValidationMissing")
@@ -36,16 +33,12 @@ if (feedbackForm && feedbackMessage) {
       return;
     }
 
-    ["name", "message"].forEach((fieldName) => {
-      setFieldInvalid(feedbackForm, fieldName, false);
-    });
-
-    // Uses the shared translation helper for the confirmation text.
+    const name = getValue(feedbackForm, "name");
     feedbackMessage.textContent =
       typeof translateMessage === "function"
         ? translateMessage("feedbackValidationSuccess", { name: name })
         : "Thank you, " + name + ". Your feedback has been sent.";
-    feedbackMessage.classList.remove("error");
+    feedbackMessage.classList.add("success");
     feedbackForm.reset();
   });
 }

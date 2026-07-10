@@ -23,6 +23,12 @@
   --shadow-soft: 0 10px 30px rgba(31, 26, 23, 0.08);
   --transition-fast: 0.2s ease;
   --transition-slow: 0.45s ease;
+  --container-width: 1280px;
+  --section-space: clamp(3.75rem, 7vw, 5.375rem);
+  --focus: #16739a;
+  --error: #9d2f2f;
+  --success: #4f6846;
+  --layer-menu: 10;
 }
 
 * {
@@ -42,6 +48,7 @@ body {
   color: var(--ink);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
 }
 
 img {
@@ -57,14 +64,14 @@ select {
 }
 
 :focus-visible {
-  outline: 3px solid rgba(94, 216, 255, 0.75);
+  outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
 
 /* Main page shell. */
 .site {
   /* Keeps the layout centered and prevents it from touching screen edges. */
-  width: min(1280px, calc(100% - 80px));
+  width: min(var(--container-width), calc(100% - 80px));
   margin: 40px auto;
   padding: 28px;
   background: var(--cream);
@@ -84,6 +91,7 @@ select {
   align-items: center;
   justify-content: space-between;
   position: relative;
+  z-index: var(--layer-menu);
 }
 
 .logo {
@@ -430,7 +438,7 @@ main {
 /* Shared content sections and card grids. */
 .section {
   /* Adds vertical breathing room between major page sections. */
-  margin-top: 86px;
+  margin-top: var(--section-space);
 }
 
 .section h2,
@@ -533,6 +541,7 @@ main {
 
 .page-hero .hero-card img {
   width: 100%;
+  aspect-ratio: 3 / 2;
   border-radius: 18px;
   object-fit: cover;
   transition: transform var(--transition-slow);
@@ -690,7 +699,26 @@ select[aria-invalid="true"] {
 }
 
 .booking-message.error {
-  color: #b44343;
+  color: var(--error);
+}
+
+.booking-message.success {
+  color: var(--success);
+}
+
+.field-error {
+  display: block;
+  color: var(--error);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--focus);
+  outline: 2px solid color-mix(in srgb, var(--focus) 25%, transparent);
+  outline-offset: 1px;
 }
 
 .feedback-card p {
@@ -914,14 +942,6 @@ select[aria-invalid="true"] {
   border-radius: 8px; /* smaller radius inside beige panel */
 }
 
-.icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: var(--clay);
-  margin-bottom: 24px;
-}
-
 .card-body {
   display: block;
   padding: 6px 0 0;
@@ -949,10 +969,6 @@ select[aria-invalid="true"] {
   color: var(--muted);
   margin: 0 0 12px;
   font-size: 13px;
-}
-
-.category-card:nth-child(3) .icon {
-  background: var(--sand);
 }
 
 .category-card h3 {
@@ -1102,11 +1118,6 @@ select[aria-invalid="true"] {
   color: var(--muted);
 }
 
-.hidden {
-  /* Utility class for hiding elements if needed later. */
-  display: none;
-}
-
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -1150,6 +1161,45 @@ select[aria-invalid="true"] {
   }
 }
 
+@media (max-width: 480px) {
+  .site {
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    padding: 10px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-toggle,
+  .lang-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .controls {
+    overflow-x: auto;
+    padding: 4px 2px 10px;
+    scrollbar-width: thin;
+  }
+
+  .filter-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    padding: 22px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1164,5 +1214,9 @@ select[aria-invalid="true"] {
   .parallax-image {
     opacity: 1;
     transform: none !important;
+  }
+
+  .parallax-image {
+    will-change: auto;
   }
 }

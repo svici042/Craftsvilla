@@ -10,6 +10,7 @@
     <title data-i18n-title="pageTitleBooking">CRAFTSVILLA — Booking</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
+    <script src="form-validation.js" defer></script>
     <script src="booking.js" defer></script>
   </head>
   <body>
@@ -119,8 +120,6 @@
             <form
               id="bookingForm"
               class="booking-form"
-              action="#"
-              method="post"
               novalidate
             >
               <h3 data-i18n="bookingFormHeading">Book your session</h3>
@@ -130,7 +129,6 @@
                   type="text"
                   name="name"
                   autocomplete="name"
-                  aria-describedby="bookingMessage"
                   data-i18n-placeholder="bookingPlaceholderName"
                   placeholder="Your name"
                   required
@@ -142,7 +140,6 @@
                   type="email"
                   name="email"
                   autocomplete="email"
-                  aria-describedby="bookingMessage"
                   data-i18n-placeholder="bookingPlaceholderEmail"
                   placeholder="you@example.com"
                   required
@@ -153,7 +150,6 @@
                 <select
                   name="workshop"
                   autocomplete="off"
-                  aria-describedby="bookingMessage"
                   required
                 >
                   <option value="" data-i18n="bookingOptionChoose">
@@ -179,7 +175,6 @@
                   type="date"
                   name="date"
                   autocomplete="off"
-                  aria-describedby="bookingMessage"
                   required
                 />
               </label>

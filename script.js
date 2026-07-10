@@ -36,7 +36,7 @@ const products = [
     image: "images/Mosaikk kunst.jpg",
     currency: "kr",
     description:
-      "Sett inkluderer: Ramme, A4 størrelse treplate,<br>små fargede steiner, gummi.",
+      "Sett inkluderer: Ramme, A4 størrelse treplate, små fargede steiner, gummi.",
   },
   {
     name: "Akvarellmaling",
@@ -46,7 +46,7 @@ const products = [
     image: "images/Akvarellmaling 1.jpg",
     currency: "kr",
     description:
-      "Sett inkluderer: Ramme, akvarellpapir med designmal,<br>akvarellfarger, pensler.",
+      "Sett inkluderer: Ramme, akvarellpapir med designmal, akvarellfarger, pensler.",
   },
   {
     name: "Lerretsmaling",
@@ -56,7 +56,7 @@ const products = [
     image: "images/Lerretsmaling.jpg",
     currency: "NOK",
     description:
-      "Sett inkluderer: Ramme, akrylpapir med designmal,<br>akrylfarger, pensler.",
+      "Sett inkluderer: Ramme, akrylpapir med designmal, akrylfarger, pensler.",
   },
 ];
 
@@ -112,19 +112,6 @@ function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
 
   mediaFrame.appendChild(image);
   return mediaFrame;
-}
-
-// Allows line breaks in product descriptions without parsing arbitrary HTML.
-function appendDescription(descriptionElement, descriptionText) {
-  const parts = descriptionText.split(/<br\s*\/?>/gi);
-
-  parts.forEach((part, index) => {
-    if (index > 0) {
-      descriptionElement.appendChild(document.createElement("br"));
-    }
-
-    descriptionElement.appendChild(document.createTextNode(part));
-  });
 }
 
 // Renders the craft category cards on the home page.
@@ -191,7 +178,7 @@ function renderProducts(category) {
 
     const description = document.createElement("p");
     description.className = "product-desc";
-    appendDescription(description, product.description);
+    description.textContent = product.description;
 
     const cardBottom = document.createElement("div");
     cardBottom.className = "card-bottom";
@@ -203,7 +190,8 @@ function renderProducts(category) {
     const viewButton = document.createElement("button");
     viewButton.className = "view-btn";
     viewButton.type = "button";
-    viewButton.textContent = "View";
+    viewButton.textContent = "View details";
+    viewButton.setAttribute("aria-label", `View details for ${product.name}`);
 
     onClick(viewButton, function () {
       if (dynamicText) {
@@ -251,7 +239,9 @@ filterButtons.forEach(function (button) {
 onClick(exploreBtn, function () {
   const categoriesSection = document.querySelector("#categories");
   if (categoriesSection) {
-    categoriesSection.scrollIntoView({ behavior: "smooth" });
+    categoriesSection.scrollIntoView({
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    });
   }
 });
 
@@ -259,7 +249,9 @@ onClick(exploreBtn, function () {
 onClick(workshopBtn, function () {
   const workshopsSection = document.querySelector("#workshops");
   if (workshopsSection) {
-    workshopsSection.scrollIntoView({ behavior: "smooth" });
+    workshopsSection.scrollIntoView({
+      behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+    });
   }
 });
 

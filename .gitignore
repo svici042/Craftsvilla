@@ -1,5 +1,6 @@
 .DS_Store
 Thumbs.db
+Desktop.ini
 node_modules/
 dist/
 build/
@@ -8,7 +9,8 @@ coverage/
 .idea/
 *.log
 .env
-.env.local
+.env.*
 .cache/
 .temp/
 tmp/
+*.swp

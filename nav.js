@@ -5,16 +5,36 @@ const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
 
 // Opens and closes the mobile navigation menu.
 if (navToggle && navMenu) {
+  function closeMenu() {
+    navMenu.classList.remove("open");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open navigation");
+  }
+
   navToggle.addEventListener("click", () => {
     const isOpen = navMenu.classList.toggle("open");
     navToggle.setAttribute("aria-expanded", String(isOpen));
+    navToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation" : "Open navigation",
+    );
   });
 
   navMenu.addEventListener("click", (event) => {
     if (event.target.matches("a")) {
-      navMenu.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
+      closeMenu();
     }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && navMenu.classList.contains("open")) {
+      closeMenu();
+      navToggle.focus();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 980) closeMenu();
   });
 }
 
@@ -286,7 +306,19 @@ const translations = {
 };
 
 function getSiteLang() {
-  return localStorage.getItem("siteLang") || "en";
+  try {
+    return localStorage.getItem("siteLang") || "en";
+  } catch {
+    return "en";
+  }
+}
+
+function storeSiteLang(lang) {
+  try {
+    localStorage.setItem("siteLang", lang);
+  } catch {
+    // Language switching still works for the current page if storage is blocked.
+  }
 }
 
 // Replaces placeholders like {name} or {count} in translated messages.
@@ -392,14 +424,14 @@ function initReveal() {
 window.initReveal = initReveal;
 
 if (langToggle) {
-  const storedLang = localStorage.getItem("siteLang") || "en";
+  const storedLang = getSiteLang();
   langToggle.textContent = storedLang === "en" ? "NO" : "EN";
   translatePage(storedLang);
 
   langToggle.addEventListener("click", () => {
-    const currentLang = localStorage.getItem("siteLang") || "en";
+    const currentLang = document.documentElement.lang || "en";
     const nextLang = currentLang === "en" ? "no" : "en";
-    localStorage.setItem("siteLang", nextLang);
+    storeSiteLang(nextLang);
     langToggle.textContent = nextLang === "en" ? "NO" : "EN";
     translatePage(nextLang);
   });
