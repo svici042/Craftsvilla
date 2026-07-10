@@ -295,7 +295,7 @@ function initParallax() {
 
   let ticking = false;
   const isParallaxEnabled = () =>
-    !prefersReducedMotion.matches && window.innerWidth > 768;
+    !prefersReducedMotion.matches && window.innerWidth > 620;
 
   function updateParallax() {
     if (document.hidden || !isParallaxEnabled()) {
@@ -316,9 +316,9 @@ function initParallax() {
         Math.min(1, (sectionCenter - viewportCenter) / maximumDistance),
       );
       const responsiveRange = window.innerWidth <= 1100
-        ? Math.min(range, 70)
+        ? Math.min(range, 140)
         : range;
-      const offset = progress * responsiveRange * -0.5;
+      const offset = progress * responsiveRange * -1;
 
       image.style.setProperty("--parallax-y", `${offset}px`);
     });

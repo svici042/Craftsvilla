@@ -1,0 +1,60 @@
+CRAFTSVILLA DEMONSTRATION ADMIN ACCESS
+======================================
+
+Admin filename:
+admin-orders.html
+
+Relative URL from the project root:
+admin-orders.html
+
+Example VS Code Live Server URLs:
+http://127.0.0.1:5500/admin-orders.html
+http://localhost:5500/admin-orders.html
+
+Use the same hostname and port that you used for checkout. For example, if checkout is opened at:
+http://127.0.0.1:5500/checkout.html
+
+then admin must be opened at:
+http://127.0.0.1:5500/admin-orders.html
+
+Do not switch between localhost and 127.0.0.1. They are different origins. Different Live Server ports are also different origins, so port 5500 and port 5501 do not share localStorage.
+
+Example GitHub Pages URL:
+https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin-orders.html
+
+Replace YOUR-USERNAME and YOUR-REPOSITORY with the actual GitHub account and repository names. Open checkout and admin under the same GitHub Pages project URL.
+
+LOGIN AND SECURITY
+------------------
+
+There is no login or password. This is a static educational demonstration, not securely protected administrator access. The page uses no real authentication or authorization.
+
+ORDER STORAGE
+-------------
+
+Demonstration orders are stored in localStorage under:
+craftsvilla-orders-v1
+
+Orders are visible only on the same origin and in the same browser profile. Private/incognito windows, other browsers, other browser profiles, different hostnames, and different ports have separate storage.
+
+HOW TO CREATE AND VIEW AN ORDER
+-------------------------------
+
+1. Open index.html through Live Server or the deployed GitHub Pages site.
+2. Add one or more products to the cart.
+3. Open cart.html and proceed to checkout.html.
+4. Complete the required demonstration fields and place the demo order.
+5. Open admin-orders.html using the same hostname, port, and browser profile.
+6. The new order should appear with status New.
+
+The admin page also includes a “Create sample demo order” button when sample data is useful for a school demonstration.
+
+KNOWN LIMITATIONS
+-----------------
+
+* No real payment occurs.
+* No backend or database exists.
+* Orders do not synchronize between devices or browser profiles.
+* Clearing browser storage removes the orders.
+* The admin route is discoverable and is not secure.
+* noindex/nofollow reduces search-engine indexing but does not provide access control.
