@@ -67,12 +67,10 @@
             </p>
           </div>
           <div class="hero-card feedback-hero-card">
-            <img
-              src="images/Master`s hands 1m.png"
-              data-i18n-alt="feedbackImageAlt"
-              alt="Feedback conversation"
-              decoding="async"
-            />
+            <picture>
+              <source type="image/webp" srcset="images/optimized/master-hands-720.webp" />
+              <img src="images/Master`s hands 1m.png" data-i18n-alt="feedbackImageAlt" alt="Hands shaping a handmade craft piece" width="1204" height="804" decoding="async" fetchpriority="high" />
+            </picture>
           </div>
         </section>
 
@@ -104,7 +102,7 @@
           </div>
 
           <form id="feedbackForm" class="feedback-form" novalidate>
-            <h3 data-i18n="feedbackFormHeading">Send your feedback</h3>
+            <h2 data-i18n="feedbackFormHeading">Send your feedback</h2>
             <label>
               <span data-i18n="feedbackLabelName">Your name</span>
               <input

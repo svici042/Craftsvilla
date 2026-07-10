@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js");
+
 const navToggle = document.querySelector(".nav-toggle");
 const navMenu = document.querySelector("nav");
 const langToggle = document.querySelector("#langToggle");
@@ -145,7 +147,7 @@ const translations = {
     bookingImageAlt: "Workshop booking",
     bookingValidationMissing: "Please complete all required booking fields.",
     bookingValidationSuccess:
-      "Thank you, {name}! Your booking request has been received.",
+      "Thank you, {name}. Your details were validated locally; this demo did not send a booking request.",
     promptEnterName: "Enter your name:",
     feedbackEyebrow: "FEEDBACK",
     feedbackHeading: "Share your experience with Craftsvilla.",
@@ -167,7 +169,8 @@ const translations = {
     feedbackSubmitButton: "Submit feedback",
     feedbackImageAlt: "Feedback conversation",
     feedbackValidationMissing: "Please enter your name and feedback message.",
-    feedbackValidationSuccess: "Thank you, {name}. Your feedback has been sent.",
+    feedbackValidationSuccess:
+      "Thank you, {name}. Your feedback was validated locally and was not sent or stored.",
   },
   no: {
     navHome: "Hjem",
@@ -277,7 +280,7 @@ const translations = {
     bookingImageAlt: "Workshopbooking",
     bookingValidationMissing: "Vennligst fyll ut alle påkrevde bookingsfelt.",
     bookingValidationSuccess:
-      "Takk, {name}! Bookingsforespørselen din er mottatt.",
+      "Takk, {name}. Opplysningene ble validert lokalt; denne demoen sendte ingen bookingforespørsel.",
     promptEnterName: "Skriv inn navnet ditt:",
     feedbackEyebrow: "TILBAKEMELDING",
     feedbackHeading: "Del din opplevelse med Craftsvilla.",
@@ -301,7 +304,7 @@ const translations = {
     feedbackValidationMissing:
       "Vennligst skriv inn navn og tilbakemelding.",
     feedbackValidationSuccess:
-      "Takk, {name}. Tilbakemeldingen din er sendt.",
+      "Takk, {name}. Tilbakemeldingen ble validert lokalt og ble ikke sendt eller lagret.",
   },
 };
 

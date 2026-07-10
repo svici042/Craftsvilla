@@ -37,7 +37,7 @@ if (feedbackForm && feedbackMessage && window.formValidation) {
     feedbackMessage.textContent =
       typeof translateMessage === "function"
         ? translateMessage("feedbackValidationSuccess", { name: name })
-        : "Thank you, " + name + ". Your feedback has been sent.";
+        : `Thank you, ${name}. Your feedback was validated locally and was not sent or stored.`;
     feedbackMessage.classList.add("success");
     feedbackForm.reset();
   });

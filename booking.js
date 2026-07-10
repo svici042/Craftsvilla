@@ -43,7 +43,7 @@ if (bookingForm && bookingMessage && window.formValidation) {
     bookingMessage.textContent =
       typeof translateMessage === "function"
         ? translateMessage("bookingValidationSuccess", { name: name })
-        : "Thank you, " + name + "! Your booking request has been received.";
+        : `Thank you, ${name}. Your details were validated locally; this demo did not send a booking request.`;
     bookingMessage.classList.add("success");
     bookingForm.reset();
   });

@@ -116,23 +116,42 @@
             </div>
           </div>
 
-          <div class="hero-visual" aria-label="handmade craft portrait">
-            <img
-              src="images/Nefertiti 1m.png"
-              alt="Abstract handmade craft portrait"
-              decoding="async"
-            />
+          <div class="hero-visual">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="images/optimized/nefertiti-640.webp 640w, images/optimized/nefertiti-1200.webp 1200w"
+                sizes="(max-width: 980px) calc(100vw - 100px), 480px"
+              />
+              <img
+                src="images/Nefertiti 1m.png"
+                alt="Abstract handmade craft portrait"
+                width="1212"
+                height="808"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </picture>
           </div>
         </section>
 
         <section class="parallax-section reveal" data-parallax-speed="0.18">
-          <img
-            class="parallax-image"
-            src="images/Margarita evening.png"
-            alt="Maker working in a warm craft studio"
-            loading="lazy"
-            decoding="async"
-          />
+          <picture class="parallax-picture">
+            <source
+              type="image/webp"
+              srcset="images/optimized/margarita-evening-768.webp 768w, images/optimized/margarita-evening-1536.webp 1536w"
+              sizes="(max-width: 768px) 100vw, 1280px"
+            />
+            <img
+              class="parallax-image"
+              src="images/Margarita evening.png"
+              alt="Maker working in a warm craft studio"
+              width="1536"
+              height="1024"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
           <div class="parallax-content">
             <p class="eyebrow" data-i18n="parallaxEyebrow">MAKER STORIES</p>
             <h2 data-i18n="parallaxHeading">
@@ -244,30 +263,24 @@
           <h2>Gallery</h2>
           <div class="gallery-grid">
             <div class="gallery-card reveal">
-              <img
-                src="images/Nefertiti 1m.png"
-                alt="Handmade craft portrait"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source type="image/webp" srcset="images/optimized/nefertiti-640.webp" />
+                <img src="images/Nefertiti 1m.png" alt="Handmade craft portrait" width="1212" height="808" loading="lazy" decoding="async" />
+              </picture>
               <p>Handmade portrait</p>
             </div>
             <div class="gallery-card reveal">
-              <img
-                src="images/Ceramicks &amp; textiles.png"
-                alt="Ceramics and textiles"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source type="image/webp" srcset="images/optimized/ceramics-textiles-720.webp" />
+                <img src="images/Ceramicks &amp; textiles.png" alt="Ceramics and textiles" width="1536" height="1024" loading="lazy" decoding="async" />
+              </picture>
               <p>Ceramics & textiles</p>
             </div>
             <div class="gallery-card reveal">
-              <img
-                src="images/Laurel wreth.png"
-                alt="Laurel wreath craft"
-                loading="lazy"
-                decoding="async"
-              />
+              <picture>
+                <source type="image/webp" srcset="images/optimized/laurel-wreath-720.webp" />
+                <img src="images/Laurel wreth.png" alt="Laurel wreath craft" width="1536" height="1024" loading="lazy" decoding="async" />
+              </picture>
               <p>Laurel wreath</p>
             </div>
           </div>

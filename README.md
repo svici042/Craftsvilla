@@ -19,8 +19,11 @@ No framework, build step, backend, database, or external service is required.
 - `feedback.html`: testimonials and a locally handled feedback form
 - Shared responsive navigation and English/Norwegian language switching
 - Keyboard focus styles and reduced-motion support
+- Responsive WebP images with original PNG/JPEG fallbacks
 
 Form submissions are demonstrations only. They are validated in the browser, are not sent anywhere, and are not stored.
+
+Images used by the interface have optimized local WebP variants. Hero and parallax images use responsive `srcset` candidates, while card images use dimensions close to their rendered size. Original files remain as fallbacks. The parallax effect runs only while its section is visible, is disabled on small screens, and is fully disabled when reduced motion is requested.
 
 ## Run locally
 
@@ -45,4 +48,4 @@ CRAFTSVILLA/
 - There is no checkout or persistent cart.
 - Forms do not submit to a server.
 - Product and category copy is stored directly in JavaScript and is not translated.
-- Large original image files may still benefit from future WebP/AVIF variants.
+- Original fallback images increase repository size even though modern browsers load the smaller WebP variants.

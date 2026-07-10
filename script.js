@@ -4,24 +4,36 @@ const categories = [
     name: "Ceramics",
     text: "Clay forms, vases and warm table objects.",
     image: "images/Master in workshop.png",
+    optimizedImage: "images/optimized/master-workshop-720.webp",
+    width: 1536,
+    height: 1024,
     color: "#d89b7a",
   },
   {
     name: "Textiles",
     text: "Woven bags, soft goods and handmade fabrics.",
     image: "images/Master`s hands 1m.png",
+    optimizedImage: "images/optimized/master-hands-720.webp",
+    width: 1204,
+    height: 804,
     color: "#7aa68a",
   },
   {
     name: "Woodwork",
     text: "Oak trays, small furniture and useful objects.",
     image: "images/Master 1m.png",
+    optimizedImage: "images/optimized/master-720.webp",
+    width: 1212,
+    height: 808,
     color: "#d8c27a",
   },
   {
     name: "Jewelry",
     text: "Minimal rings, earrings and wearable craft.",
     image: "images/Margarita 1m.png",
+    optimizedImage: "images/optimized/margarita-720.webp",
+    width: 1212,
+    height: 808,
     color: "#7ea68a",
   },
 ];
@@ -34,6 +46,9 @@ const products = [
     maker: "",
     price: 400,
     image: "images/Mosaikk kunst.jpg",
+    optimizedImage: "images/optimized/mosaikk-720.webp",
+    width: 5200,
+    height: 3466,
     currency: "kr",
     description:
       "Sett inkluderer: Ramme, A4 størrelse treplate, små fargede steiner, gummi.",
@@ -44,6 +59,9 @@ const products = [
     maker: "",
     price: 200,
     image: "images/Akvarellmaling 1.jpg",
+    optimizedImage: "images/optimized/akvarell-720.webp",
+    width: 3381,
+    height: 2481,
     currency: "kr",
     description:
       "Sett inkluderer: Ramme, akvarellpapir med designmal, akvarellfarger, pensler.",
@@ -54,6 +72,9 @@ const products = [
     maker: "",
     price: 300,
     image: "images/Lerretsmaling.jpg",
+    optimizedImage: "images/optimized/lerretsmaling-720.webp",
+    width: 4460,
+    height: 3256,
     currency: "NOK",
     description:
       "Sett inkluderer: Ramme, akrylpapir med designmal, akrylfarger, pensler.",
@@ -98,19 +119,30 @@ function clearElement(element) {
 }
 
 // Builds image wrappers with DOM APIs instead of innerHTML for safer rendering.
-function createMediaFrame(imageSrc, imageAlt, extraClass = "") {
+function createMediaFrame(item, extraClass = "") {
   const mediaFrame = document.createElement("div");
   mediaFrame.className = extraClass
     ? `media-frame ${extraClass}`
     : "media-frame";
 
   const image = document.createElement("img");
-  image.src = imageSrc;
-  image.alt = imageAlt;
+  image.src = item.image;
+  image.alt = item.name;
+  image.width = item.width;
+  image.height = item.height;
   image.loading = "lazy";
   image.decoding = "async";
 
-  mediaFrame.appendChild(image);
+  if (item.optimizedImage) {
+    const picture = document.createElement("picture");
+    const source = document.createElement("source");
+    source.type = "image/webp";
+    source.srcset = item.optimizedImage;
+    picture.append(source, image);
+    mediaFrame.appendChild(picture);
+  } else {
+    mediaFrame.appendChild(image);
+  }
   return mediaFrame;
 }
 
@@ -140,7 +172,7 @@ function renderCategories() {
     text.textContent = category.text;
 
     cardBody.append(categoryDot, heading, text);
-    card.append(createMediaFrame(category.image, category.name), cardBody);
+    card.append(createMediaFrame(category), cardBody);
 
     categoryGrid.appendChild(card);
   }
@@ -200,7 +232,7 @@ function renderProducts(category) {
     });
 
     cardBottom.append(price, viewButton);
-    card.append(createMediaFrame(product.image, product.name, "product-image"));
+    card.append(createMediaFrame(product, "product-image"));
     card.appendChild(heading);
 
     if (product.maker) {
@@ -340,27 +372,38 @@ onClick(updateDomBtn, function () {
 });
 
 function initParallax() {
-  const parallaxSections = document.querySelectorAll(".parallax-section");
+  const parallaxItems = Array.from(
+    document.querySelectorAll(".parallax-section"),
+    (section) => ({
+      section,
+      image: section.querySelector(".parallax-image"),
+      speed: Number(section.dataset.parallaxSpeed || 0.16),
+      isVisible: false,
+    }),
+  ).filter((item) => item.image);
 
-  if (!parallaxSections.length || prefersReducedMotion.matches) {
+  if (!parallaxItems.length) {
     return;
   }
 
   let ticking = false;
+  const isParallaxEnabled = () =>
+    !prefersReducedMotion.matches && window.innerWidth > 768;
 
   function updateParallax() {
-    parallaxSections.forEach((section) => {
-      const image = section.querySelector(".parallax-image");
-      if (!image) {
-        return;
-      }
+    if (document.hidden || !isParallaxEnabled()) {
+      ticking = false;
+      return;
+    }
+
+    parallaxItems.forEach(({ section, image, speed, isVisible }) => {
+      if (!isVisible) return;
 
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
-      const speed = Number(section.dataset.parallaxSpeed || 0.16);
       const progress =
         (rect.top + rect.height / 2 - viewportHeight / 2) / viewportHeight;
-      const offset = Math.max(-36, Math.min(36, progress * speed * -120));
+      const offset = Math.max(-28, Math.min(28, progress * speed * -100));
 
       image.style.setProperty("--parallax-y", `${offset}px`);
     });
@@ -369,15 +412,40 @@ function initParallax() {
   }
 
   function requestParallaxUpdate() {
-    if (!ticking) {
+    if (!ticking && isParallaxEnabled()) {
       window.requestAnimationFrame(updateParallax);
       ticking = true;
     }
   }
 
-  updateParallax();
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const item = parallaxItems.find(
+        ({ section }) => section === entry.target,
+      );
+      if (!item) return;
+
+      item.isVisible = entry.isIntersecting;
+      item.section.classList.toggle(
+        "is-parallax-active",
+        entry.isIntersecting && isParallaxEnabled(),
+      );
+    });
+    requestParallaxUpdate();
+  });
+
+  parallaxItems.forEach(({ section }) => visibilityObserver.observe(section));
+
   window.addEventListener("scroll", requestParallaxUpdate, { passive: true });
-  window.addEventListener("resize", requestParallaxUpdate);
+  window.addEventListener("resize", () => {
+    parallaxItems.forEach(({ section, image, isVisible }) => {
+      const isActive = isVisible && isParallaxEnabled();
+      section.classList.toggle("is-parallax-active", isActive);
+      if (!isActive) image.style.removeProperty("--parallax-y");
+    });
+    requestParallaxUpdate();
+  });
+  document.addEventListener("visibilitychange", requestParallaxUpdate);
 }
 
 // Initial render when the home page loads.

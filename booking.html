@@ -70,12 +70,10 @@
             >
           </div>
           <div class="hero-card">
-            <img
-              src="images/hero-girl.png"
-              data-i18n-alt="bookingImageAlt"
-              alt="Workshop booking"
-              decoding="async"
-            />
+            <picture>
+              <source type="image/webp" srcset="images/optimized/hero-girl-768.webp 768w, images/optimized/hero-girl-1536.webp 1536w" sizes="(max-width: 980px) calc(100vw - 100px), 400px" />
+              <img src="images/hero-girl.png" data-i18n-alt="bookingImageAlt" alt="Workshop booking" width="1536" height="1024" decoding="async" fetchpriority="high" />
+            </picture>
           </div>
         </section>
 
