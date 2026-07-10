@@ -10,6 +10,7 @@
     <title data-i18n-title="pageTitleGallery">CRAFTSVILLA — Gallery</title>
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
+    <script src="lightbox.js" defer></script>
   </head>
   <body>
     <div class="site">
@@ -20,7 +21,7 @@
         >
         <nav id="primaryNav" aria-label="Primary navigation">
           <a href="index.html" data-i18n="navHome">Home</a>
-          <a href="index.html#categories" data-i18n="navProducts">Products</a>
+          <a href="index.html#products" data-i18n="navProducts">Products</a>
           <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
           <a href="gallery.html" data-i18n="navGallery" aria-current="page"
             >Gallery</a
@@ -46,7 +47,7 @@
         >
           NO
         </button>
-        <a class="btn primary" href="index.html#categories" data-i18n="shopNow">
+        <a class="btn primary" href="index.html#products" data-i18n="shopNow">
           Shop now
         </a>
       </header>
@@ -148,9 +149,15 @@
             Handmade marketplace for craft, workshops and creative makers.
           </p>
         </div>
-        <p data-i18n="footerLinks">
-          Home · Products · Workshops · Gallery · Booking · Feedback · Contact
-        </p>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href="index.html" data-i18n="navHome">Home</a>
+          <a href="index.html#products" data-i18n="navProducts">Products</a>
+          <a href="index.html#workshops" data-i18n="navWorkshops">Workshops</a>
+          <a href="gallery.html" data-i18n="navGallery" aria-current="page">Gallery</a>
+          <a href="booking.html" data-i18n="navBooking">Booking</a>
+          <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+          <a href="index.html#contact" data-i18n="navContact">Contact</a>
+        </nav>
       </footer>
     </div>
   </body>

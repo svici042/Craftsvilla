@@ -105,13 +105,13 @@ select {
   text-decoration: none;
 }
 
-nav {
+.navbar nav {
   /* Creates horizontal spacing between navigation links. */
   display: flex;
   gap: 32px;
 }
 
-nav a {
+.navbar nav a {
   /* Removes the default underline and makes links look like navigation items. */
   color: var(--ink);
   text-decoration: none;
@@ -122,9 +122,9 @@ nav a {
     transform var(--transition-fast);
 }
 
-nav a:hover,
-nav a:focus-visible,
-nav a[aria-current="page"] {
+.navbar nav a:hover,
+.navbar nav a:focus-visible,
+.navbar nav a[aria-current="page"] {
   color: #d97b3c;
   text-shadow:
     0 0 18px rgba(217, 123, 60, 0.65),
@@ -205,11 +205,12 @@ nav a[aria-current="page"] {
   transform: translateY(0);
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1100px) {
   /* Rules inside this block apply on tablets and smaller screens. */
   .navbar {
-    flex-wrap: wrap;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    align-items: center;
     height: auto;
     padding: 18px 16px;
     gap: 12px;
@@ -219,7 +220,7 @@ nav a[aria-current="page"] {
     display: inline-flex;
   }
 
-  nav {
+  .navbar nav {
     /* The menu is hidden until nav.js adds the .open class. */
     display: none;
     flex-direction: column;
@@ -237,12 +238,12 @@ nav a[aria-current="page"] {
     box-shadow: var(--shadow-soft);
   }
 
-  nav.open {
+  .navbar nav.open {
     /* This class is toggled when the hamburger button is clicked. */
     display: flex;
   }
 
-  nav a {
+  .navbar nav a {
     width: 100%;
     padding: 12px 14px;
     border-radius: 14px;
@@ -250,7 +251,7 @@ nav a[aria-current="page"] {
   }
 
   .navbar .btn.primary {
-    width: 100%;
+    width: auto;
     justify-content: center;
   }
 
@@ -289,7 +290,7 @@ nav a[aria-current="page"] {
 
 .btn:active,
 .filter-btn:active,
-.view-btn:active {
+.product-action:active {
   transform: translateY(0);
 }
 
@@ -409,11 +410,16 @@ main {
   transition: transform var(--transition-slow);
 }
 
-.hero-visual picture,
-.page-hero .hero-card picture {
+.hero-visual picture {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.page-hero .hero-card picture {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .hero-visual:hover img {
@@ -448,8 +454,7 @@ main {
   margin-top: var(--section-space);
 }
 
-.section h2,
-.interactive-section h2 {
+.section h2 {
   font-size: 28px;
   margin-bottom: 20px;
   font-weight: 800;
@@ -553,6 +558,7 @@ main {
 
 .page-hero .hero-card img {
   width: 100%;
+  height: auto;
   aspect-ratio: 3 / 2;
   border-radius: 18px;
   object-fit: cover;
@@ -561,6 +567,10 @@ main {
 
 .page-hero .hero-card:hover img {
   transform: scale(1.03);
+}
+
+.feedback-hero-card img {
+  object-position: center 42%;
 }
 
 /* Lightweight parallax story panel on the home page. */
@@ -595,9 +605,9 @@ main {
 
 .parallax-picture {
   position: absolute;
-  inset: -8% 0;
+  inset: -12% 0;
   width: 100%;
-  height: 116%;
+  height: 124%;
 }
 
 .parallax-section.is-parallax-active .parallax-image {
@@ -768,12 +778,12 @@ select:focus {
     gap: 16px;
   }
 
-  nav {
+  .navbar nav {
     flex-wrap: wrap;
     gap: 14px;
   }
 
-  nav a {
+  .navbar nav a {
     font-size: 14px;
   }
 
@@ -881,10 +891,16 @@ select:focus {
   .navbar {
     padding: 14px 12px;
     justify-content: space-between;
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 
-  nav {
+  .navbar nav {
     gap: 10px;
+  }
+
+  .navbar .btn.primary {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 
   .hero,
@@ -924,6 +940,15 @@ select:focus {
   .booking-form,
   .feedback-form {
     padding: 18px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cart-status {
+    width: 100%;
   }
 }
 
@@ -1003,6 +1028,31 @@ select:focus {
   margin: 0 0 10px;
 }
 
+.category-link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  border-radius: calc(var(--radius-md) - 4px);
+}
+
+.category-link:focus-visible {
+  outline-offset: 6px;
+}
+
+.category-cue {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--clay);
+  font-weight: 800;
+  transition: transform var(--transition-fast);
+}
+
+.category-link:hover .category-cue,
+.category-link:focus-visible .category-cue {
+  transform: translateX(4px);
+}
+
 .category-card p,
 .product-card p {
   color: var(--muted);
@@ -1014,6 +1064,8 @@ select:focus {
   display: flex;
   gap: 12px;
   margin-bottom: 26px;
+  position: relative;
+  z-index: 2;
 }
 
 .filter-btn {
@@ -1023,6 +1075,7 @@ select:focus {
   padding: 10px 18px;
   cursor: pointer;
   font-weight: 700;
+  min-height: 44px;
 }
 
 .filter-btn.active {
@@ -1037,6 +1090,40 @@ select:focus {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cart-status {
+  flex: 0 0 auto;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 700;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.cart-status.is-updated {
+  background: #f2dfcf;
+  transform: scale(1.03);
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 28px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  text-align: center;
 }
 
 .product-image {
@@ -1050,7 +1137,7 @@ select:focus {
   align-items: center;
 }
 
-.view-btn {
+.product-action {
   padding: 8px 14px;
   border-radius: 999px;
   border: none;
@@ -1065,17 +1152,11 @@ select:focus {
     box-shadow var(--transition-fast);
 }
 
-.view-btn:hover,
-.view-btn:focus-visible {
+.product-action:hover,
+.product-action:focus-visible {
   background: #5a3a31;
   box-shadow: 0 8px 18px rgba(59, 44, 39, 0.18);
   transform: translateY(-2px);
-}
-
-.product-maker {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 6px 0 6px;
 }
 
 .product-desc {
@@ -1089,32 +1170,6 @@ select:focus {
   color: #7b3b24;
   font-size: 16px;
   font-weight: 800;
-}
-
-/* Interactive JavaScript demo section. */
-.interactive-section {
-  /* Dark panel that highlights the JavaScript interaction buttons. */
-  margin-top: 40px;
-  padding: 28px;
-  background: #2d211c; /* deep brown */
-  color: var(--paper);
-  border-radius: 14px;
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 24px;
-  align-items: center;
-}
-
-.interactive-section p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 16px;
-}
-
-.actions {
-  /* Two-by-two button layout inside the interactive section. */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
 }
 
 /* Shared footer. */
@@ -1146,6 +1201,93 @@ select:focus {
   color: var(--muted);
 }
 
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 16px;
+  max-width: 620px;
+}
+
+.footer-nav a {
+  color: var(--muted);
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.footer-nav a:hover,
+.footer-nav a:focus-visible,
+.footer-nav a[aria-current="page"] {
+  color: var(--clay);
+  text-decoration: underline;
+}
+
+.gallery-trigger { cursor: zoom-in; }
+.gallery-trigger:focus-visible { outline-offset: -5px; }
+
+.lightbox {
+  width: min(960px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--paper);
+  overflow: visible;
+}
+
+.lightbox::backdrop { background: rgba(15, 23, 32, 0.88); }
+
+.lightbox-content {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: #211814;
+}
+
+.lightbox-image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 130px);
+  border-radius: var(--radius-md);
+  object-fit: contain;
+}
+
+.lightbox-caption { margin: 0; text-align: center; }
+
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(33, 24, 20, 0.85);
+  color: var(--paper);
+  cursor: pointer;
+  font-size: 1.8rem;
+}
+
+.lightbox-close { top: 12px; right: 12px; }
+.lightbox-nav { top: 50%; transform: translateY(-50%); }
+.lightbox-previous { left: 12px; }
+.lightbox-next { right: 12px; }
+
+.lightbox-close:hover,
+.lightbox-nav:hover,
+.lightbox-close:focus-visible,
+.lightbox-nav:focus-visible { background: var(--clay); }
+
+body.lightbox-open { overflow: hidden; }
+
 .reveal {
   opacity: 1;
 }
@@ -1168,17 +1310,15 @@ select:focus {
   /* Additional fallback rules for medium-small screens. */
   .navbar,
   .hero,
-  .interactive-section,
   .footer {
     flex-direction: column;
   }
 
-  nav {
+  .navbar nav {
     display: none;
   }
 
-  .hero,
-  .interactive-section {
+  .hero {
     grid-template-columns: 1fr;
     padding: 28px;
   }
@@ -1190,6 +1330,10 @@ select:focus {
   .category-grid,
   .product-grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer-nav {
+    justify-content: flex-start;
   }
 }
 
@@ -1219,11 +1363,6 @@ select:focus {
   .filter-btn {
     flex: 0 0 auto;
     min-height: 44px;
-  }
-
-  .actions {
-    grid-template-columns: 1fr;
-    gap: 12px;
   }
 
   .footer {

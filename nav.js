@@ -36,7 +36,7 @@ if (navToggle && navMenu) {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 980) closeMenu();
+    if (window.innerWidth > 1100) closeMenu();
   });
 }
 
@@ -77,26 +77,39 @@ const translations = {
     filterCeramics: "Ceramics",
     filterTextiles: "Textiles",
     filterWoodwork: "Woodwork",
-    interactiveHeading: "Interactive JavaScript section",
-    interactiveText:
-      "Use the buttons to filter products, add items to cart and update DOM content.",
-    filterProducts: "Filter products",
+    filterJewelry: "Jewelry",
+    filterGroupLabel: "Product filters",
     addToCart: "Add to cart",
-    validateForm: "Validate form",
-    updateDom: "Update DOM",
+    addProductToCart: "Add {productName} to cart",
+    cartEmpty: "Cart is empty",
+    cartSingle: "{productName} added. 1 item in cart.",
+    cartMultiple: "{productName} added. {count} items in cart.",
+    filterEmpty: "No products are available in this category yet.",
+    categoryAction: "View products →",
+    categoryCeramicsName: "Ceramics",
+    categoryCeramicsText: "Clay forms, vases and warm table objects.",
+    categoryTextilesName: "Textiles",
+    categoryTextilesText: "Woven bags, soft goods and handmade fabrics.",
+    categoryWoodworkName: "Woodwork",
+    categoryWoodworkText: "Oak trays, small furniture and useful objects.",
+    categoryJewelryName: "Jewelry",
+    categoryJewelryText: "Minimal rings, earrings and wearable craft.",
+    productMosaicDescription:
+      "Set includes a frame, A4 wooden board, colored stones, and adhesive.",
+    productWatercolorDescription:
+      "Set includes a frame, watercolor paper with a template, paints, and brushes.",
+    productCanvasDescription:
+      "Set includes a frame, acrylic paper with a template, paints, and brushes.",
+    lightboxOpen: "Open larger image: {caption}",
+    lightboxClose: "Close image preview",
+    lightboxPrevious: "Previous image",
+    lightboxNext: "Next image",
+    homeGalleryHeading: "Gallery",
+    homeGalleryPortrait: "Handmade portrait",
+    homeGalleryCeramics: "Ceramics & textiles",
+    homeGalleryWreath: "Laurel wreath",
     footerText:
       "Handmade marketplace for craft, workshops and creative makers.",
-    footerLinks:
-      "Home · Products · Workshops · Gallery · Booking · Feedback · Contact",
-    dynamicFilterCeramics: "Products are now filtered by ceramics.",
-    dynamicCartSingle: "You have {count} item in the cart.",
-    dynamicCartMultiple: "You have {count} items in the cart.",
-    dynamicValidationSuccess: "Thank you, {name}. Your form input is valid.",
-    dynamicValidationFail:
-      "Validation failed. Name must contain at least 2 characters.",
-    dynamicDomUpdated:
-      "DOM updated: featured product is {productName}, price {price} {currency}.",
-    promptEnterName: "Enter your name:",
     galleryEyebrow: "GALLERY",
     galleryHeading: "Explore handmade creations and workshop highlights.",
     galleryText:
@@ -167,7 +180,7 @@ const translations = {
     feedbackPlaceholderEmail: "Email address",
     feedbackPlaceholderMessage: "Write your feedback here...",
     feedbackSubmitButton: "Submit feedback",
-    feedbackImageAlt: "Feedback conversation",
+    feedbackImageAlt: "Artisan working on a handmade piece in the studio",
     feedbackValidationMissing: "Please enter your name and feedback message.",
     feedbackValidationSuccess:
       "Thank you, {name}. Your feedback was validated locally and was not sent or stored.",
@@ -209,27 +222,39 @@ const translations = {
     filterCeramics: "Keramikk",
     filterTextiles: "Tekstiler",
     filterWoodwork: "Trearbeid",
-    interactiveHeading: "Interaktiv JavaScript-seksjon",
-    interactiveText:
-      "Bruk knappene for å filtrere produkter, legge til varer i handlekurven og oppdatere DOM-innhold.",
-    filterProducts: "Filtrer produkter",
+    filterJewelry: "Smykker",
+    filterGroupLabel: "Produktfiltre",
     addToCart: "Legg i handlekurv",
-    validateForm: "Valider skjema",
-    updateDom: "Oppdater DOM",
+    addProductToCart: "Legg {productName} i handlekurven",
+    cartEmpty: "Handlekurven er tom",
+    cartSingle: "{productName} er lagt til. 1 vare i handlekurven.",
+    cartMultiple: "{productName} er lagt til. {count} varer i handlekurven.",
+    filterEmpty: "Det finnes ingen produkter i denne kategorien ennå.",
+    categoryAction: "Vis produkter →",
+    categoryCeramicsName: "Keramikk",
+    categoryCeramicsText: "Leireformer, vaser og varme borddetaljer.",
+    categoryTextilesName: "Tekstiler",
+    categoryTextilesText: "Vevde vesker, myke varer og håndlagde tekstiler.",
+    categoryWoodworkName: "Trearbeid",
+    categoryWoodworkText: "Eikebrett, små møbler og nyttige gjenstander.",
+    categoryJewelryName: "Smykker",
+    categoryJewelryText: "Enkle ringer, øredobber og brukskunst.",
+    productMosaicDescription:
+      "Settet inneholder ramme, A4-treplate, fargede steiner og lim.",
+    productWatercolorDescription:
+      "Settet inneholder ramme, akvarellpapir med mal, farger og pensler.",
+    productCanvasDescription:
+      "Settet inneholder ramme, akrylpapir med mal, farger og pensler.",
+    lightboxOpen: "Åpne større bilde: {caption}",
+    lightboxClose: "Lukk bildevisning",
+    lightboxPrevious: "Forrige bilde",
+    lightboxNext: "Neste bilde",
+    homeGalleryHeading: "Galleri",
+    homeGalleryPortrait: "Håndlaget portrett",
+    homeGalleryCeramics: "Keramikk og tekstiler",
+    homeGalleryWreath: "Laurbærkrans",
     footerText:
       "Håndlaget marked for kunsthåndverk, workshops og kreative skapere.",
-    footerLinks:
-      "Hjem · Produkter · Workshops · Galleri · Booking · Tilbakemelding · Kontakt",
-    dynamicFilterCeramics: "Produktene er nå filtrert etter keramikk.",
-    dynamicCartSingle: "Du har {count} vare i handlekurven.",
-    dynamicCartMultiple: "Du har {count} varer i handlekurven.",
-    dynamicValidationSuccess:
-      "Takk, {name}. Innholdet i skjemaet ditt er gyldig.",
-    dynamicValidationFail:
-      "Validering mislyktes. Navnet må inneholde minst 2 tegn.",
-    dynamicDomUpdated:
-      "DOM oppdatert: utvalgt produkt er {productName}, pris {price} {currency}.",
-    promptEnterName: "Skriv inn navnet ditt:",
     galleryEyebrow: "GALLERI",
     galleryHeading: "Utforsk håndlagde kreasjoner og workshop-høydepunkter.",
     galleryText:
@@ -300,7 +325,7 @@ const translations = {
     feedbackPlaceholderEmail: "E-postadresse",
     feedbackPlaceholderMessage: "Skriv tilbakemeldingen din her...",
     feedbackSubmitButton: "Send tilbakemelding",
-    feedbackImageAlt: "Tilbakemeldingssamtale",
+    feedbackImageAlt: "Kunsthåndverker som arbeider med et håndlaget verk i studioet",
     feedbackValidationMissing:
       "Vennligst skriv inn navn og tilbakemelding.",
     feedbackValidationSuccess:
@@ -353,6 +378,7 @@ function translatePage(lang) {
     { attr: "data-i18n-placeholder", prop: "placeholder" },
     { attr: "data-i18n-alt", prop: "alt" },
     { attr: "data-i18n-value", prop: "value" },
+    { attr: "data-i18n-aria-label", prop: "ariaLabel" },
   ];
 
   translationAttributes.forEach(({ attr, prop }) => {
@@ -373,6 +399,7 @@ function translatePage(lang) {
   }
 
   document.documentElement.lang = lang;
+  document.dispatchEvent(new CustomEvent("site-language-change"));
 }
 
 function setActiveNavLink() {

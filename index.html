@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="style.css" />
     <script src="nav.js" defer></script>
     <script src="script.js" defer></script>
+    <script src="lightbox.js" defer></script>
   </head>
   <body>
     <div class="site">
@@ -21,7 +22,7 @@
         >
         <nav id="primaryNav" aria-label="Primary navigation">
           <a href="#home" data-i18n="navHome" aria-current="page">Home</a>
-          <a href="#categories" data-i18n="navProducts">Products</a>
+          <a href="#products" data-i18n="navProducts">Products</a>
           <a href="#workshops" data-i18n="navWorkshops">Workshops</a>
           <a href="gallery.html" data-i18n="navGallery">Gallery</a>
           <a href="booking.html" data-i18n="navBooking">Booking</a>
@@ -45,7 +46,7 @@
         >
           NO
         </button>
-        <a class="btn primary" href="#categories" data-i18n="shopNow">
+        <a class="btn primary" href="#products" data-i18n="shopNow">
           Shop now
         </a>
       </header>
@@ -135,7 +136,7 @@
           </div>
         </section>
 
-        <section class="parallax-section reveal" data-parallax-speed="0.18">
+        <section id="workshops" class="parallax-section reveal" data-parallax-speed="0.28">
           <picture class="parallax-picture">
             <source
               type="image/webp"
@@ -171,13 +172,19 @@
         </section>
 
         <!-- Product cards and filter buttons are controlled by script.js. -->
-        <section class="section">
-          <h2 data-i18n="featuredProducts">Featured products</h2>
-          <div class="controls">
+        <section id="products" class="section">
+          <div class="section-heading">
+            <h2 data-i18n="featuredProducts">Featured products</h2>
+            <p id="cartStatus" class="cart-status" aria-live="polite">
+              <span aria-hidden="true">🛒</span>
+              <span data-i18n="cartEmpty">Cart is empty</span>
+            </p>
+          </div>
+          <div class="controls" aria-label="Product filters" data-i18n-aria-label="filterGroupLabel">
             <button
               class="filter-btn active"
               type="button"
-              data-category="all"
+              data-filter="all"
               data-i18n="filterAll"
             >
               All
@@ -185,7 +192,7 @@
             <button
               class="filter-btn"
               type="button"
-              data-category="ceramics"
+              data-filter="ceramics"
               data-i18n="filterCeramics"
             >
               Ceramics
@@ -193,7 +200,7 @@
             <button
               class="filter-btn"
               type="button"
-              data-category="textiles"
+              data-filter="textiles"
               data-i18n="filterTextiles"
             >
               Textiles
@@ -201,87 +208,40 @@
             <button
               class="filter-btn"
               type="button"
-              data-category="woodwork"
+              data-filter="woodwork"
               data-i18n="filterWoodwork"
             >
               Woodwork
             </button>
+            <button class="filter-btn" type="button" data-filter="jewelry" data-i18n="filterJewelry">Jewelry</button>
           </div>
           <div class="product-grid" id="productGrid"></div>
         </section>
 
-        <!-- Interactive section used to demonstrate DOM updates and events. -->
-        <section id="workshops" class="interactive-section">
-          <div>
-            <h2 data-i18n="interactiveHeading">
-              Interactive JavaScript section
-            </h2>
-            <p id="dynamicText" data-i18n="interactiveText">
-              Use the buttons to filter products, add items to cart and update
-              DOM content.
-            </p>
-          </div>
-
-          <div class="actions">
-            <button
-              class="btn primary"
-              id="filterCeramicsBtn"
-              type="button"
-              data-i18n="filterProducts"
-            >
-              Filter products
-            </button>
-            <button
-              class="btn secondary"
-              id="addCartBtn"
-              type="button"
-              data-i18n="addToCart"
-            >
-              Add to cart
-            </button>
-            <button
-              class="btn secondary"
-              id="validateBtn"
-              type="button"
-              data-i18n="validateForm"
-            >
-              Validate form
-            </button>
-            <button
-              class="btn primary"
-              id="updateDomBtn"
-              type="button"
-              data-i18n="updateDom"
-            >
-              Update DOM
-            </button>
-          </div>
-        </section>
-
         <!-- Small homepage gallery preview. -->
         <section id="gallery" class="section">
-          <h2>Gallery</h2>
+          <h2 data-i18n="homeGalleryHeading">Gallery</h2>
           <div class="gallery-grid">
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/nefertiti-640.webp" />
                 <img src="images/Nefertiti 1m.png" alt="Handmade craft portrait" width="1212" height="808" loading="lazy" decoding="async" />
               </picture>
-              <p>Handmade portrait</p>
+              <p data-i18n="homeGalleryPortrait">Handmade portrait</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/ceramics-textiles-720.webp" />
                 <img src="images/Ceramicks &amp; textiles.png" alt="Ceramics and textiles" width="1536" height="1024" loading="lazy" decoding="async" />
               </picture>
-              <p>Ceramics & textiles</p>
+              <p data-i18n="homeGalleryCeramics">Ceramics & textiles</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
                 <source type="image/webp" srcset="images/optimized/laurel-wreath-720.webp" />
                 <img src="images/Laurel wreth.png" alt="Laurel wreath craft" width="1536" height="1024" loading="lazy" decoding="async" />
               </picture>
-              <p>Laurel wreath</p>
+              <p data-i18n="homeGalleryWreath">Laurel wreath</p>
             </div>
           </div>
         </section>
@@ -294,9 +254,15 @@
               Handmade marketplace for craft, workshops and creative makers.
             </p>
           </div>
-          <p data-i18n="footerLinks">
-            Home · Products · Workshops · Gallery · Contact
-          </p>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            <a href="#home" data-i18n="navHome" aria-current="page">Home</a>
+            <a href="#products" data-i18n="navProducts">Products</a>
+            <a href="#workshops" data-i18n="navWorkshops">Workshops</a>
+            <a href="gallery.html" data-i18n="navGallery">Gallery</a>
+            <a href="booking.html" data-i18n="navBooking">Booking</a>
+            <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
+            <a href="#contact" data-i18n="navContact">Contact</a>
+          </nav>
         </footer>
       </main>
     </div>
