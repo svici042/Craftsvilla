@@ -1,6 +1,9 @@
 (function initializeCraftsvillaData() {
-  const CART_KEY = "craftsvilla-cart-v1";
-  const ORDERS_KEY = "craftsvilla-orders-v1";
+  const storageKeys = Object.freeze({
+    cart: "craftsvilla-cart-v1",
+    orders: "craftsvilla-orders-v1",
+    language: "siteLang",
+  });
   const MAX_ITEM_QUANTITY = 99;
   const MAX_ORDERS = 500;
 
@@ -94,13 +97,13 @@
   }
 
   function getCart() {
-    const stored = readStorage(CART_KEY, []);
+    const stored = readStorage(storageKeys.cart, []);
     return Array.isArray(stored) ? stored.filter(validateCartItem) : [];
   }
 
   function saveCart(items) {
     const safeItems = Array.isArray(items) ? items.filter(validateCartItem) : [];
-    const saved = writeStorage(CART_KEY, safeItems);
+    const saved = writeStorage(storageKeys.cart, safeItems);
     document.dispatchEvent(new CustomEvent("craftsvilla-cart-change", { detail: safeItems }));
     return saved;
   }
@@ -194,7 +197,7 @@
   }
 
   function getOrders() {
-    const stored = readStorage(ORDERS_KEY, []);
+    const stored = readStorage(storageKeys.orders, []);
     if (!Array.isArray(stored)) return [];
     return stored.map(validateOrder).filter(Boolean);
   }
@@ -203,7 +206,7 @@
     const safeOrders = Array.isArray(orders)
       ? orders.map(validateOrder).filter(Boolean).slice(0, MAX_ORDERS)
       : [];
-    return writeStorage(ORDERS_KEY, safeOrders);
+    return writeStorage(storageKeys.orders, safeOrders);
   }
 
   function addOrder(order) {
@@ -224,6 +227,7 @@
     orderStatuses,
     paymentMethods,
     deliveryMethods,
+    storageKeys,
     cart: Object.freeze({ get: getCart, details: getCartDetails, count: getCartCount, add: addToCart, update: updateCartItem, remove: removeCartItem, clear: clearCart }),
     orders: Object.freeze({ get: getOrders, save: saveOrders, add: addOrder, validate: validateOrder }),
     formatMoney,

@@ -1,7 +1,7 @@
 document.documentElement.classList.add("js");
 
 const navToggle = document.querySelector(".nav-toggle");
-const navMenu = document.querySelector("nav");
+const navMenu = document.querySelector(".navbar nav");
 const langToggle = document.querySelector("#langToggle");
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -443,7 +443,7 @@ const translations = {
 
 function getSiteLang() {
   try {
-    return localStorage.getItem("siteLang") === "no" ? "no" : "en";
+    return localStorage.getItem(window.Craftsvilla.storageKeys.language) === "no" ? "no" : "en";
   } catch {
     return "en";
   }
@@ -451,7 +451,7 @@ function getSiteLang() {
 
 function storeSiteLang(lang) {
   try {
-    localStorage.setItem("siteLang", lang);
+    localStorage.setItem(window.Craftsvilla.storageKeys.language, lang);
   } catch {
     // Language switching still works for the current page if storage is blocked.
   }
