@@ -1,12 +1,8 @@
-/* Base reset and shared theme colors. */
-* {
-  /* Removes the browser's default spacing from all elements. */
-  margin: 0;
-  padding: 0;
-}
-
+/* =========================
+   Design tokens
+   ========================= */
 :root {
-  /* CSS variables make it easy to reuse the same colors everywhere. */
+  --page-background: #0f1720;
   --ink: #1f1a17;
   --clay: #a65f3d;
   --sage: #6e7f62;
@@ -20,6 +16,8 @@
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
+  --radius-pill: 999px;
+  --control-height: 44px;
   --shadow-soft: 0 10px 30px rgba(31, 26, 23, 0.08);
   --transition-fast: 0.2s ease;
   --transition-slow: 0.45s ease;
@@ -31,8 +29,12 @@
   --layer-menu: 10;
 }
 
+/* =========================
+   Reset and base styles
+   ========================= */
 * {
-  /* Includes padding and border inside the element's total width/height. */
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -44,7 +46,7 @@ html {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0f1720; /* dark page background to match prototype frame */
+  background: var(--page-background);
   color: var(--ink);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -63,12 +65,22 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 4px;
 }
 
-/* Main page shell. */
+/* =========================
+   Shared page layout
+   ========================= */
 .site {
   /* Keeps the layout centered and prevents it from touching screen edges. */
   width: min(var(--container-width), calc(100% - 80px));
@@ -78,7 +90,9 @@ select {
   border-radius: 20px;
 }
 
-/* Header navigation and mobile menu. */
+/* =========================
+   Header and navigation
+   ========================= */
 .navbar {
   /* Flexbox places the logo, links, language button, and CTA in one row. */
   width: 100%;
@@ -348,7 +362,9 @@ select {
 
 }
 
-/* Reusable button styles. */
+/* =========================
+   Shared controls
+   ========================= */
 .btn {
   /* Used by both button elements and link elements styled as buttons. */
   display: inline-flex;
@@ -1426,8 +1442,8 @@ body.lightbox-open { overflow: hidden; }
 }
 
 .quantity-controls button {
-  width: 44px;
-  height: 44px;
+  width: var(--control-height);
+  height: var(--control-height);
   border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--soft);
@@ -1441,7 +1457,7 @@ body.lightbox-open { overflow: hidden; }
 
 .remove-item {
   justify-self: start;
-  min-height: 44px;
+  min-height: var(--control-height);
   padding: 8px 0;
   border: 0;
   background: transparent;
@@ -1477,7 +1493,7 @@ body.lightbox-open { overflow: hidden; }
 .full-field { grid-column: 1 / -1; }
 .choice-list { display: grid; gap: 12px; }
 .choice-list label,
-.terms-check { display: flex; grid-template-columns: none; align-items: flex-start; gap: 12px; font-weight: 600; }
+.terms-check { display: flex; align-items: flex-start; gap: 12px; font-weight: 600; }
 .choice-list input,
 .terms-check input { width: 20px; height: 20px; margin-top: 2px; flex: 0 0 auto; }
 .form-notice { padding: 14px; border-radius: var(--radius-sm); background: var(--soft); color: var(--muted); }
@@ -1530,6 +1546,15 @@ body.lightbox-open { overflow: hidden; }
   .checkout-fields fieldset,
   .admin-panel { padding: 18px; }
   .admin-header { align-items: flex-start; flex-direction: column; }
+
+  .parallax-picture {
+    inset: 0;
+    height: 100%;
+  }
+
+  .parallax-image {
+    transform: none;
+  }
 }
 
 .reveal {
@@ -1603,23 +1628,12 @@ body.lightbox-open { overflow: hidden; }
 
   .filter-btn {
     flex: 0 0 auto;
-    min-height: 44px;
+    min-height: var(--control-height);
   }
 
   .footer {
     align-items: flex-start;
     padding: 22px;
-  }
-}
-
-@media (max-width: 620px) {
-  .parallax-picture {
-    inset: 0;
-    height: 100%;
-  }
-
-  .parallax-image {
-    transform: none;
   }
 }
 
