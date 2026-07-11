@@ -47,7 +47,11 @@
         >
           NO
         </button>
-        <a class="cart-link" href="cart.html" data-i18n-aria-label="cartLinkLabel">
+        <a
+          class="cart-link"
+          href="cart.html"
+          data-i18n-aria-label="cartLinkLabel"
+        >
           <span data-i18n="navCart">Cart</span>
           <span class="cart-badge" data-cart-count>0</span>
         </a>
@@ -66,9 +70,7 @@
             </h1>
             <p data-i18n="heroText">
               Craftsvilla connects visitors with artisan products, creative
-              workshops and a gallery-like shopping experience. The layout is
-              ready for DOM updates, filters, arrays, objects and event
-              listeners.
+              workshops and a gallery like shopping experience.
             </p>
             <div class="hero-buttons">
               <button
@@ -126,7 +128,10 @@
             <picture>
               <source
                 type="image/webp"
-                srcset="images/optimized/nefertiti-640.webp 640w, images/optimized/nefertiti-1200.webp 1200w"
+                srcset="
+                  images/optimized/nefertiti-640.webp   640w,
+                  images/optimized/nefertiti-1200.webp 1200w
+                "
                 sizes="(max-width: 980px) calc(100vw - 100px), 480px"
               />
               <img
@@ -141,11 +146,18 @@
           </div>
         </section>
 
-        <section id="workshops" class="parallax-section reveal" data-parallax-range="230">
+        <section
+          id="workshops"
+          class="parallax-section reveal"
+          data-parallax-range="230"
+        >
           <picture class="parallax-picture">
             <source
               type="image/webp"
-              srcset="images/optimized/margarita-evening-768.webp 768w, images/optimized/margarita-evening-1536.webp 1536w"
+              srcset="
+                images/optimized/margarita-evening-768.webp   768w,
+                images/optimized/margarita-evening-1536.webp 1536w
+              "
               sizes="(max-width: 768px) 100vw, 1280px"
             />
             <img
@@ -185,7 +197,11 @@
               <span data-i18n="cartEmpty">Cart is empty</span>
             </p>
           </div>
-          <div class="controls" aria-label="Product filters" data-i18n-aria-label="filterGroupLabel">
+          <div
+            class="controls"
+            aria-label="Product filters"
+            data-i18n-aria-label="filterGroupLabel"
+          >
             <button
               class="filter-btn active"
               type="button"
@@ -218,7 +234,14 @@
             >
               Painting
             </button>
-            <button class="filter-btn" type="button" data-filter="jewelry" data-i18n="filterJewelry">Jewelry</button>
+            <button
+              class="filter-btn"
+              type="button"
+              data-filter="jewelry"
+              data-i18n="filterJewelry"
+            >
+              Jewelry
+            </button>
           </div>
           <div class="product-grid" id="productGrid"></div>
         </section>
@@ -229,22 +252,55 @@
           <div class="gallery-grid">
             <div class="gallery-card reveal">
               <picture>
-                <source type="image/webp" srcset="images/optimized/nefertiti-640.webp" />
-                <img src="images/Nefertiti 1m.png" data-full-image="images/optimized/nefertiti-1200.webp" alt="Handmade craft portrait" width="1212" height="808" loading="lazy" decoding="async" />
+                <source
+                  type="image/webp"
+                  srcset="images/optimized/nefertiti-640.webp"
+                />
+                <img
+                  src="images/Nefertiti 1m.png"
+                  data-full-image="images/optimized/nefertiti-1200.webp"
+                  alt="Handmade craft portrait"
+                  width="1212"
+                  height="808"
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
               <p data-i18n="homeGalleryPortrait">Handmade portrait</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
-                <source type="image/webp" srcset="images/optimized/ceramics-textiles-720.webp" />
-                <img src="images/Ceramicks &amp; textiles.png" data-full-image="images/optimized/ceramics-textiles-1400.webp" alt="Ceramics and textiles" width="1536" height="1024" loading="lazy" decoding="async" />
+                <source
+                  type="image/webp"
+                  srcset="images/optimized/ceramics-textiles-720.webp"
+                />
+                <img
+                  src="images/Ceramicks &amp; textiles.png"
+                  data-full-image="images/optimized/ceramics-textiles-1400.webp"
+                  alt="Ceramics and textiles"
+                  width="1536"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
               <p data-i18n="homeGalleryCeramics">Ceramics & textiles</p>
             </div>
             <div class="gallery-card reveal">
               <picture>
-                <source type="image/webp" srcset="images/optimized/laurel-wreath-720.webp" />
-                <img src="images/Laurel wreth.png" data-full-image="images/optimized/laurel-wreath-1400.webp" alt="Laurel wreath craft" width="1536" height="1024" loading="lazy" decoding="async" />
+                <source
+                  type="image/webp"
+                  srcset="images/optimized/laurel-wreath-720.webp"
+                />
+                <img
+                  src="images/Laurel wreth.png"
+                  data-full-image="images/optimized/laurel-wreath-1400.webp"
+                  alt="Laurel wreath craft"
+                  width="1536"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
               <p data-i18n="homeGalleryWreath">Laurel wreath</p>
             </div>
@@ -268,7 +324,12 @@
             <a href="feedback.html" data-i18n="navFeedback">Feedback</a>
             <a href="cart.html" data-i18n="navCart">Cart</a>
             <a href="#contact" data-i18n="navContact">Contact</a>
-            <a class="admin-demo-link" href="admin-orders.html" data-i18n="adminDemo">Admin demo</a>
+            <a
+              class="admin-demo-link"
+              href="admin-orders.html"
+              data-i18n="adminDemo"
+              >Admin demo</a
+            >
           </nav>
         </footer>
       </main>
