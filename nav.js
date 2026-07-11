@@ -443,7 +443,7 @@ const translations = {
 
 function getSiteLang() {
   try {
-    return localStorage.getItem("siteLang") || "en";
+    return localStorage.getItem("siteLang") === "no" ? "no" : "en";
   } catch {
     return "en";
   }

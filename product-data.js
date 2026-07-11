@@ -1,6 +1,8 @@
 (function initializeCraftsvillaData() {
   const CART_KEY = "craftsvilla-cart-v1";
   const ORDERS_KEY = "craftsvilla-orders-v1";
+  const MAX_ITEM_QUANTITY = 99;
+  const MAX_ORDERS = 500;
 
   const categories = Object.freeze([
     { id: "mosaic", nameKey: "filterMosaic", textKey: "categoryMosaicText", color: "#d89b7a" },
@@ -87,7 +89,7 @@
       productMap.has(item.productId) &&
       Number.isInteger(item.quantity) &&
       item.quantity >= 1 &&
-      item.quantity <= 99
+      item.quantity <= MAX_ITEM_QUANTITY
     );
   }
 
@@ -107,8 +109,8 @@
     if (!productMap.has(productId) || !Number.isInteger(quantity) || quantity < 1) return false;
     const cart = getCart();
     const existing = cart.find((item) => item.productId === productId);
-    if (existing) existing.quantity = Math.min(99, existing.quantity + quantity);
-    else cart.push({ productId, quantity: Math.min(99, quantity) });
+    if (existing) existing.quantity = Math.min(MAX_ITEM_QUANTITY, existing.quantity + quantity);
+    else cart.push({ productId, quantity: Math.min(MAX_ITEM_QUANTITY, quantity) });
     return saveCart(cart);
   }
 
@@ -118,7 +120,7 @@
     const cart = getCart();
     const item = cart.find((entry) => entry.productId === productId);
     if (!item) return false;
-    item.quantity = Math.min(99, quantity);
+    item.quantity = Math.min(MAX_ITEM_QUANTITY, quantity);
     return saveCart(cart);
   }
 
@@ -144,6 +146,20 @@
 
   function validateOrder(order) {
     if (!order || typeof order !== "object") return null;
+    const id = cleanText(order.id, 40);
+    const createdAt = cleanText(order.createdAt, 40);
+    const updatedAt = cleanText(order.updatedAt || order.createdAt, 40);
+    const customer = {
+      name: cleanText(order.customer?.name, 120),
+      email: cleanText(order.customer?.email, 160),
+      phone: cleanText(order.customer?.phone, 40),
+    };
+    const address = {
+      address: cleanText(order.address?.address, 160),
+      postalCode: cleanText(order.address?.postalCode, 20),
+      city: cleanText(order.address?.city, 80),
+      country: cleanText(order.address?.country, 80),
+    };
     const items = Array.isArray(order.items)
       ? order.items.filter(
           (item) =>
@@ -151,27 +167,23 @@
             productMap.has(item.productId) &&
             Number.isInteger(item.quantity) &&
             item.quantity >= 1 &&
+            item.quantity <= MAX_ITEM_QUANTITY &&
             Number.isFinite(item.unitPrice) &&
-            item.unitPrice >= 0,
+            item.unitPrice >= 0 &&
+            item.unitPrice <= 1_000_000,
         )
       : [];
-    if (!items.length || !orderStatuses.includes(order.status)) return null;
+    const hasValidDates = !Number.isNaN(Date.parse(createdAt)) && !Number.isNaN(Date.parse(updatedAt));
+    const hasRequiredDetails = id && customer.name && customer.email && customer.phone &&
+      address.address && address.postalCode && address.city && address.country;
+    if (!items.length || !hasValidDates || !hasRequiredDetails || !orderStatuses.includes(order.status)) return null;
     if (!paymentMethods.includes(order.paymentMethod) || !deliveryMethods.includes(order.deliveryMethod)) return null;
     return {
-      id: cleanText(order.id, 40),
-      createdAt: cleanText(order.createdAt, 40),
-      updatedAt: cleanText(order.updatedAt || order.createdAt, 40),
-      customer: {
-        name: cleanText(order.customer?.name, 120),
-        email: cleanText(order.customer?.email, 160),
-        phone: cleanText(order.customer?.phone, 40),
-      },
-      address: {
-        address: cleanText(order.address?.address, 160),
-        postalCode: cleanText(order.address?.postalCode, 20),
-        city: cleanText(order.address?.city, 80),
-        country: cleanText(order.address?.country, 80),
-      },
+      id,
+      createdAt,
+      updatedAt,
+      customer,
+      address,
       deliveryMethod: order.deliveryMethod,
       paymentMethod: order.paymentMethod,
       items,
@@ -188,7 +200,9 @@
   }
 
   function saveOrders(orders) {
-    const safeOrders = Array.isArray(orders) ? orders.map(validateOrder).filter(Boolean) : [];
+    const safeOrders = Array.isArray(orders)
+      ? orders.map(validateOrder).filter(Boolean).slice(0, MAX_ORDERS)
+      : [];
     return writeStorage(ORDERS_KEY, safeOrders);
   }
 
