@@ -63,7 +63,7 @@ const translations = {
     heroEyebrow: "HANDMADE MARKETPLACE",
     heroHeading: "Find handmade craft, stories and local makers in one place.",
     heroText:
-      "Craftsvilla connects visitors with artisan products, creative workshops and a gallery-like shopping experience. The layout is ready for DOM updates, filters, arrays, objects and event listeners.",
+      "Craftsvilla connects visitors with artisan products, creative workshops and a gallery-like shopping experience.",
     exploreProducts: "Explore products",
     joinWorkshop: "Join workshop",
     heroGallery: "Gallery",
