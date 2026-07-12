@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://svici042.github.io/Craftsvilla/sitemap.xml

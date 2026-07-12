@@ -49,6 +49,8 @@ if (checkoutForm && window.formValidation) {
   });
   checkoutForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    const submitButton = checkoutForm.querySelector('[type="submit"]');
+    if (submitButton?.disabled) return;
     const required = (value) => (value ? "" : checkoutText("requiredField", "Please complete this field."));
     const valid = validateFields(checkoutForm, {
       firstName: required, lastName: required,
@@ -57,8 +59,13 @@ if (checkoutForm && window.formValidation) {
       terms: (value) => value ? "" : checkoutText("termsRequired", "Confirm the demonstration terms to continue."),
     });
     if (!valid) return;
+    if (submitButton) submitButton.disabled = true;
     const details = window.Craftsvilla.cart.details();
-    if (!details.length) { renderSummary(); return; }
+    if (!details.length) {
+      renderSummary();
+      if (submitButton) submitButton.disabled = false;
+      return;
+    }
     const now = new Date().toISOString();
     const order = {
       id: createOrderId(), createdAt: now, updatedAt: now,
@@ -68,7 +75,10 @@ if (checkoutForm && window.formValidation) {
       items: details.map(({ product, quantity }) => ({ productId: product.id, quantity, unitPrice: product.price })),
       total: renderSummary(), status: "New", demo: true,
     };
-    if (!window.Craftsvilla.orders.add(order)) return;
+    if (!window.Craftsvilla.orders.add(order)) {
+      if (submitButton) submitButton.disabled = false;
+      return;
+    }
     window.Craftsvilla.cart.clear();
     checkoutForm.hidden = true;
     confirmation.hidden = false;

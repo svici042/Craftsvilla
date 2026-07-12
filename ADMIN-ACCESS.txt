@@ -20,9 +20,9 @@ http://127.0.0.1:5500/admin-orders.html
 Do not switch between localhost and 127.0.0.1. They are different origins. Different Live Server ports are also different origins, so port 5500 and port 5501 do not share localStorage.
 
 Example GitHub Pages URL:
-https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin-orders.html
+https://svici042.github.io/Craftsvilla/admin-orders.html
 
-Replace YOUR-USERNAME and YOUR-REPOSITORY with the actual GitHub account and repository names. Open checkout and admin under the same GitHub Pages project URL.
+Open checkout and admin under this same GitHub Pages project URL.
 
 LOGIN AND SECURITY
 ------------------

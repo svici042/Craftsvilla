@@ -1,4 +1,4 @@
-const { products, categories, cart, formatMoney } = window.Craftsvilla;
+const { products, categories, productMap, cart, formatMoney } = window.Craftsvilla;
 
 let activeCategory = "all";
 let lastAddedProductId = "";
@@ -10,6 +10,8 @@ const filterButtons = document.querySelectorAll("[data-filter]");
 const cartStatus = document.querySelector("#cartStatus");
 const exploreBtn = document.querySelector("#exploreBtn");
 const workshopBtn = document.querySelector("#workshopBtn");
+const workshopsSection = document.querySelector("#workshops");
+const productControls = document.querySelector(".controls");
 const prefersReducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 );
@@ -198,7 +200,7 @@ function updateCartStatus(productId = "") {
   if (productId) lastAddedProductId = productId;
 
   const cartCount = cart.count();
-  const lastProduct = window.Craftsvilla.productMap.get(lastAddedProductId);
+  const lastProduct = productMap.get(lastAddedProductId);
   const productName = lastProduct
     ? getText(lastProduct.titleKey, lastProduct.id)
     : "";
@@ -227,7 +229,7 @@ function updateCartStatus(productId = "") {
   window.setTimeout(() => cartStatus.classList.remove("is-updated"), 350);
 }
 
-document.querySelector(".controls")?.addEventListener("click", (event) => {
+productControls?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-filter]");
   if (!button) return;
   setActiveFilter(button.dataset.filter);
@@ -244,7 +246,7 @@ categoryGrid?.addEventListener("click", (event) => {
 productGrid?.addEventListener("click", (event) => {
   const button = event.target.closest(".add-cart-btn");
   if (!button) return;
-  const product = window.Craftsvilla.productMap.get(button.dataset.productId);
+  const product = productMap.get(button.dataset.productId);
   if (!product || !cart.add(product.id)) return;
   updateCartStatus(product.id);
 });
@@ -256,7 +258,6 @@ onClick(exploreBtn, function () {
 
 // Scrolls to the interactive workshop section from the hero button.
 onClick(workshopBtn, function () {
-  const workshopsSection = document.querySelector("#workshops");
   if (workshopsSection) {
     workshopsSection.scrollIntoView({
       behavior: prefersReducedMotion.matches ? "auto" : "smooth",
@@ -267,7 +268,7 @@ onClick(workshopBtn, function () {
 document.addEventListener("site-language-change", () => {
   updateCartStatus();
   productGrid?.querySelectorAll(".add-cart-btn").forEach((button) => {
-    const product = window.Craftsvilla.productMap.get(button.dataset.productId);
+    const product = productMap.get(button.dataset.productId);
     if (!product) return;
     button.setAttribute(
       "aria-label",
