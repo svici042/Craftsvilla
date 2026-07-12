@@ -243,10 +243,10 @@ textarea:disabled {
 
 .cart-link {
   display: inline-grid;
-  grid-template-columns: 24px minmax(0, 1fr) 24px;
+  grid-template-columns: minmax(0, 1fr) 24px;
   align-items: center;
   justify-content: center;
-  column-gap: 0;
+  column-gap: 8px;
   width: 160px;
   height: 44px;
   padding: 0 5px;
@@ -262,9 +262,11 @@ textarea:disabled {
   text-decoration: none;
 }
 
-.cart-link > span:first-child {
-  grid-column: 1 / -1;
+.cart-label {
+  grid-column: 1;
   grid-row: 1;
+  min-width: 0;
+  white-space: nowrap;
   text-align: center;
 }
 
@@ -276,7 +278,7 @@ textarea:disabled {
 }
 
 .cart-badge {
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 1;
   display: grid;
   place-items: center;

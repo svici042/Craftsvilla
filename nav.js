@@ -62,8 +62,6 @@ const translations = {
     pageTitleCheckout: "CRAFTSVILLA — Checkout demo",
     heroEyebrow: "HANDMADE MARKETPLACE",
     heroHeading: "Find handmade craft, stories and local makers in one place.",
-    heroText:
-      "Craftsvilla connects visitors with artisan products, creative workshops and a gallery-like shopping experience.",
     exploreProducts: "Explore products",
     joinWorkshop: "Join workshop",
     heroGallery: "Gallery",
@@ -260,8 +258,6 @@ const translations = {
     heroEyebrow: "HÅNDLAGET MARKED",
     heroHeading:
       "Finn håndlagde produkter, historier og lokale skapere på ett sted.",
-    heroText:
-      "Craftsvilla kobler besøkende med kunsthåndverk, kreative workshops og en gallerilignende handleopplevelse. Layouten er klar for DOM-oppdateringer, filtre, arrays, objekter og event-lyttere.",
     exploreProducts: "Utforsk produkter",
     joinWorkshop: "Bli med workshop",
     heroGallery: "Galleri",
