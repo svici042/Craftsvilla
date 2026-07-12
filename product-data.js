@@ -54,7 +54,7 @@
       titleKey: "productJewelryTitle",
       descriptionKey: "productJewelryDescription",
       price: 650,
-      image: "images/optimized/Master and jewerly.png",
+      image: "images/Jewelery.png",
       optimizedImage: "images/optimized/jewelry-720.webp",
       fullImage: "images/optimized/jewelry-1400.webp",
       width: 1536,
