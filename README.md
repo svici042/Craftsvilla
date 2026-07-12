@@ -2,6 +2,8 @@
 
 CRAFTSVILLA is a static, responsive craft marketplace concept featuring local makers, products, workshops, gallery inspiration, booking, and feedback pages.
 
+**Live demo:** https://svici042.github.io/Craftsvilla/
+
 ## Technology
 
 - HTML5
@@ -30,11 +32,15 @@ Images used by the interface have optimized local WebP variants. Hero and parall
 
 ## Run locally
 
-Open `index.html` in a browser. For behavior closest to GitHub Pages, serve the folder with any simple static server; no installation is needed.
+Open the folder in VS Code and serve `index.html` with Live Server or another simple static server. No installation is needed. Opening pages directly with `file://` can behave differently from HTTP hosting, especially for origin-specific browser storage.
 
 ## GitHub Pages
 
-Push the source files to a GitHub repository, then enable Pages for the repository branch and root folder. All links and asset paths are relative and Pages-safe.
+The live site is published at https://svici042.github.io/Craftsvilla/. This plain static project requires no build step; GitHub Pages can publish it directly from the repository branch and root folder. All site links and asset paths are relative and work under the `/Craftsvilla/` project subpath.
+
+## Admin demonstration
+
+Open https://svici042.github.io/Craftsvilla/admin-orders.html in the same browser profile and origin used for checkout. There is no login or secure authentication. Orders exist only in that browser's `localStorage`; see `ADMIN-ACCESS.txt` for details.
 
 ## Structure
 
