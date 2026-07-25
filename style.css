@@ -1277,6 +1277,7 @@ select:focus {
 .footer {
   /* Footer content is spaced across the row on desktop. */
   margin-top: 70px;
+  scroll-margin-top: 24px;
   padding: 32px;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -1284,6 +1285,7 @@ select:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
 }
 
 .footer h2 {
@@ -1300,6 +1302,25 @@ select:focus {
 
 .footer p {
   color: var(--muted);
+}
+
+.footer .footer-copyright {
+  margin-top: 16px;
+  font-size: 0.875rem;
+}
+
+.footer-contact {
+  flex: 0 0 auto;
+}
+
+.footer-contact h2 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.footer-contact address {
+  color: var(--muted);
+  font-style: normal;
 }
 
 .footer-nav {
@@ -1322,6 +1343,17 @@ select:focus {
 .footer-nav a[aria-current="page"] {
   color: var(--clay);
   text-decoration: underline;
+}
+
+@media (max-width: 1100px) {
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-nav {
+    justify-content: flex-start;
+  }
 }
 
 .gallery-trigger { cursor: zoom-in; }
