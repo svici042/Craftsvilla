@@ -32,6 +32,7 @@ function paymentLabel(method) {
 }
 
 function renderStats(orders) {
+  // Derive dashboard totals from the currently stored orders.
   const totalValue = orders.reduce((sum, order) => sum + order.total, 0);
   adminStats.replaceChildren(
     createStat("Total orders", orders.length),
@@ -44,6 +45,7 @@ function renderStats(orders) {
 }
 
 function filteredOrders() {
+  // Apply the selected search, status, and date ordering before rendering.
   const query = orderSearch.value.trim().toLowerCase().slice(0, 160);
   const status = statusFilter.value;
   const orders = window.Craftsvilla.orders.get().filter((order) => {
@@ -61,6 +63,7 @@ function filteredOrders() {
 }
 
 function updateOrderStatus(orderId, status) {
+  // Update only known statuses and record when the local order changed.
   if (!window.Craftsvilla.orderStatuses.includes(status)) return;
   const orders = window.Craftsvilla.orders.get();
   const order = orders.find((entry) => entry.id === orderId);
@@ -80,6 +83,7 @@ function deleteOrder(orderId) {
 }
 
 function openOrder(orderId, trigger) {
+  // Populate one reusable dialog and return focus to its opener on close.
   const order = window.Craftsvilla.orders.get().find((entry) => entry.id === orderId);
   if (!order) return;
   orderDetails.replaceChildren();
@@ -105,6 +109,7 @@ function openOrder(orderId, trigger) {
 }
 
 function createOrderCard(order) {
+  // Build cards with DOM APIs so stored customer text is never parsed as HTML.
   const card = document.createElement("article");
   card.className = "admin-order-card";
   card.dataset.orderId = order.id;
@@ -134,6 +139,7 @@ function createOrderCard(order) {
 }
 
 function renderAdmin() {
+  // Rebuild both statistics and the visible list from validated storage.
   const allOrders = window.Craftsvilla.orders.get();
   const visible = filteredOrders();
   renderStats(allOrders);
@@ -142,6 +148,7 @@ function renderAdmin() {
 }
 
 function createSampleOrder() {
+  // Seed data keeps the static administration demo useful on first use.
   const product = window.Craftsvilla.products[3];
   const now = new Date().toISOString();
   const order = { id: `DEMO-${Date.now().toString(36).toUpperCase()}`, createdAt: now, updatedAt: now, customer: { name: "Demo Customer", email: "demo@example.com", phone: "+47 000 00 000" }, address: { address: "Example Street 1", postalCode: "0001", city: "Oslo", country: "Norway" }, deliveryMethod: "standard", paymentMethod: "card-demo", items: [{ productId: product.id, quantity: 1, unitPrice: product.price }], total: product.price, status: "New", demo: true };

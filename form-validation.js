@@ -1,3 +1,4 @@
+// Return a normalized value for text fields and checkbox state for consent fields.
 function getFormValue(form, fieldName) {
   const field = form.elements.namedItem(fieldName);
   if (field?.type === "checkbox") return field.checked ? field.value : "";
@@ -10,6 +11,7 @@ function setFieldError(field, message) {
   const errorId = `${field.form.id}-${field.name}-error`;
   let error = document.getElementById(errorId);
 
+  // Create one reusable inline error and connect it to the field for screen readers.
   if (!error) {
     error = document.createElement("span");
     error.id = errorId;
@@ -33,6 +35,7 @@ function clearFieldError(field) {
 }
 
 function validateFormFields(form, rules) {
+  // Each rule returns an empty string when valid or a user-facing error message.
   const invalidFields = [];
 
   Object.entries(rules).forEach(([fieldName, validate]) => {
@@ -46,11 +49,13 @@ function validateFormFields(form, rules) {
     }
   });
 
+  // Move focus to the first problem so keyboard users can correct it immediately.
   invalidFields[0]?.focus();
   return invalidFields.length === 0;
 }
 
 function initializeErrorClearing(form) {
+  // Remove stale feedback as soon as the user edits the affected control.
   form.addEventListener("input", (event) => {
     if (event.target.matches("input, select, textarea")) {
       clearFieldError(event.target);
@@ -58,6 +63,7 @@ function initializeErrorClearing(form) {
   });
 }
 
+// Expose a small shared API without coupling forms to this file's internals.
 window.formValidation = {
   getValue: getFormValue,
   initializeErrorClearing,

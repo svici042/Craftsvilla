@@ -14,6 +14,7 @@
     <script src="checkout.js" defer></script>
   </head>
   <body>
+    <!-- Shared site header and responsive navigation. -->
     <div class="site">
       <header class="navbar">
         <a class="logo" href="index.html" aria-label="Craftsvilla home">CRAFTSVILLA</a>
@@ -25,6 +26,8 @@
       </header>
 
       <main>
+        <!-- checkout.js validates the form and stores a demonstration order
+             locally; no real payment is processed. -->
         <section class="page-intro"><p class="eyebrow">DEMO CHECKOUT</p><h1 data-i18n="checkoutHeading">Checkout demonstration</h1><p data-i18n="checkoutIntro">Create a local demonstration order. No real payment or money transfer occurs.</p><p class="form-notice" data-i18n="checkoutStorageNotice">Contact, delivery, and order data is stored only in this browser for the demonstration.</p></section>
         <p id="checkoutEmpty" class="form-notice error" hidden data-i18n="checkoutEmpty">Your cart is empty. Add products before checkout.</p>
 

@@ -6,6 +6,7 @@ const confirmation = document.querySelector("#orderConfirmation");
 const confirmationText = document.querySelector("#confirmationText");
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Read checkout messages from the shared translation dictionary.
 function checkoutText(key, fallback, values = {}) {
   return typeof translateMessage === "function" ? translateMessage(key, values) || fallback : fallback;
 }
@@ -15,6 +16,7 @@ function deliveryCost() {
 }
 
 function renderSummary() {
+  // Calculate the total while rebuilding the order summary from the live cart.
   const details = window.Craftsvilla.cart.details();
   checkoutItems.replaceChildren();
   const empty = details.length === 0;
@@ -37,11 +39,14 @@ function renderSummary() {
 }
 
 function createOrderId() {
+  // This identifier is suitable for the local demo only; a production backend
+  // would generate and guarantee unique order identifiers.
   const random = Math.random().toString(36).slice(2, 8).toUpperCase();
   return `CV-${Date.now().toString(36).toUpperCase()}-${random}`;
 }
 
 if (checkoutForm && window.formValidation) {
+  // Share validation behavior with the booking and feedback forms.
   const { getValue, initializeErrorClearing, validateFields } = window.formValidation;
   initializeErrorClearing(checkoutForm);
   checkoutForm.addEventListener("change", (event) => {
@@ -67,6 +72,8 @@ if (checkoutForm && window.formValidation) {
       return;
     }
     const now = new Date().toISOString();
+    // Store only normalized form values and product identifiers. No real card
+    // details or payment credentials are collected by this demonstration.
     const order = {
       id: createOrderId(), createdAt: now, updatedAt: now,
       customer: { name: `${getValue(checkoutForm, "firstName")} ${getValue(checkoutForm, "lastName")}`, email: getValue(checkoutForm, "email"), phone: getValue(checkoutForm, "phone") },
@@ -79,6 +86,7 @@ if (checkoutForm && window.formValidation) {
       if (submitButton) submitButton.disabled = false;
       return;
     }
+    // Clear the cart only after the order has been validated and saved.
     window.Craftsvilla.cart.clear();
     checkoutForm.hidden = true;
     confirmation.hidden = false;
