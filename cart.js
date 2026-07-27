@@ -4,6 +4,7 @@ const emptyCart = document.querySelector("#emptyCart");
 const cartSubtotal = document.querySelector("#cartSubtotal");
 const cartTotal = document.querySelector("#cartTotal");
 
+// Use translated text when the shared language helper is available.
 function cartText(key, fallback, values = {}) {
   return typeof translateMessage === "function"
     ? translateMessage(key, values) || fallback
@@ -11,6 +12,8 @@ function cartText(key, fallback, values = {}) {
 }
 
 function createCartImage(product) {
+  // Construct image elements with DOM APIs and retain the product dimensions
+  // to reduce layout movement while the image loads.
   const picture = document.createElement("picture");
   const source = document.createElement("source");
   source.type = "image/webp";
@@ -26,6 +29,8 @@ function createCartImage(product) {
 }
 
 function renderCart() {
+  // Rebuild the view from validated storage data so totals and controls always
+  // reflect the current cart state.
   const details = window.Craftsvilla.cart.details();
   cartItems.replaceChildren();
   const isEmpty = details.length === 0;
@@ -84,6 +89,8 @@ function renderCart() {
   cartTotal.textContent = window.Craftsvilla.formatMoney(subtotal);
 }
 
+// Event delegation handles every quantity button, including elements recreated
+// by renderCart().
 cartItems?.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
   const item = event.target.closest(".cart-item");
@@ -95,6 +102,7 @@ cartItems?.addEventListener("click", (event) => {
   if (button.dataset.action === "remove") window.Craftsvilla.cart.remove(current.productId);
 });
 
+// Both language and cart changes require visible labels/totals to be refreshed.
 document.addEventListener("site-language-change", renderCart);
 document.addEventListener("craftsvilla-cart-change", renderCart);
 renderCart();

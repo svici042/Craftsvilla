@@ -30,6 +30,7 @@ function onClick(element, handler) {
 }
 
 function clearElement(element) {
+  // Remove previous generated cards without parsing an HTML string.
   element.replaceChildren();
 }
 
@@ -70,6 +71,7 @@ function createMediaFrame(item, extraClass = "") {
 }
 
 function renderCategories() {
+  // Build category cards from the shared catalogue and current translations.
   if (!categoryGrid) {
     return;
   }
@@ -119,6 +121,7 @@ function renderCategories() {
 }
 
 function renderProducts() {
+  // Render the catalogue once; filtering later only toggles card visibility.
   if (!productGrid) {
     return;
   }
@@ -173,6 +176,7 @@ function renderProducts() {
 }
 
 function setActiveFilter(category) {
+  // Keep visual button state and product visibility in sync.
   activeCategory = category;
 
   filterButtons.forEach(function (button) {
@@ -195,6 +199,7 @@ function scrollToProducts() {
 }
 
 function updateCartStatus(productId = "") {
+  // Refresh the count and briefly announce which product was added.
   if (!cartStatus) return;
 
   if (productId) lastAddedProductId = productId;
@@ -280,6 +285,7 @@ document.addEventListener("site-language-change", () => {
 });
 
 function initParallax() {
+  // Only observe and animate sections that provide a parallax image.
   const parallaxItems = Array.from(
     document.querySelectorAll(".parallax-section"),
     (section) => ({
@@ -328,6 +334,7 @@ function initParallax() {
   }
 
   function requestParallaxUpdate() {
+    // Collapse repeated scroll events into one animation-frame update.
     if (!ticking && isParallaxEnabled()) {
       window.requestAnimationFrame(updateParallax);
       ticking = true;

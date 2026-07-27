@@ -1,4 +1,5 @@
 (function initializeCraftsvillaData() {
+  // Versioned keys prevent older, incompatible browser data from being reused.
   const storageKeys = Object.freeze({
     cart: "craftsvilla-cart-v1",
     orders: "craftsvilla-orders-v1",
@@ -7,6 +8,7 @@
   const MAX_ITEM_QUANTITY = 99;
   const MAX_ORDERS = 500;
 
+  // Shared catalogue data is frozen so page scripts cannot change it accidentally.
   const categories = Object.freeze([
     { id: "mosaic", nameKey: "filterMosaic", textKey: "categoryMosaicText", color: "#d89b7a" },
     { id: "watercolor", nameKey: "filterWatercolor", textKey: "categoryWatercolorText", color: "#7aa68a" },
@@ -62,12 +64,15 @@
     },
   ]);
 
+  // The map provides fast product lookup when validating cart and order records.
   const productMap = new Map(products.map((product) => [product.id, product]));
   const orderStatuses = Object.freeze(["New", "Processing", "Ready", "Shipped", "Completed", "Cancelled"]);
   const paymentMethods = Object.freeze(["card-demo", "vipps-demo", "pickup-demo"]);
   const deliveryMethods = Object.freeze(["standard", "express", "pickup"]);
 
   function readStorage(key, fallback) {
+    // localStorage may be unavailable or contain invalid JSON, so callers get a
+    // safe fallback instead of breaking the whole page.
     try {
       const value = localStorage.getItem(key);
       return value ? JSON.parse(value) : fallback;
@@ -86,6 +91,7 @@
   }
 
   function validateCartItem(item) {
+    // Treat browser storage as untrusted input before exposing it to the UI.
     return (
       item &&
       typeof item.productId === "string" &&
@@ -104,6 +110,7 @@
   function saveCart(items) {
     const safeItems = Array.isArray(items) ? items.filter(validateCartItem) : [];
     const saved = writeStorage(storageKeys.cart, safeItems);
+    // Notify every page component that displays the cart count or contents.
     document.dispatchEvent(new CustomEvent("craftsvilla-cart-change", { detail: safeItems }));
     return saved;
   }
@@ -144,10 +151,13 @@
   }
 
   function cleanText(value, maxLength = 160) {
+    // Normalize stored form values and limit unexpectedly large local records.
     return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
   }
 
   function validateOrder(order) {
+    // Rebuild the order from approved fields instead of returning the raw
+    // localStorage object. This is validation for a demo, not server security.
     if (!order || typeof order !== "object") return null;
     const id = cleanText(order.id, 40);
     const createdAt = cleanText(order.createdAt, 40);
@@ -203,6 +213,7 @@
   }
 
   function saveOrders(orders) {
+    // Limit locally stored history to avoid unbounded browser-storage growth.
     const safeOrders = Array.isArray(orders)
       ? orders.map(validateOrder).filter(Boolean).slice(0, MAX_ORDERS)
       : [];
@@ -220,6 +231,7 @@
     return new Intl.NumberFormat(locale, { style: "currency", currency: "NOK", maximumFractionDigits: 0 }).format(amount);
   }
 
+  // Expose one read-only namespace for the other page-specific scripts.
   window.Craftsvilla = Object.freeze({
     products,
     categories,

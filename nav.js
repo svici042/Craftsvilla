@@ -438,6 +438,7 @@ const translations = {
 };
 
 function getSiteLang() {
+  // Prefer a supported stored language and fall back to the document language.
   try {
     return localStorage.getItem(window.Craftsvilla.storageKeys.language) === "no" ? "no" : "en";
   } catch {
@@ -507,6 +508,7 @@ function translatePage(lang) {
 }
 
 function setActiveNavLink() {
+  // Mark the current page for styling and assistive technology.
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
   const currentHash = window.location.hash;
 
@@ -529,6 +531,7 @@ function setActiveNavLink() {
 }
 
 function initReveal() {
+  // Reveal immediately when motion is reduced or observation is unsupported.
   const revealElements = document.querySelectorAll(".reveal:not(.is-visible)");
 
   if (!revealElements.length) {
@@ -558,6 +561,7 @@ function initReveal() {
 window.initReveal = initReveal;
 
 function updateCartBadges() {
+  // Synchronize every badge because the header has responsive layouts.
   const count = window.Craftsvilla?.cart.count() || 0;
   document.querySelectorAll("[data-cart-count]").forEach((badge) => {
     badge.textContent = String(count);

@@ -1,6 +1,8 @@
 const galleryItems = Array.from(document.querySelectorAll(".gallery-card"));
 
 if (galleryItems.length) {
+  // Build one reusable modal instead of placing duplicate lightbox markup in
+  // every gallery card.
   const dialog = document.createElement("dialog");
   dialog.className = "lightbox";
   dialog.setAttribute("aria-labelledby", "lightboxCaption");
@@ -45,6 +47,7 @@ if (galleryItems.length) {
   }
 
   function updateLabels() {
+    // Accessible button labels follow the currently selected site language.
     closeButton.setAttribute(
       "aria-label",
       getTranslation("lightboxClose") || "Close image preview",
@@ -72,6 +75,8 @@ if (galleryItems.length) {
   }
 
   function showItem(index) {
+    // Modulo arithmetic wraps navigation from the last image to the first and
+    // vice versa.
     currentIndex = (index + galleryItems.length) % galleryItems.length;
     const card = galleryItems[currentIndex];
     const sourceImage = card.querySelector("img");
@@ -83,6 +88,7 @@ if (galleryItems.length) {
   }
 
   function openLightbox(index, trigger) {
+    // Remember the opener so keyboard focus can be restored after closing.
     opener = trigger;
     showItem(index);
     updateLabels();
@@ -96,6 +102,7 @@ if (galleryItems.length) {
   }
 
   galleryItems.forEach((card, index) => {
+    // A picture is made keyboard-accessible while retaining its visual markup.
     const trigger = card.querySelector("picture");
     const cardCaption = card.querySelector("p")?.textContent.trim() || "image";
     if (!trigger) return;
@@ -121,6 +128,8 @@ if (galleryItems.length) {
   closeButton.addEventListener("click", closeLightbox);
   previousButton.addEventListener("click", () => showItem(currentIndex - 1));
   nextButton.addEventListener("click", () => showItem(currentIndex + 1));
+  // Clicking the backdrop, pressing Escape, or using arrow keys provides the
+  // expected modal and gallery controls.
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) closeLightbox();
   });
