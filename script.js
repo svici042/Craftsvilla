@@ -1,3 +1,4 @@
+// Controls the home-page catalogue, category filters, cart feedback, and parallax effects.
 const { products, categories, productMap, cart, formatMoney } = window.Craftsvilla;
 
 let activeCategory = "all";

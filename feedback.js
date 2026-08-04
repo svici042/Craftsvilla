@@ -1,3 +1,4 @@
+// Validates the feedback demo locally and reports success without storing or sending data.
 const feedbackForm = document.querySelector("#feedbackForm");
 const feedbackMessage = document.querySelector("#feedbackMessage");
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -8,6 +9,7 @@ if (feedbackForm && feedbackMessage && window.formValidation) {
     window.formValidation;
   initializeErrorClearing(feedbackForm);
 
+  // Reset old status messages before validating the current form values.
   feedbackForm.addEventListener("submit", (event) => {
     event.preventDefault();
     feedbackMessage.textContent = "";

@@ -1,3 +1,4 @@
+// Turns gallery cards into an accessible keyboard-controlled image lightbox.
 const galleryItems = Array.from(document.querySelectorAll(".gallery-card"));
 
 if (galleryItems.length) {

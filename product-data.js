@@ -1,3 +1,4 @@
+// Defines the shared catalogue and validates all cart and order data stored in the browser.
 (function initializeCraftsvillaData() {
   // Versioned keys prevent older, incompatible browser data from being reused.
   const storageKeys = Object.freeze({

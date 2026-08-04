@@ -1,3 +1,4 @@
+// Validates the workshop booking demo locally and displays accessible form feedback.
 const bookingForm = document.querySelector("#bookingForm");
 const bookingMessage = document.querySelector("#bookingMessage");
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -6,11 +7,13 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 if (bookingForm && bookingMessage && window.formValidation) {
   const { getValue, initializeErrorClearing, validateFields } =
     window.formValidation;
+  // Convert the current local date to an ISO value accepted by the date input.
   const today = new Date();
   today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
   bookingForm.elements.date.min = today.toISOString().split("T")[0];
   initializeErrorClearing(bookingForm);
 
+  // Validate each required field before showing the simulated success state.
   bookingForm.addEventListener("submit", (event) => {
     event.preventDefault();
     bookingMessage.textContent = "";

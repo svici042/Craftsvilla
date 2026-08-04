@@ -1,3 +1,4 @@
+// Manages shared navigation, translations, cart badges, and scroll-based page effects.
 document.documentElement.classList.add("js");
 
 const navToggle = document.querySelector(".nav-toggle");
