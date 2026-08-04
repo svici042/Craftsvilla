@@ -1,3 +1,4 @@
+// Validates checkout details and creates simulated orders in browser storage.
 const checkoutForm = document.querySelector("#checkoutForm");
 const checkoutItems = document.querySelector("#checkoutItems");
 const checkoutTotal = document.querySelector("#checkoutTotal");

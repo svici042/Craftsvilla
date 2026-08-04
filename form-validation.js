@@ -1,3 +1,4 @@
+// Provides reusable accessible validation helpers for every form in the site.
 // Return a normalized value for text fields and checkbox state for consent fields.
 function getFormValue(form, fieldName) {
   const field = form.elements.namedItem(fieldName);

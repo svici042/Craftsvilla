@@ -1,3 +1,4 @@
+# Allows search engines to crawl the public site and points them to its sitemap.
 User-agent: *
 Allow: /
 

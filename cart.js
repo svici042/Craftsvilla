@@ -1,3 +1,4 @@
+// Renders the local shopping cart and handles quantity changes and item removal.
 const cartItems = document.querySelector("#cartItems");
 const cartSummary = document.querySelector("#cartSummary");
 const emptyCart = document.querySelector("#emptyCart");

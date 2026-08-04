@@ -1,3 +1,4 @@
+// Renders and updates browser-local demonstration orders for the administration page.
 // Static front-end demonstration only: this page has no secure authentication or authorization.
 const orderList = document.querySelector("#orderList");
 const adminEmpty = document.querySelector("#adminEmpty");
