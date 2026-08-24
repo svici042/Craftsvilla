@@ -12,6 +12,7 @@ function cartText(key, fallback, values = {}) {
     : fallback;
 }
 
+// Build a responsive product image without inserting untrusted HTML.
 function createCartImage(product) {
   // Construct image elements with DOM APIs and retain the product dimensions
   // to reduce layout movement while the image loads.
@@ -29,6 +30,7 @@ function createCartImage(product) {
   return picture;
 }
 
+// Rebuild all cart rows, controls, totals, and empty-state visibility.
 function renderCart() {
   // Rebuild the view from validated storage data so totals and controls always
   // reflect the current cart state.
