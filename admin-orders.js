@@ -10,13 +10,76 @@ const adminMessage = document.querySelector("#adminMessage");
 const orderDialog = document.querySelector("#orderDialog");
 const orderDetails = document.querySelector("#orderDetails");
 const closeOrderDialog = document.querySelector("#closeOrderDialog");
+const createDemoOrderButton = document.querySelector("#createDemoOrder");
+const clearOrdersButton = document.querySelector("#clearOrders");
 
-window.Craftsvilla.orderStatuses.forEach((status) => {
-  const option = document.createElement("option");
-  option.value = status;
-  option.textContent = status;
-  statusFilter.appendChild(option);
-});
+let activeDialogOrderId = null;
+let dialogReturnFocus = null;
+let adminMessageState = null;
+
+// Read admin translations from the shared language system without duplicating it.
+function adminText(key, fallback, values = {}) {
+  const translated = window.translateMessage?.(key, values);
+  if (translated) return translated;
+  return Object.keys(values).reduce(
+    (text, name) => text.replaceAll(`{${name}}`, values[name]),
+    fallback,
+  );
+}
+
+function adminLocale() {
+  return document.documentElement.lang === "no" ? "nb-NO" : "en-GB";
+}
+
+function statusLabel(status) {
+  const keys = {
+    New: "adminStatusNew",
+    Processing: "adminStatusProcessing",
+    Ready: "adminStatusReady",
+    Shipped: "adminStatusShipped",
+    Completed: "adminStatusCompleted",
+    Cancelled: "adminStatusCancelled",
+  };
+  return adminText(keys[status], status);
+}
+
+function deliveryLabel(method) {
+  const keys = {
+    standard: "adminDeliveryStandard",
+    express: "adminDeliveryExpress",
+    pickup: "adminDeliveryPickup",
+  };
+  return adminText(keys[method], method);
+}
+
+function itemCountLabel(count) {
+  const key = count === 1 ? "adminItemSingular" : "adminItemPlural";
+  const fallback = count === 1 ? "{count} item" : "{count} items";
+  return adminText(key, fallback, { count });
+}
+
+function setAdminMessage(key, fallback, values = {}) {
+  adminMessageState = { key, fallback, values };
+  adminMessage.textContent = adminText(key, fallback, values);
+}
+
+// Rebuild status choices with translated labels while keeping stable values.
+function renderStatusFilter() {
+  const selectedStatus = statusFilter.value || "all";
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = adminText("adminAllStatuses", "All statuses");
+  const options = window.Craftsvilla.orderStatuses.map((status) => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent = statusLabel(status);
+    return option;
+  });
+  statusFilter.replaceChildren(allOption, ...options);
+  statusFilter.value = window.Craftsvilla.orderStatuses.includes(selectedStatus)
+    ? selectedStatus
+    : "all";
+}
 
 // Build one reusable statistics tile for the dashboard summary.
 function createStat(label, value) {
@@ -31,19 +94,24 @@ function createStat(label, value) {
 
 // Convert stored demonstration payment codes into readable labels.
 function paymentLabel(method) {
-  return { "card-demo": "Card (simulated)", "vipps-demo": "Vipps (simulated)", "pickup-demo": "Pay on pickup (simulated)" }[method] || "Unknown";
+  const keys = {
+    "card-demo": "adminPaymentCard",
+    "vipps-demo": "adminPaymentVipps",
+    "pickup-demo": "adminPaymentPickup",
+  };
+  return adminText(keys[method] || "adminPaymentUnknown", "Unknown");
 }
 
 function renderStats(orders) {
   // Derive dashboard totals from the currently stored orders.
   const totalValue = orders.reduce((sum, order) => sum + order.total, 0);
   adminStats.replaceChildren(
-    createStat("Total orders", orders.length),
-    createStat("New", orders.filter((order) => order.status === "New").length),
-    createStat("Processing", orders.filter((order) => order.status === "Processing").length),
-    createStat("Completed", orders.filter((order) => order.status === "Completed").length),
-    createStat("Cancelled", orders.filter((order) => order.status === "Cancelled").length),
-    createStat("Order value", window.Craftsvilla.formatMoney(totalValue)),
+    createStat(adminText("adminStatTotalOrders", "Total orders"), orders.length),
+    createStat(statusLabel("New"), orders.filter((order) => order.status === "New").length),
+    createStat(statusLabel("Processing"), orders.filter((order) => order.status === "Processing").length),
+    createStat(statusLabel("Completed"), orders.filter((order) => order.status === "Completed").length),
+    createStat(statusLabel("Cancelled"), orders.filter((order) => order.status === "Cancelled").length),
+    createStat(adminText("adminStatOrderValue", "Order value"), window.Craftsvilla.formatMoney(totalValue)),
   );
 }
 
@@ -74,42 +142,64 @@ function updateOrderStatus(orderId, status) {
   order.status = status;
   order.updatedAt = new Date().toISOString();
   window.Craftsvilla.orders.save(orders);
-  adminMessage.textContent = `Order ${orderId} updated to ${status}.`;
+  setAdminMessage("adminOrderUpdated", "Order {orderId} updated to {status}.", {
+    orderId,
+    status: statusLabel(status),
+    statusValue: status,
+  });
   renderAdmin();
 }
 
 // Remove an order only after explicit confirmation from the user.
 function deleteOrder(orderId) {
-  if (!confirm(`Delete demonstration order ${orderId}?`)) return;
+  if (!confirm(adminText("adminDeleteConfirm", "Delete demonstration order {orderId}?", { orderId }))) return;
   window.Craftsvilla.orders.save(window.Craftsvilla.orders.get().filter((order) => order.id !== orderId));
-  adminMessage.textContent = `Order ${orderId} deleted.`;
+  setAdminMessage("adminOrderDeleted", "Order {orderId} deleted.", { orderId });
   renderAdmin();
 }
 
-function openOrder(orderId, trigger) {
-  // Populate one reusable dialog and return focus to its opener on close.
+function renderOrderDetails(orderId) {
+  // Populate the reusable dialog with translated labels and safe text nodes.
   const order = window.Craftsvilla.orders.get().find((entry) => entry.id === orderId);
-  if (!order) return;
+  if (!order) return false;
   orderDetails.replaceChildren();
   const customer = document.createElement("p");
   customer.textContent = `${order.customer.name} · ${order.customer.email} · ${order.customer.phone}`;
   const address = document.createElement("p");
   address.textContent = `${order.address.address}, ${order.address.postalCode} ${order.address.city}, ${order.address.country}`;
   const meta = document.createElement("p");
-  meta.textContent = `${paymentLabel(order.paymentMethod)} · ${order.deliveryMethod} · ${order.status}`;
+  meta.textContent = `${paymentLabel(order.paymentMethod)} · ${deliveryLabel(order.deliveryMethod)} · ${statusLabel(order.status)}`;
   const items = document.createElement("ul");
   order.items.forEach((item) => {
     const product = window.Craftsvilla.productMap.get(item.productId);
     const row = document.createElement("li");
-    row.textContent = `${product?.id || item.productId} × ${item.quantity} — ${window.Craftsvilla.formatMoney(item.unitPrice * item.quantity)}`;
+    const productName = product
+      ? adminText(product.titleKey, product.id)
+      : item.productId;
+    row.textContent = `${productName} × ${item.quantity} — ${window.Craftsvilla.formatMoney(item.unitPrice * item.quantity)}`;
     items.appendChild(row);
   });
   const total = document.createElement("strong");
-  total.textContent = `Total: ${window.Craftsvilla.formatMoney(order.total)}`;
+  total.textContent = adminText("adminTotal", "Total: {total}", {
+    total: window.Craftsvilla.formatMoney(order.total),
+  });
   orderDetails.append(customer, address, meta, items, total);
+  return true;
+}
+
+function findOrderViewButton(orderId) {
+  return [...orderList.querySelectorAll(".admin-order-card")]
+    .find((card) => card.dataset.orderId === orderId)
+    ?.querySelector(".view-order");
+}
+
+function openOrder(orderId, trigger) {
+  // Open one reusable dialog and remember where keyboard focus should return.
+  if (!renderOrderDetails(orderId)) return;
+  activeDialogOrderId = orderId;
+  dialogReturnFocus = trigger;
   orderDialog.showModal();
   closeOrderDialog.focus();
-  orderDialog.addEventListener("close", () => trigger.focus(), { once: true });
 }
 
 // Build one interactive order summary card for the administration list.
@@ -122,15 +212,18 @@ function createOrderCard(order) {
   title.textContent = order.id;
   const info = document.createElement("p");
   const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-  info.textContent = `${new Date(order.createdAt).toLocaleString()} · ${order.customer.name} · ${itemCount} item(s)`;
+  info.textContent = `${new Date(order.createdAt).toLocaleString(adminLocale())} · ${order.customer.name} · ${itemCountLabel(itemCount)}`;
   const meta = document.createElement("p");
-  meta.textContent = `${window.Craftsvilla.formatMoney(order.total)} · ${paymentLabel(order.paymentMethod)} · ${order.deliveryMethod}`;
+  meta.textContent = `${window.Craftsvilla.formatMoney(order.total)} · ${paymentLabel(order.paymentMethod)} · ${deliveryLabel(order.deliveryMethod)}`;
   const status = document.createElement("select");
-  status.setAttribute("aria-label", `Status for order ${order.id}`);
+  status.setAttribute(
+    "aria-label",
+    adminText("adminStatusForOrder", "Status for order {orderId}", { orderId: order.id }),
+  );
   window.Craftsvilla.orderStatuses.forEach((value) => {
     const option = document.createElement("option");
     option.value = value;
-    option.textContent = value;
+    option.textContent = statusLabel(value);
     option.selected = value === order.status;
     status.appendChild(option);
   });
@@ -139,13 +232,13 @@ function createOrderCard(order) {
   actions.className = "admin-order-actions";
   const view = document.createElement("button");
   view.type = "button";
-  view.className = "btn secondary";
-  view.textContent = "View details";
+  view.className = "btn secondary view-order";
+  view.textContent = adminText("adminViewDetails", "View details");
   view.addEventListener("click", () => openOrder(order.id, view));
   const remove = document.createElement("button");
   remove.type = "button";
   remove.className = "btn danger-button";
-  remove.textContent = "Delete";
+  remove.textContent = adminText("adminDelete", "Delete");
   remove.addEventListener("click", () => deleteOrder(order.id));
   actions.append(view, remove);
   card.append(title, info, meta, status, actions);
@@ -170,15 +263,15 @@ function createSampleOrder() {
     createdAt: now,
     updatedAt: now,
     customer: {
-      name: "Demo Customer",
+      name: adminText("adminDemoCustomer", "Demo Customer"),
       email: "demo@example.com",
       phone: "+47 000 00 000"
     },
     address: {
-      address: "Example Street 1",
+      address: adminText("adminDemoAddress", "Example Street 1"),
       postalCode: "0001",
       city: "Oslo",
-      country: "Norway"
+      country: adminText("adminDemoCountry", "Norway")
     },
     deliveryMethod: "standard",
     paymentMethod: "card-demo",
@@ -194,20 +287,52 @@ function createSampleOrder() {
     demo: true
   };
   window.Craftsvilla.orders.add(order);
-  adminMessage.textContent = "Sample demonstration order created.";
+  setAdminMessage("adminSampleCreated", "Sample demonstration order created.");
   renderAdmin();
 }
 
 [orderSearch, statusFilter, orderSort].forEach((control) => control.addEventListener("input", renderAdmin));
-document.querySelector("#createDemoOrder").addEventListener("click", createSampleOrder);
-document.querySelector("#clearOrders").addEventListener("click", () => {
-  if (!confirm("Clear every locally stored demonstration order? This cannot be undone.")) return;
+createDemoOrderButton.addEventListener("click", createSampleOrder);
+clearOrdersButton.addEventListener("click", () => {
+  if (!confirm(adminText("adminClearConfirm", "Clear every locally stored demonstration order? This cannot be undone."))) return;
   window.Craftsvilla.orders.save([]);
-  adminMessage.textContent = "All demonstration orders cleared.";
+  setAdminMessage("adminAllCleared", "All demonstration orders cleared.");
   renderAdmin();
 });
 closeOrderDialog.addEventListener("click", () => orderDialog.close());
 orderDialog.addEventListener("click", (event) => {
   if (event.target === orderDialog) orderDialog.close();
 });
+
+orderDialog.addEventListener("close", () => {
+  const focusTarget = dialogReturnFocus?.isConnected
+    ? dialogReturnFocus
+    : findOrderViewButton(activeDialogOrderId);
+  activeDialogOrderId = null;
+  dialogReturnFocus = null;
+  focusTarget?.focus();
+});
+
+// Refresh every generated label as soon as nav.js changes the site language.
+document.addEventListener("site-language-change", () => {
+  renderStatusFilter();
+  renderAdmin();
+  if (adminMessageState) {
+    const messageValues = { ...adminMessageState.values };
+    if (messageValues.statusValue) {
+      messageValues.status = statusLabel(messageValues.statusValue);
+    }
+    adminMessage.textContent = adminText(
+      adminMessageState.key,
+      adminMessageState.fallback,
+      messageValues,
+    );
+  }
+  if (activeDialogOrderId && orderDialog.open) {
+    dialogReturnFocus = findOrderViewButton(activeDialogOrderId);
+    renderOrderDetails(activeDialogOrderId);
+  }
+});
+
+renderStatusFilter();
 renderAdmin();
