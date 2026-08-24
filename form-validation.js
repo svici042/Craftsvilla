@@ -6,6 +6,7 @@ function getFormValue(form, fieldName) {
   return typeof field?.value === "string" ? field.value.trim() : "";
 }
 
+// Attach an accessible inline validation message to one form control.
 function setFieldError(field, message) {
   if (!field) return;
 
@@ -26,6 +27,7 @@ function setFieldError(field, message) {
   field.setAttribute("aria-describedby", errorId);
 }
 
+// Remove an existing inline error and its accessibility attributes.
 function clearFieldError(field) {
   if (!field) return;
 
@@ -35,6 +37,7 @@ function clearFieldError(field) {
   field.removeAttribute("aria-describedby");
 }
 
+// Run a rule set, display errors, and focus the first invalid control.
 function validateFormFields(form, rules) {
   // Each rule returns an empty string when valid or a user-facing error message.
   const invalidFields = [];
@@ -55,6 +58,7 @@ function validateFormFields(form, rules) {
   return invalidFields.length === 0;
 }
 
+// Clear field-level feedback when the user starts correcting a value.
 function initializeErrorClearing(form) {
   // Remove stale feedback as soon as the user edits the affected control.
   form.addEventListener("input", (event) => {

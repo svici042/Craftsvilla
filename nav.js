@@ -447,6 +447,7 @@ function getSiteLang() {
   }
 }
 
+// Save the selected language when browser storage is available.
 function storeSiteLang(lang) {
   try {
     localStorage.setItem(window.Craftsvilla.storageKeys.language, lang);
@@ -508,6 +509,7 @@ function translatePage(lang) {
   document.dispatchEvent(new CustomEvent("site-language-change"));
 }
 
+// Highlight the navigation link that represents the current page or section.
 function setActiveNavLink() {
   // Mark the current page for styling and assistive technology.
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
@@ -531,6 +533,7 @@ function setActiveNavLink() {
   });
 }
 
+// Reveal marked elements as they enter the viewport.
 function initReveal() {
   // Reveal immediately when motion is reduced or observation is unsupported.
   const revealElements = document.querySelectorAll(".reveal:not(.is-visible)");
@@ -561,6 +564,7 @@ function initReveal() {
 
 window.initReveal = initReveal;
 
+// Keep all visible cart badges synchronized with browser-local cart data.
 function updateCartBadges() {
   // Synchronize every badge because the header has responsive layouts.
   const count = window.Craftsvilla?.cart.count() || 0;
@@ -569,6 +573,7 @@ function updateCartBadges() {
   });
 }
 
+// Initialize the language toggle and retranslate the page after each change.
 if (langToggle) {
   const storedLang = getSiteLang();
   langToggle.textContent = storedLang === "en" ? "NO" : "EN";

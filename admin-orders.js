@@ -18,6 +18,7 @@ window.Craftsvilla.orderStatuses.forEach((status) => {
   statusFilter.appendChild(option);
 });
 
+// Build one reusable statistics tile for the dashboard summary.
 function createStat(label, value) {
   const card = document.createElement("article");
   const heading = document.createElement("h2");
@@ -28,6 +29,7 @@ function createStat(label, value) {
   return card;
 }
 
+// Convert stored demonstration payment codes into readable labels.
 function paymentLabel(method) {
   return { "card-demo": "Card (simulated)", "vipps-demo": "Vipps (simulated)", "pickup-demo": "Pay on pickup (simulated)" }[method] || "Unknown";
 }
@@ -76,6 +78,7 @@ function updateOrderStatus(orderId, status) {
   renderAdmin();
 }
 
+// Remove an order only after explicit confirmation from the user.
 function deleteOrder(orderId) {
   if (!confirm(`Delete demonstration order ${orderId}?`)) return;
   window.Craftsvilla.orders.save(window.Craftsvilla.orders.get().filter((order) => order.id !== orderId));
@@ -109,6 +112,7 @@ function openOrder(orderId, trigger) {
   orderDialog.addEventListener("close", () => trigger.focus(), { once: true });
 }
 
+// Build one interactive order summary card for the administration list.
 function createOrderCard(order) {
   // Build cards with DOM APIs so stored customer text is never parsed as HTML.
   const card = document.createElement("article");
@@ -125,15 +129,24 @@ function createOrderCard(order) {
   status.setAttribute("aria-label", `Status for order ${order.id}`);
   window.Craftsvilla.orderStatuses.forEach((value) => {
     const option = document.createElement("option");
-    option.value = value; option.textContent = value; option.selected = value === order.status; status.appendChild(option);
+    option.value = value;
+    option.textContent = value;
+    option.selected = value === order.status;
+    status.appendChild(option);
   });
   status.addEventListener("change", () => updateOrderStatus(order.id, status.value));
   const actions = document.createElement("div");
   actions.className = "admin-order-actions";
   const view = document.createElement("button");
-  view.type = "button"; view.className = "btn secondary"; view.textContent = "View details"; view.addEventListener("click", () => openOrder(order.id, view));
+  view.type = "button";
+  view.className = "btn secondary";
+  view.textContent = "View details";
+  view.addEventListener("click", () => openOrder(order.id, view));
   const remove = document.createElement("button");
-  remove.type = "button"; remove.className = "btn danger-button"; remove.textContent = "Delete"; remove.addEventListener("click", () => deleteOrder(order.id));
+  remove.type = "button";
+  remove.className = "btn danger-button";
+  remove.textContent = "Delete";
+  remove.addEventListener("click", () => deleteOrder(order.id));
   actions.append(view, remove);
   card.append(title, info, meta, status, actions);
   return card;
@@ -152,7 +165,34 @@ function createSampleOrder() {
   // Seed data keeps the static administration demo useful on first use.
   const product = window.Craftsvilla.products[3];
   const now = new Date().toISOString();
-  const order = { id: `DEMO-${Date.now().toString(36).toUpperCase()}`, createdAt: now, updatedAt: now, customer: { name: "Demo Customer", email: "demo@example.com", phone: "+47 000 00 000" }, address: { address: "Example Street 1", postalCode: "0001", city: "Oslo", country: "Norway" }, deliveryMethod: "standard", paymentMethod: "card-demo", items: [{ productId: product.id, quantity: 1, unitPrice: product.price }], total: product.price, status: "New", demo: true };
+  const order = {
+    id: `DEMO-${Date.now().toString(36).toUpperCase()}`,
+    createdAt: now,
+    updatedAt: now,
+    customer: {
+      name: "Demo Customer",
+      email: "demo@example.com",
+      phone: "+47 000 00 000"
+    },
+    address: {
+      address: "Example Street 1",
+      postalCode: "0001",
+      city: "Oslo",
+      country: "Norway"
+    },
+    deliveryMethod: "standard",
+    paymentMethod: "card-demo",
+    items: [
+      {
+        productId: product.id,
+        quantity: 1,
+        unitPrice: product.price
+      }
+    ],
+    total: product.price,
+    status: "New",
+    demo: true
+  };
   window.Craftsvilla.orders.add(order);
   adminMessage.textContent = "Sample demonstration order created.";
   renderAdmin();
@@ -162,8 +202,12 @@ function createSampleOrder() {
 document.querySelector("#createDemoOrder").addEventListener("click", createSampleOrder);
 document.querySelector("#clearOrders").addEventListener("click", () => {
   if (!confirm("Clear every locally stored demonstration order? This cannot be undone.")) return;
-  window.Craftsvilla.orders.save([]); adminMessage.textContent = "All demonstration orders cleared."; renderAdmin();
+  window.Craftsvilla.orders.save([]);
+  adminMessage.textContent = "All demonstration orders cleared.";
+  renderAdmin();
 });
 closeOrderDialog.addEventListener("click", () => orderDialog.close());
-orderDialog.addEventListener("click", (event) => { if (event.target === orderDialog) orderDialog.close(); });
+orderDialog.addEventListener("click", (event) => {
+  if (event.target === orderDialog) orderDialog.close();
+});
 renderAdmin();

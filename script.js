@@ -35,6 +35,7 @@ function clearElement(element) {
   element.replaceChildren();
 }
 
+// Resolve translated UI text and substitute any dynamic placeholder values.
 function getText(key, fallback, values = {}) {
   const translated =
     typeof translateMessage === "function"
@@ -71,6 +72,7 @@ function createMediaFrame(item, extraClass = "") {
   return mediaFrame;
 }
 
+// Rebuild the category overview from the shared catalogue data.
 function renderCategories() {
   // Build category cards from the shared catalogue and current translations.
   if (!categoryGrid) {
@@ -121,6 +123,7 @@ function renderCategories() {
   }
 }
 
+// Create all product cards and connect their cart and details controls.
 function renderProducts() {
   // Render the catalogue once; filtering later only toggles card visibility.
   if (!productGrid) {
@@ -176,6 +179,7 @@ function renderProducts() {
 
 }
 
+// Apply the selected category to filter buttons and visible product cards.
 function setActiveFilter(category) {
   // Keep visual button state and product visibility in sync.
   activeCategory = category;
@@ -192,6 +196,7 @@ function setActiveFilter(category) {
   });
 }
 
+// Bring the product grid into view after a catalogue call-to-action.
 function scrollToProducts() {
   productsSection?.scrollIntoView({
     behavior: prefersReducedMotion.matches ? "auto" : "smooth",
@@ -285,6 +290,7 @@ document.addEventListener("site-language-change", () => {
   });
 });
 
+// Initialize scroll-based image movement while respecting reduced-motion settings.
 function initParallax() {
   // Only observe and animate sections that provide a parallax image.
   const parallaxItems = Array.from(

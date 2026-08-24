@@ -11,10 +11,30 @@
 
   // Shared catalogue data is frozen so page scripts cannot change it accidentally.
   const categories = Object.freeze([
-    { id: "mosaic", nameKey: "filterMosaic", textKey: "categoryMosaicText", color: "#d89b7a" },
-    { id: "watercolor", nameKey: "filterWatercolor", textKey: "categoryWatercolorText", color: "#7aa68a" },
-    { id: "painting", nameKey: "filterPainting", textKey: "categoryPaintingText", color: "#d8c27a" },
-    { id: "jewelry", nameKey: "filterJewelry", textKey: "categoryJewelryText", color: "#7ea68a" },
+    {
+      id: "mosaic",
+      nameKey: "filterMosaic",
+      textKey: "categoryMosaicText",
+      color: "#d89b7a"
+    },
+    {
+      id: "watercolor",
+      nameKey: "filterWatercolor",
+      textKey: "categoryWatercolorText",
+      color: "#7aa68a"
+    },
+    {
+      id: "painting",
+      nameKey: "filterPainting",
+      textKey: "categoryPaintingText",
+      color: "#d8c27a"
+    },
+    {
+      id: "jewelry",
+      nameKey: "filterJewelry",
+      textKey: "categoryJewelryText",
+      color: "#7ea68a"
+    },
   ]);
 
   const products = Object.freeze([
@@ -82,6 +102,7 @@
     }
   }
 
+  // Serialize browser-local data and report whether the write succeeded.
   function writeStorage(key, value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
@@ -91,6 +112,7 @@
     }
   }
 
+  // Accept only known products with safe, normalized quantities.
   function validateCartItem(item) {
     // Treat browser storage as untrusted input before exposing it to the UI.
     return (
@@ -103,11 +125,13 @@
     );
   }
 
+  // Return a validated cart even when stored browser data has been modified.
   function getCart() {
     const stored = readStorage(storageKeys.cart, []);
     return Array.isArray(stored) ? stored.filter(validateCartItem) : [];
   }
 
+  // Persist the cart and tell listening page components to refresh.
   function saveCart(items) {
     const safeItems = Array.isArray(items) ? items.filter(validateCartItem) : [];
     const saved = writeStorage(storageKeys.cart, safeItems);
@@ -116,6 +140,7 @@
     return saved;
   }
 
+  // Add a product or increase its existing quantity within the allowed limit.
   function addToCart(productId, quantity = 1) {
     if (!productMap.has(productId) || !Number.isInteger(quantity) || quantity < 1) return false;
     const cart = getCart();
@@ -125,6 +150,7 @@
     return saveCart(cart);
   }
 
+  // Replace an item's quantity or remove it when the requested value is zero.
   function updateCartItem(productId, quantity) {
     if (!productMap.has(productId) || !Number.isInteger(quantity)) return false;
     if (quantity < 1) return removeCartItem(productId);
@@ -135,18 +161,22 @@
     return saveCart(cart);
   }
 
+  // Remove one matching product from the browser-local cart.
   function removeCartItem(productId) {
     return saveCart(getCart().filter((item) => item.productId !== productId));
   }
 
+  // Empty the cart through the shared save path so the UI is notified.
   function clearCart() {
     return saveCart([]);
   }
 
+  // Sum validated quantities for the navigation cart badge.
   function getCartCount() {
     return getCart().reduce((total, item) => total + item.quantity, 0);
   }
 
+  // Pair each cart record with its immutable catalogue information.
   function getCartDetails() {
     return getCart().map((item) => ({ ...item, product: productMap.get(item.productId) }));
   }
@@ -207,12 +237,14 @@
     };
   }
 
+  // Return only validated local orders, newest first.
   function getOrders() {
     const stored = readStorage(storageKeys.orders, []);
     if (!Array.isArray(stored)) return [];
     return stored.map(validateOrder).filter(Boolean);
   }
 
+  // Validate, limit, and persist the local demonstration order history.
   function saveOrders(orders) {
     // Limit locally stored history to avoid unbounded browser-storage growth.
     const safeOrders = Array.isArray(orders)
@@ -221,12 +253,14 @@
     return writeStorage(storageKeys.orders, safeOrders);
   }
 
+  // Add one validated order to the existing browser-local history.
   function addOrder(order) {
     const safeOrder = validateOrder(order);
     if (!safeOrder) return false;
     return saveOrders([safeOrder, ...getOrders()]);
   }
 
+  // Format whole-number prices consistently for the active page language.
   function formatMoney(amount) {
     const locale = document.documentElement.lang === "no" ? "nb-NO" : "en-NO";
     return new Intl.NumberFormat(locale, { style: "currency", currency: "NOK", maximumFractionDigits: 0 }).format(amount);
@@ -241,8 +275,21 @@
     paymentMethods,
     deliveryMethods,
     storageKeys,
-    cart: Object.freeze({ get: getCart, details: getCartDetails, count: getCartCount, add: addToCart, update: updateCartItem, remove: removeCartItem, clear: clearCart }),
-    orders: Object.freeze({ get: getOrders, save: saveOrders, add: addOrder, validate: validateOrder }),
+    cart: Object.freeze({
+      get: getCart,
+      details: getCartDetails,
+      count: getCartCount,
+      add: addToCart,
+      update: updateCartItem,
+      remove: removeCartItem,
+      clear: clearCart
+    }),
+    orders: Object.freeze({
+      get: getOrders,
+      save: saveOrders,
+      add: addOrder,
+      validate: validateOrder
+    }),
     formatMoney,
   });
 })();

@@ -12,10 +12,12 @@ function checkoutText(key, fallback, values = {}) {
   return typeof translateMessage === "function" ? translateMessage(key, values) || fallback : fallback;
 }
 
+// Return the extra amount associated with the selected delivery option.
 function deliveryCost() {
   return checkoutForm?.elements.delivery.value === "express" ? 100 : 0;
 }
 
+// Rebuild the visible checkout items and return the calculated order total.
 function renderSummary() {
   // Calculate the total while rebuilding the order summary from the live cart.
   const details = window.Craftsvilla.cart.details();
@@ -39,6 +41,7 @@ function renderSummary() {
   return total;
 }
 
+// Create a readable identifier for a browser-local demonstration order.
 function createOrderId() {
   // This identifier is suitable for the local demo only; a production backend
   // would generate and guarantee unique order identifiers.
@@ -76,12 +79,30 @@ if (checkoutForm && window.formValidation) {
     // Store only normalized form values and product identifiers. No real card
     // details or payment credentials are collected by this demonstration.
     const order = {
-      id: createOrderId(), createdAt: now, updatedAt: now,
-      customer: { name: `${getValue(checkoutForm, "firstName")} ${getValue(checkoutForm, "lastName")}`, email: getValue(checkoutForm, "email"), phone: getValue(checkoutForm, "phone") },
-      address: { address: getValue(checkoutForm, "address"), postalCode: getValue(checkoutForm, "postalCode"), city: getValue(checkoutForm, "city"), country: getValue(checkoutForm, "country") },
-      deliveryMethod: getValue(checkoutForm, "delivery"), paymentMethod: getValue(checkoutForm, "payment"),
-      items: details.map(({ product, quantity }) => ({ productId: product.id, quantity, unitPrice: product.price })),
-      total: renderSummary(), status: "New", demo: true,
+      id: createOrderId(),
+      createdAt: now,
+      updatedAt: now,
+      customer: {
+        name: `${getValue(checkoutForm, "firstName")} ${getValue(checkoutForm, "lastName")}`,
+        email: getValue(checkoutForm, "email"),
+        phone: getValue(checkoutForm, "phone")
+      },
+      address: {
+        address: getValue(checkoutForm, "address"),
+        postalCode: getValue(checkoutForm, "postalCode"),
+        city: getValue(checkoutForm, "city"),
+        country: getValue(checkoutForm, "country")
+      },
+      deliveryMethod: getValue(checkoutForm, "delivery"),
+      paymentMethod: getValue(checkoutForm, "payment"),
+      items: details.map(({ product, quantity }) => ({
+        productId: product.id,
+        quantity,
+        unitPrice: product.price
+      })),
+      total: renderSummary(),
+      status: "New",
+      demo: true,
     };
     if (!window.Craftsvilla.orders.add(order)) {
       if (submitButton) submitButton.disabled = false;

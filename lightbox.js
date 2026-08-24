@@ -47,6 +47,7 @@ if (galleryItems.length) {
       : "";
   }
 
+  // Refresh modal labels and the active caption after a language change.
   function updateLabels() {
     // Accessible button labels follow the currently selected site language.
     closeButton.setAttribute(
@@ -63,6 +64,7 @@ if (galleryItems.length) {
     );
   }
 
+  // Give every gallery trigger a descriptive accessible label.
   function updateTriggerLabels() {
     galleryItems.forEach((card) => {
       const trigger = card.querySelector(".gallery-trigger");
@@ -75,6 +77,7 @@ if (galleryItems.length) {
     });
   }
 
+  // Display the requested gallery item and update navigation state.
   function showItem(index) {
     // Modulo arithmetic wraps navigation from the last image to the first and
     // vice versa.
@@ -88,6 +91,7 @@ if (galleryItems.length) {
     caption.textContent = cardCaption;
   }
 
+  // Open the reusable modal at a selected gallery item.
   function openLightbox(index, trigger) {
     // Remember the opener so keyboard focus can be restored after closing.
     opener = trigger;
@@ -98,6 +102,7 @@ if (galleryItems.length) {
     closeButton.focus();
   }
 
+  // Close the modal and restore focus to the element that opened it.
   function closeLightbox() {
     if (dialog.open) dialog.close();
   }
